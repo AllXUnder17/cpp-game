@@ -1,0 +1,18 @@
+# Compiler outputs and executables
+*.exe
+*.o
+*.obj
+*.a
+
+# VS Code specific files
+.vscode/
+
+# CMake build directories
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Raylib working directory junk
+.cache/
