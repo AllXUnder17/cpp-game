@@ -23,6 +23,8 @@ int main() {
         .localPosition = { 200, 400 }
     });
 
+    std::cout << "hello world" << std::endl;
+
     while (!WindowShouldClose()) {
         GameManager::GetInstance().HandleUpdatables();
 
