@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 project(RaylibPixelGame CXX)
 
+set(CMAKE_BUILD_TYPE Debug)
+
 # 1. Force C++17 Standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -10,7 +12,7 @@ file(GLOB_RECURSE GAME_SOURCES "src/*.cpp")
 
 # 3. Define our final game executable and hand it our auto-found source files
 add_executable(${PROJECT_NAME} ${GAME_SOURCES})
-  
+   
 # 4. Tell CMake where your Raylib Header (.h) files are
 # Tell CMake where your header files are 
 target_include_directories(${PROJECT_NAME} PRIVATE  

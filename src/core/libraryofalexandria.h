@@ -16,6 +16,9 @@
 
 #include "entities/player.h"
 #include "entities/character.h"
+
 #include "entities/weapons/weapon.h"
+
+#include "entities/bullets/bullet.h"
 
 #endif

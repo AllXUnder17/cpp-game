@@ -9,7 +9,7 @@ class Weapon : public GameObject {
 public:
     //===CONSTRUCTORS===
     //add damage, magazine capacity
-    Weapon(const GameObjectConfig& config);
+    Weapon(const GameObjectConfig& config, const Vector2& localTipOffset, int bulletsPerSecond);
     
     //===DESTRUCTOR===
     
@@ -21,8 +21,19 @@ public:
     
     //---Inherited---
     void OnUpdate() override;
-private:
     
+    protected:
+    Vector2 orientation;
+    
+    Vector2 tipPos;
+    Vector2 localTipOffset;
+    
+    int bulletsPerSecond;
+    float bulletWaitTime;
+    
+    //make it virtual
+    void HandleShoot();
+    void HandleRotation();
 };
 
 #endif

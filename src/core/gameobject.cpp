@@ -5,6 +5,7 @@
 #include "managers/gfxmanager.h"
 
 #include "gameobject.h"
+#include "utils.h"
 
 size_t GameObject::COUNTER = 0;
 
@@ -45,6 +46,7 @@ const float GameObject::GetRotation() const {
 }
 
 void GameObject::SetPosition(Vector2 position) {
+    //this->position = utils::RoundToDigit(position, 2);
     this->position = position;
 }
 
@@ -86,6 +88,8 @@ void GameObject::UpdatePosition() {
         this->position.x = parent->position.x + this->localPosition.x;
         this->position.y = parent->position.y + this->localPosition.y;
     }
+
+    //position = utils::RoundToDigit(position, 2);
 }
 
 void GameObject::UpdateRotation() {
