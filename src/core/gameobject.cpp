@@ -1,9 +1,10 @@
 #include "raylib.h"
 #include "raymath.h"
 
+#include "managers/gamemanager.h"
+#include "managers/gfxmanager.h"
+
 #include "gameobject.h"
-#include "gamemanager.h"
-#include <iostream>
 
 size_t GameObject::COUNTER = 0;
 
@@ -18,11 +19,12 @@ GameObject::GameObject(const GameObjectConfig& config) {
     this->sprite = config.sprite;
 
     this->rotation = config.rotation;
+    this->localRotation = config.localRotation;
 
     this->parent = config.parent;
     this->localRotation = config.localRotation;
 
-    GameManager::AddDrawable(this);
+    GFXManager::AddDrawable(this);
     GameManager::AddUpdatable(this);
 }
 
@@ -36,6 +38,10 @@ const Vector2& GameObject::GetPosition() const {
 
 const Vector2& GameObject::GetLocalPosition() const {
     return localPosition;
+}
+
+const float GameObject::GetRotation() const {
+    return rotation;
 }
 
 void GameObject::SetPosition(Vector2 position) {

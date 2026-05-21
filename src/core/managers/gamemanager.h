@@ -4,16 +4,13 @@
 #include <vector>
 #include <string>
 
-#include "idrawable.h"
-#include "iupdatable.h"
+#include "core\idrawable.h"
+#include "core\iupdatable.h"
 
 class GameManager {
 public:
     static unsigned short WINDOW_WIDTH;
     static unsigned short WINDOW_HEIGHT;
-
-    static unsigned short VIRTUAL_WIDTH;
-    static unsigned short VIRTUAL_HEIGHT;
 
     //---Singleton--
     static GameManager& GetInstance();
@@ -30,18 +27,7 @@ public:
     static void UninitGame();
 
     //===GETTERS===
-    static const Camera2D& GetCamera();
-
-    static const RenderTexture2D& GetCanvas();
-
-    //---Drawables---
-    static void HandleDrawables();
-
-    static void AddDrawable(IDrawable* drawable);
-    static void RemoveDrawable(IDrawable* drawable);
-
-    static const std::vector<IDrawable*>& GetDrawables();
-
+    
     //---Updatables---
     static void HandleUpdatables();
 
@@ -49,7 +35,6 @@ public:
     static void RemoveUpdatable(IUpdatable* updatable);
 
     static const std::vector<IUpdatable*>& GetUpdatables();
-
 private:
     // GameManager() { 
     //     drawables = std::vector<IDrawable*>(); 
@@ -58,10 +43,6 @@ private:
 
     GameManager() = delete;
 
-    static Camera2D camera;
-    static RenderTexture2D canvas;
-
-    static std::vector<IDrawable*> drawables;
     static std::vector<IUpdatable*> updatables;
 };
 

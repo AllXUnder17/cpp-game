@@ -2,10 +2,16 @@
 #define _LIBS_
 
 #include <string>
+#include <format>
+#include <sstream>
+#include <iomanip>
+
 #include "raylib.h"
 #include "raymath.h"
 
-#include "core/gamemanager.h"
+#include "core/managers/gamemanager.h"
+#include "core/managers/gfxmanager.h"
+
 #include "core/spriteloader.h"
 
 #include "entities/player.h"

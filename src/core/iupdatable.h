@@ -3,9 +3,9 @@
 
 class IUpdatable {
 public:
-    virtual void OnUpdate() = 0;
-
     virtual ~IUpdatable() = default;
+
+    virtual void OnUpdate() = 0;
 };
 
 #endif

@@ -37,6 +37,8 @@ public:
     const Vector2& GetPosition() const;
     const Vector2& GetLocalPosition() const;
 
+    const float GetRotation() const;
+
     //---Setters---
     void SetPosition(Vector2 position);
     void SetLocalPosition(Vector2 localPosition);

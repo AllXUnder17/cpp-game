@@ -3,53 +3,58 @@
 int main() {
     GameManager::InitGame(/*width:*/ 1280, /*height:*/ 720);
 
+    
     Player player = Player(GameObjectConfig{
-        .sprite = SpriteLoader::GetSprite("a.png"),
+        .sprite = SpriteLoader::GetSprite("man.png"),
         .position = { 0, 0 }
-    }, 500);
-
+    }, 300);
+    
     Weapon w = Weapon(GameObjectConfig{
         .sprite = SpriteLoader::GetSprite("gun.png"),
         .parent = &player,
-        .localPosition = { 100, 200 }
-    });
-
-    Weapon w1 = Weapon(GameObjectConfig{
-        .sprite = SpriteLoader::GetSprite("gun.png"),
-        .parent = &player,
-        .localPosition = { -100, 200 }
+        .localPosition = { 10, 5 }
     });
     
+    bool toggleNerdInfo = false;
+    float deltaTime;
+
     while (!WindowShouldClose()) {
+        if (IsKeyPressed(KEY_TAB))
+            toggleNerdInfo = !toggleNerdInfo;
+
+        deltaTime = GetFrameTime();
+
         GameManager::HandleUpdatables();
 
-        //MOVE TO GAMEMANAGER::RENDERCANVAS()
-        BeginTextureMode(GameManager::GetCanvas());
-            ClearBackground(RAYWHITE);
+        //Draw screen content to canvas (GFX buffer)
+        BeginTextureMode(GFXManager::GetCanvas());
+            
+            ClearBackground(GFXManager::BACKGROUND_COLOR);
 
-            // Turn on the camera for our world objects
-            BeginMode2D(GameManager::GetCamera());
-
-                GameManager::HandleDrawables();
-
-                DrawLine(-500, 0, 500, 0, LIGHTGRAY);
-
-            EndMode2D();
-
+            GFXManager::DrawCanvas();
+            
         EndTextureMode();
-
-
-        //MOVE TO GAMEMANAGER
+        
+        //Render canvas
         BeginDrawing();
-            ClearBackground(BLACK); 
+            
+            ClearBackground(GFXManager::BACKGROUND_COLOR);
 
-            // Flip the Y axis natively because OpenGL render textures are rendered upside down
-            Rectangle canvasSource = { 0.0f, 0.0f, (float)GameManager::GetCanvas().texture.width, -(float)GameManager::GetCanvas().texture.height };
-            Rectangle canvasDest = { 0.0f, 0.0f, (float)GameManager::WINDOW_WIDTH, (float)GameManager::WINDOW_HEIGHT };
-            Vector2 canvasOrigin = { 0.0f, 0.0f };
+            GFXManager::RenderCanvas();
 
-            // Draw the upscaled canvas directly onto your physical monitor screen (No camera here!)
-            DrawTexturePro(GameManager::GetCanvas().texture, canvasSource, canvasDest, canvasOrigin, 0.0f, WHITE);
+            if (toggleNerdInfo) {
+                std::stringstream nerdInfoText;
+
+                nerdInfoText << std::fixed << std::setprecision(6) <<
+                    "T: [DT: " << deltaTime << ",\t FPS:" << 1.0f / deltaTime << "]\n\n" <<
+
+                    std::fixed << std::setprecision(2) <<
+                    "PL: [X: " << player.GetPosition().x  << ",\t Y: " << player.GetPosition().y << "]\n\n"
+                    "W: [ROT: " << w.GetRotation() << "]";
+
+                DrawText(nerdInfoText.str().c_str(), 10, 10, 24, BLACK);
+            }
+
         EndDrawing();
     }
 

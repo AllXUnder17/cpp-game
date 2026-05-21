@@ -10,7 +10,7 @@ file(GLOB_RECURSE GAME_SOURCES "src/*.cpp")
 
 # 3. Define our final game executable and hand it our auto-found source files
 add_executable(${PROJECT_NAME} ${GAME_SOURCES})
-
+  
 # 4. Tell CMake where your Raylib Header (.h) files are
 # Tell CMake where your header files are 
 target_include_directories(${PROJECT_NAME} PRIVATE  
