@@ -22,8 +22,6 @@ GameObject::GameObject(const GameObjectConfig& config) {
     this->parent = config.parent;
     this->localRotation = config.localRotation;
 
-    TraceLog(LOG_INFO, "init object: %d", id);
-
     GameManager::AddDrawable(this);
     GameManager::AddUpdatable(this);
 }

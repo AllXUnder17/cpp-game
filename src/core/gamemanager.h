@@ -12,6 +12,9 @@ public:
     static unsigned short WINDOW_WIDTH;
     static unsigned short WINDOW_HEIGHT;
 
+    static unsigned short VIRTUAL_WIDTH;
+    static unsigned short VIRTUAL_HEIGHT;
+
     //---Singleton--
     static GameManager& GetInstance();
     
@@ -26,7 +29,10 @@ public:
         const unsigned char fps = 60);
     static void UninitGame();
 
+    //===GETTERS===
     static const Camera2D& GetCamera();
+
+    static const RenderTexture2D& GetCanvas();
 
     //---Drawables---
     static void HandleDrawables();
@@ -53,6 +59,7 @@ private:
     GameManager() = delete;
 
     static Camera2D camera;
+    static RenderTexture2D canvas;
 
     static std::vector<IDrawable*> drawables;
     static std::vector<IUpdatable*> updatables;

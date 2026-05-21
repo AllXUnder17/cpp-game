@@ -10,13 +10,12 @@ void Weapon::OnUpdate() {
 
     Vector2 mousePos = GetMousePosition();
 
-    // Scale the mouse position down from screen space (1280x720) to virtual canvas space (320x180)
-    // Vector2 virtualMousePos = {
-    //     mousePos.x / (GameManager::WINDOW_WIDTH / (float)virtualWidth),
-    //     mousePos.y / (windowHeight / (float)virtualHeight)
-    // };
+    Vector2 virtualMousePos = {
+        mousePos.x / (GameManager::WINDOW_WIDTH / (float)GameManager::VIRTUAL_WIDTH),
+        mousePos.y / (GameManager::WINDOW_HEIGHT / (float)GameManager::VIRTUAL_HEIGHT)
+    };
 
-    Vector2 worldMousePos = GetScreenToWorld2D(mousePos, GameManager::GetCamera());
+    Vector2 worldMousePos = GetScreenToWorld2D(virtualMousePos, GameManager::GetCamera());
 
     // Calculate the angle between the gun pivot and the world mouse position
     rotation = atan2f(worldMousePos.y - position.y, worldMousePos.x - position.x) * RAD2DEG;

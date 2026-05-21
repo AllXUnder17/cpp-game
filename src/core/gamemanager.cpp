@@ -4,12 +4,16 @@
 unsigned short GameManager::WINDOW_WIDTH = 1280;
 unsigned short GameManager::WINDOW_HEIGHT = 720;
 
+unsigned short GameManager::VIRTUAL_WIDTH = 320;
+unsigned short GameManager::VIRTUAL_HEIGHT = 180;
+
 std::vector<IDrawable*> GameManager::drawables = std::vector<IDrawable*>();
 std::vector<IUpdatable*> GameManager::updatables = std::vector<IUpdatable*>();
 
+RenderTexture2D GameManager::canvas = { };
+
 Camera2D GameManager::camera = {
-    //camera.offset = { virtualWidth / 2.0f, virtualHeight / 2.0f };   // Still centers the lens on the screen
-    .offset = { 0, 0 },
+    .offset = { VIRTUAL_WIDTH / 2.0f, VIRTUAL_HEIGHT / 2.0f },   // Still centers the lens on the screen
     .rotation = 0.0f,
     .zoom = 1.0f
 };
@@ -31,7 +35,8 @@ void GameManager::InitGame(
 
     SetTargetFPS(fps);
 
-    
+    canvas = LoadRenderTexture(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+    SetTextureFilter(canvas.texture, TEXTURE_FILTER_POINT);
 }
 
 void GameManager::UninitGame() {
@@ -52,6 +57,10 @@ const Camera2D & GameManager::GetCamera(){
     return camera;
 }
 
+const RenderTexture2D& GameManager::GetCanvas() {
+    return canvas;
+}
+
 //---Drawables---
 void GameManager::HandleDrawables() {
     for (IDrawable* drawable : GameManager::GetDrawables()) {
@@ -60,8 +69,6 @@ void GameManager::HandleDrawables() {
 }
 
 void GameManager::AddDrawable(IDrawable* drawable) {
-    TraceLog(LOG_WARNING, "Added drawable: %d", drawable);
-
     drawables.push_back(drawable);
 }
 
@@ -74,15 +81,10 @@ const std::vector<IDrawable*>& GameManager::GetDrawables() {
 void GameManager::HandleUpdatables() {
     for (IUpdatable* updatable : GameManager::GetUpdatables()) {
         updatable->OnUpdate();
-        TraceLog(LOG_INFO, "Updated object %d", &updatable);
     }
-    TraceLog(LOG_INFO, "==========");
 }
 
 void GameManager::AddUpdatable(IUpdatable* updatable) {
-    TraceLog(LOG_WARNING, "Added updatable: %d", updatable);
-
-
     updatables.push_back(updatable);
 }
 

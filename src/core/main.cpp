@@ -23,18 +23,33 @@ int main() {
     while (!WindowShouldClose()) {
         GameManager::HandleUpdatables();
 
-        BeginDrawing();
+        //MOVE TO GAMEMANAGER::RENDERCANVAS()
+        BeginTextureMode(GameManager::GetCanvas());
             ClearBackground(RAYWHITE);
 
-            GameManager::HandleDrawables();
+            // Turn on the camera for our world objects
+            BeginMode2D(GameManager::GetCamera());
 
-            DrawText(
-                (std::to_string(player.GetPosition().x) + " " +
-                std::to_string(player.GetPosition().y) + " " +
-                std::to_string(w.GetLocalPosition().x) + " " +
-                std::to_string(w.GetLocalPosition().y)).c_str(),
-                0, 0, 16, BLACK
-            );
+                GameManager::HandleDrawables();
+
+                DrawLine(-500, 0, 500, 0, LIGHTGRAY);
+
+            EndMode2D();
+
+        EndTextureMode();
+
+
+        //MOVE TO GAMEMANAGER
+        BeginDrawing();
+            ClearBackground(BLACK); 
+
+            // Flip the Y axis natively because OpenGL render textures are rendered upside down
+            Rectangle canvasSource = { 0.0f, 0.0f, (float)GameManager::GetCanvas().texture.width, -(float)GameManager::GetCanvas().texture.height };
+            Rectangle canvasDest = { 0.0f, 0.0f, (float)GameManager::WINDOW_WIDTH, (float)GameManager::WINDOW_HEIGHT };
+            Vector2 canvasOrigin = { 0.0f, 0.0f };
+
+            // Draw the upscaled canvas directly onto your physical monitor screen (No camera here!)
+            DrawTexturePro(GameManager::GetCanvas().texture, canvasSource, canvasDest, canvasOrigin, 0.0f, WHITE);
         EndDrawing();
     }
 
