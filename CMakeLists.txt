@@ -13,7 +13,7 @@ add_executable(${PROJECT_NAME} ${GAME_SOURCES})
 
 # 4. Tell CMake where your Raylib Header (.h) files are
 # Tell CMake where your header files are 
-target_include_directories(${PROJECT_NAME} PRIVATE 
+target_include_directories(${PROJECT_NAME} PRIVATE  
     "C:/raylib/include"
     "${CMAKE_CURRENT_SOURCE_DIR}/src"   # <-- ADD THIS LINE!
 ) 

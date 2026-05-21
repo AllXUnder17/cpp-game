@@ -18,7 +18,9 @@ struct GameObjectConfig {
     Vector2 localPosition = { 0, 0 };
 
     Vector2 anchor = { 0, 0 };
+
     float rotation = 0.0f;
+    float localRotation = 0.0f;
 };
 
 class GameObject : public IDrawable, public IUpdatable {
@@ -30,14 +32,18 @@ public:
     GameObject(const GameObjectConfig& config);
 
     //---Getters---
-    size_t GetID() const;
+    const size_t& GetID() const;
 
-    Vector2 GetPosition() const;
+    const Vector2& GetPosition() const;
+    const Vector2& GetLocalPosition() const;
 
-    
     //---Setters---
-    void SetPosition(Vector2 position, bool isWorldPos);
+    void SetPosition(Vector2 position);
+    void SetLocalPosition(Vector2 localPosition);
+
     void SetRotation(float rotation);
+    void SetLocalRotation(float localRotation);
+    
     void SetPositionAndRotation(Vector2 position, float rotation);
 
     //---Inheriteds---
@@ -52,10 +58,16 @@ protected:
     Vector2 localPosition;
     
     Vector2 anchor;
+
     float rotation;
+    float localRotation;
+
     float scale;
 
     size_t id;
+
+    void UpdatePosition();
+    void UpdateRotation();
 };
 
 #endif

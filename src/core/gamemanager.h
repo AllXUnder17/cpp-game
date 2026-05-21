@@ -26,30 +26,36 @@ public:
         const unsigned char fps = 60);
     static void UninitGame();
 
+    static const Camera2D& GetCamera();
+
     //---Drawables---
-    void HandleDrawables() const;
+    static void HandleDrawables();
 
-    void AddDrawable(IDrawable* drawable);
-    void RemoveDrawable(IDrawable* drawable);
+    static void AddDrawable(IDrawable* drawable);
+    static void RemoveDrawable(IDrawable* drawable);
 
-    const std::vector<IDrawable*>& GetDrawables() const;
+    static const std::vector<IDrawable*>& GetDrawables();
 
     //---Updatables---
-    void HandleUpdatables() const;
+    static void HandleUpdatables();
 
-    void AddUpdatable(IUpdatable* updatable);
-    void RemoveUpdatable(IUpdatable* updatable);
+    static void AddUpdatable(IUpdatable* updatable);
+    static void RemoveUpdatable(IUpdatable* updatable);
 
-    const std::vector<IUpdatable*>& GetUpdatables() const;
+    static const std::vector<IUpdatable*>& GetUpdatables();
 
 private:
-    GameManager() { 
-        drawables = std::vector<IDrawable*>(); 
-        updatables = std::vector<IUpdatable*>();
-    };
+    // GameManager() { 
+    //     drawables = std::vector<IDrawable*>(); 
+    //     updatables = std::vector<IUpdatable*>();
+    // };
 
-    std::vector<IDrawable*> drawables;
-    std::vector<IUpdatable*> updatables;
+    GameManager() = delete;
+
+    static Camera2D camera;
+
+    static std::vector<IDrawable*> drawables;
+    static std::vector<IUpdatable*> updatables;
 };
 
 #endif
