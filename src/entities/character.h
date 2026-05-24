@@ -2,12 +2,16 @@
 #define _CHARACTER_
 
 #include "core/gameobject.h"
+#include "core/spritesheet.h"
 
-class Character : public GameObject {
+#include "entities/entity.h"
+
+class Character : public Entity {
 public:
-    Character(const GameObjectConfig& config, float moveSpeed);
+    Character(const GameObjectConfig& config, const SpriteSheet& spriteSheet, float moveSpeed);
 
-    virtual void OnMove() = 0;
+    void OnUpdate() override {};
+    //void Draw() override;
 protected:
     Vector2 velocity;
     float moveSpeed;

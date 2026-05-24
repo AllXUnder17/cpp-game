@@ -7,7 +7,7 @@ class IDrawable {
 public:
     virtual ~IDrawable() = default;
 
-    virtual void Draw() const = 0;
+    virtual void Draw() = 0;
 };
 
 #endif

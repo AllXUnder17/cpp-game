@@ -1,11 +1,17 @@
 #include "gfxmanager.h"
 #include "gamemanager.h"
 
+#include <iomanip>
+
+
 //===CONSTANTS===
 Color GFXManager::BACKGROUND_COLOR = MAGENTA;
 
 unsigned short GFXManager::VIRTUAL_WIDTH = 320;
 unsigned short GFXManager::VIRTUAL_HEIGHT = 180;
+
+unsigned GFXManager::FRAMES_PER_SECOND = 12;
+float GFXManager::FRAME_WAIT_TIME = 0;
 
 std::vector<IDrawable*> GFXManager::drawables = std::vector<IDrawable*>();
 
@@ -18,10 +24,11 @@ Camera2D GFXManager::camera = {
 };
 
 //===CONSTRUCTORS===
-void GFXManager::Init() {
-
+void GFXManager::Init(const unsigned& animationFramesPerSecond) {
     canvas = LoadRenderTexture(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
     SetTextureFilter(canvas.texture, TEXTURE_FILTER_POINT);
+    FRAMES_PER_SECOND = animationFramesPerSecond;
+    FRAME_WAIT_TIME = 1.0f / FRAMES_PER_SECOND;
 }
 
 const Camera2D& GFXManager::GetCamera() {
@@ -73,4 +80,15 @@ void GFXManager::RenderCanvas() {
     Vector2 canvasOrigin = { 0.0f, 0.0f };
 
     DrawTexturePro(GFXManager::GetCanvas().texture, canvasSource, canvasDest, canvasOrigin, 0.0f, WHITE);
+}
+
+//---Stuff---
+void GFXManager::OutputInfo(std::stringstream& ss) {
+    ss << std::fixed << "GFX: [\n\n\tCNT: " << drawables.size() << ",\n\n"
+        << "\tEMNTS: ";
+    for (auto it : drawables) {
+        ss << it << ", ";
+    }
+
+    ss << "]\n\n----------\n\n";
 }

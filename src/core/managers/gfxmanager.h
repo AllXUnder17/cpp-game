@@ -1,6 +1,7 @@
 #ifndef _GFX_MANAGER_
 #define _GFX_MANAGER_
 
+#include <ostream>
 #include <vector>
 #include "raylib.h"
 
@@ -9,15 +10,18 @@
 class GFXManager {
 public:
     static Color BACKGROUND_COLOR;
-
+    
     static unsigned short VIRTUAL_WIDTH;
     static unsigned short VIRTUAL_HEIGHT;
+    
+    static unsigned FRAMES_PER_SECOND;
+    static float FRAME_WAIT_TIME;
 
     //===CONSTRUCTORS===
-    static void Init();
+    static void Init(const unsigned& animationFramesPerSecond = 12);
     
     //===DESTRUCTOR===
-    
+
     //===GETTERS===
     static const Camera2D& GetCamera();
 
@@ -38,6 +42,9 @@ public:
     //---Canvas---
     static void DrawCanvas();
     static void RenderCanvas(); 
+
+    //---Stuff---
+    static void OutputInfo(std::stringstream& ss);
 private:
     static std::vector<IDrawable*> drawables;
 

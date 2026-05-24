@@ -49,8 +49,8 @@ public:
     void SetPositionAndRotation(Vector2 position, float rotation);
 
     //---Inheriteds---
-    void Draw() const final;
-    void OnUpdate();
+    void Draw() override;
+    void OnUpdate() override;
 
 protected:
     GameObject *parent;

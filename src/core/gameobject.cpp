@@ -64,7 +64,7 @@ void GameObject::SetLocalRotation(float localRotation) {
 
 //===METHODS===
 
-void GameObject::Draw() const {
+void GameObject::Draw() {
     if (sprite == nullptr)
         return;
 

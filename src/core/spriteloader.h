@@ -8,7 +8,9 @@
 class SpriteLoader {
 public:
     static Texture2D* GetSprite(const std::string fileName);
-    
+
+    //SpriteSheet GetSpriteSheet();
+
     static void UnloadAll();
 
 private:

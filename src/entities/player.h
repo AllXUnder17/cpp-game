@@ -6,10 +6,10 @@
 
 class Player : public Character {
 public:
-    Player(const GameObjectConfig& config, float moveSpeed);
+    Player(const GameObjectConfig& config, const SpriteSheet& SpriteSheet, float moveSpeed);
 
     void OnUpdate() override final;
-    void OnMove() override {};
+    //void Draw() override;
 private:
     
 };

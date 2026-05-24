@@ -14,8 +14,10 @@
 
 #include "core/spriteloader.h"
 
+//nabutai vs entities v edin include file
 #include "entities/player.h"
 #include "entities/character.h"
+#include "entities/coin.h"
 
 #include "entities/weapons/weapon.h"
 
