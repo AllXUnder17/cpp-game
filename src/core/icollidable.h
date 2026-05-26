@@ -1,7 +1,9 @@
 #ifndef _ICOLLIDABLE_
 #define _ICOLLIDABLE_
 
-#include "gameobject.h"
+// #include "gameobject.h"
+
+class GameObject;
 
 class ICollidable {
 public:

@@ -7,6 +7,7 @@
 
 #include "idrawable.h"
 #include "iupdatable.h"
+#include "icollidable.h"
 
 class GameObject;
 
@@ -23,7 +24,7 @@ struct GameObjectConfig {
     float localRotation = 0.0f;
 };
 
-class GameObject : public IDrawable, public IUpdatable {
+class GameObject : public IDrawable, public IUpdatable, public ICollidable {
 public:
     //---Constants---
     static size_t COUNTER;
@@ -60,6 +61,8 @@ protected:
     Vector2 localPosition;
     
     Vector2 anchor;
+
+    // Rectangle 
 
     float rotation;
     float localRotation;

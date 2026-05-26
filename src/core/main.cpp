@@ -1,9 +1,13 @@
 #include "libraryofalexandria.h"
 
+void Hello() {
+    TraceLog(LOG_INFO, "Hello world");
+}
+
+
 int main() {
     GameManager::InitGame(/*width:*/ 1280, /*height:*/ 720);
 
-    
     Player player = Player(
         GameObjectConfig{
             //.sprite = SpriteLoader::GetSprite("man.png"),
@@ -30,23 +34,9 @@ int main() {
     float deltaTime;
     float elapsedCoinSpawnTime = 0.0f;
 
+    InputManager::GetInstance().SetKeybind(KEY_R, [](){Hello();}, ON_KEY_PRESSED);
+
     while (!WindowShouldClose()) {
-        elapsedCoinSpawnTime += GetFrameTime();
-        // if (elapsedCoinSpawnTime > 1){
-        //     float rndPosX = rand() % 100;
-        //     float rndPosY = rand() % 100;
-
-        //     Coin* c = new Coin(GameObjectConfig{
-        //         .position = {rndPosX, rndPosY}
-        //         },
-        //         SpriteSheet(
-        //             SpriteLoader::GetSprite("coin_spritesheet.png"),
-        //             16, 16, 
-        //             {2}
-        //         ));
-
-        //     elapsedCoinSpawnTime = 0.0f;
-        // }
 
         //===OTHERS===
         deltaTime = GetFrameTime();

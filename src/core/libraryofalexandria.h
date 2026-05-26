@@ -11,6 +11,7 @@
 
 #include "core/managers/gamemanager.h"
 #include "core/managers/gfxmanager.h"
+#include "core/managers/inputmanager.h"
 
 #include "core/spriteloader.h"
 
