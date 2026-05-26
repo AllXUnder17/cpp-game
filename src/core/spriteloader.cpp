@@ -3,7 +3,7 @@
 // Define our static cache container
 std::unordered_map<std::string, Texture2D> SpriteLoader::textureCache;
 
-Texture2D* SpriteLoader::GetSprite(const std::string fileName) {
+Texture2D* SpriteLoader::GetSprite(const std::string& fileName) {
     auto it = textureCache.find(fileName);
     if (it != textureCache.end()) {
         return &(it->second);
@@ -21,5 +21,6 @@ void SpriteLoader::UnloadAll() {
     for (auto& pair : textureCache) {
         UnloadTexture(pair.second);
     }
+    
     textureCache.clear();
 }

@@ -3,7 +3,7 @@
 
 #include "entity.h"
 
-class Coin : public Entity {
+class Coin {
 public:
     //===CONSTANTS===
     
@@ -19,7 +19,8 @@ public:
     //===SETTERS===
     
     //===MEMBER FUNCTIONS===
-    
+    // void OnUpdate() override {}
+    // void Draw() override {}
 private:
     
 };

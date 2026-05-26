@@ -29,6 +29,11 @@ GameObject::GameObject(const GameObjectConfig& config) {
     GameManager::AddUpdatable(this);
 }
 
+// GameObject::~GameObject() {
+//     //GFXManager::RemoveDrawable(this);
+//     //GameManager::RemoveUpdatable(this);
+// }
+
 const size_t& GameObject::GetID() const {
     return id;
 }
@@ -45,20 +50,20 @@ const float GameObject::GetRotation() const {
     return rotation;
 }
 
-void GameObject::SetPosition(Vector2 position) {
+void GameObject::SetPosition(const Vector2& position) {
     //this->position = utils::RoundToDigit(position, 2);
     this->position = position;
 }
 
-void GameObject::SetLocalPosition(Vector2 localPosition) {
+void GameObject::SetLocalPosition(const Vector2& localPosition) {
     this->localPosition = localPosition;
 }
 
-void GameObject::SetRotation(float rotation) {
+void GameObject::SetRotation(const float& rotation) {
     this->rotation = rotation;
 }
 
-void GameObject::SetLocalRotation(float localRotation) {
+void GameObject::SetLocalRotation(const float& localRotation) {
     this->localRotation = localRotation;
 }
 

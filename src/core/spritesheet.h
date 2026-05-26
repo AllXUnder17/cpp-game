@@ -5,11 +5,6 @@
 #include <unordered_map>
 #include <vector>
 
-struct SpriteSheetConfig {
-    Texture2D* spriteSheet;
-
-    char spriteWidth, spriteHeight;
-};
 
 class SpriteSheet {
 public:

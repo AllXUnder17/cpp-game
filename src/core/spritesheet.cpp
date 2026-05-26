@@ -50,7 +50,6 @@ SpriteSheet::SpriteSheet(const SpriteSheet& other) {
     this->spriteWidth = other.spriteWidth;
     this->spriteHeight = other.spriteHeight;
     
-    // FIX: Your original copy constructor forgot to copy the actual frame data!
     this->spriteSheetMatrix = other.spriteSheetMatrix;
     this->stateAnimations = other.stateAnimations;
 }

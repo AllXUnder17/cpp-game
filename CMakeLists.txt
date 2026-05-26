@@ -9,24 +9,22 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) 
 
-# 2. DEEP SEARCH: Automatically find every .cpp file in src/ and all its subfolders
+# 2. FIXED DEEP SEARCH: Scan the entire src directory for any and all .cpp files
 file(GLOB_RECURSE GAME_SOURCES "src/*.cpp")
 
-# 3. Define our final game executable and hand it our auto-found source files
-add_executable(${PROJECT_NAME} ${GAME_SOURCES}
-   src/entities/coin.cpp) 
+# 3. Define our final game executable using all scanned source files
+add_executable(${PROJECT_NAME} ${GAME_SOURCES}) 
    
-# 4. Tell CMake where your Raylib Header (.h) files are
-# Tell CMake where your header files are 
+# 4. Tell CMake where your header (.h) files are 
 target_include_directories(${PROJECT_NAME} PRIVATE  
-    "C:/raylib/include"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src"   # <-- ADD THIS LINE!
-) 
+    "C:/raylib/include" 
+    "${CMAKE_CURRENT_SOURCE_DIR}/src"
+)   
 
-# 5. Tell CMake where your Raylib Library (.lib) files are
+# 5. Tell CMake where your Raylib Library (.lib / .a) files are
 target_link_directories(${PROJECT_NAME} PRIVATE "C:/raylib/lib")
 
-# 6. Link Raylib and standard Windows graphics/audio dependencies
+# 6. Link Raylib and standard Windows system graphics/audio dependencies
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     raylib 
     opengl32 
@@ -34,7 +32,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     winmm
 ) 
 
-# 7. Copy assets (like gun.png) to the build folder so the game can find them
-# This keeps your running game from crashing due to missing textures!
-# Copy the entire assets directory to your build folder automatically
+# 7. FIXED WINMAIN LINKER BUG: Forces MinGW to look for standard int main() 
+target_link_options(${PROJECT_NAME} PRIVATE "-mconsole")
+
+# 8. Copy assets directory to your build folder automatically
 file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/assets" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}")

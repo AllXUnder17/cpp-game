@@ -7,7 +7,7 @@
 //===STATIC MEMBERS===
 
 //===CONSTRUCTORS===
-Coin::Coin(const GameObjectConfig& config, const SpriteSheet& spriteSheet) : Entity(config, spriteSheet) { }
+Coin::Coin(const GameObjectConfig& config, const SpriteSheet& spriteSheet) /* : Entity(config, spriteSheet) */ { }
 
 //===DESTRUCTOR===
 

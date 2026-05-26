@@ -5,7 +5,7 @@ void Hello() {
 }
 
 
-int main() {
+int main(int argc, char* argv[]) {
     GameManager::InitGame(/*width:*/ 1280, /*height:*/ 720);
 
     Player player = Player(
@@ -18,7 +18,7 @@ int main() {
             16, 
             16, 
             {2}
-        ), 300);
+        ), 200);
     
     Weapon w = Weapon(GameObjectConfig{
         .sprite = SpriteLoader::GetSprite("gun.png"),
@@ -34,7 +34,7 @@ int main() {
     float deltaTime;
     float elapsedCoinSpawnTime = 0.0f;
 
-    InputManager::GetInstance().SetKeybind(KEY_R, [](){Hello();}, ON_KEY_PRESSED);
+    //InputManager::GetInstance().SetKeybind(KEY_R, [](){Hello();}, ON_KEY_PRESSED);
 
     while (!WindowShouldClose()) {
 
@@ -65,7 +65,9 @@ int main() {
             GFXManager::RenderCanvas();
 
             if (toggleNerdInfo) {
-                // std::stringstream nerdInfoText;
+                std::stringstream nerdInfoText;
+
+                nerdInfoText << std::fixed;
 
                 // nerdInfoText << std::fixed << std::setprecision(6) <<
                 //     "T: [DT: " << deltaTime << ",\t FPS:" << 1.0f / deltaTime << "]\n\n" <<
@@ -80,7 +82,9 @@ int main() {
                 //     "W: [ROT: " << w.GetRotation() << "]\n\n" << 
                 //     "B: [CNT: " << "]";
 
-                // DrawText(nerdInfoText.str().c_str(), 10, 10, 24, BLACK);
+                nerdInfoText << player.GetVelocity().x << ", " << player.GetVelocity().y;
+                DrawText(nerdInfoText.str().c_str(), 10, 10, 24, BLACK);
+
             }
 
         EndDrawing();

@@ -3,7 +3,6 @@
 
 #include <iomanip>
 
-
 //===CONSTANTS===
 Color GFXManager::BACKGROUND_COLOR = MAGENTA;
 

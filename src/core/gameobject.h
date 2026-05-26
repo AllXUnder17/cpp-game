@@ -24,13 +24,14 @@ struct GameObjectConfig {
     float localRotation = 0.0f;
 };
 
-class GameObject : public IDrawable, public IUpdatable, public ICollidable {
+class GameObject : public IDrawable, public IUpdatable /*, public ICollidable*/ {
 public:
     //---Constants---
     static size_t COUNTER;
 
     //---Constructors---
     GameObject(const GameObjectConfig& config);
+    //~GameObject();
 
     //---Getters---
     const size_t& GetID() const;
@@ -41,13 +42,13 @@ public:
     const float GetRotation() const;
 
     //---Setters---
-    void SetPosition(Vector2 position);
-    void SetLocalPosition(Vector2 localPosition);
+    void SetPosition(const Vector2& position);
+    void SetLocalPosition(const Vector2& localPosition);
 
-    void SetRotation(float rotation);
-    void SetLocalRotation(float localRotation);
+    void SetRotation(const float& rotation);
+    void SetLocalRotation(const float& localRotation);
     
-    void SetPositionAndRotation(Vector2 position, float rotation);
+    void SetPositionAndRotation(const Vector2& position, const float& rotation);
 
     //---Inheriteds---
     void Draw() override;
@@ -62,7 +63,7 @@ protected:
     
     Vector2 anchor;
 
-    // Rectangle 
+    // Rectangle hitbox
 
     float rotation;
     float localRotation;
