@@ -8,61 +8,42 @@ void Hello() {
 int main(int argc, char* argv[]) {
     GameManager::InitGame(1280,720);
 
+    //potencialno tova shte se razkara i shte se zamesti s FactoriesManager iili neshto
+    BulletFactory::Init();
+
     Player* player = new Player(
-        GameObjectConfig{
-            //.sprite = SpriteLoader::GetSprite("man.png"),
-            .position = { 0, 0 }
-        }, 
+        GameObjectConfig{ }, 
         SpriteSheet(
             SpriteLoader::GetSprite("man_spritesheet.png"),
             16, 
             16, 
-            {2}
-        ), 200);
-    
+            {2}), 
+        200);
+        
+    SerializationManager::LoadGame();
+        
     //Sound s = AudioLoader::GetSound("a.mp3", SPAMMABLE);
     // Sound s = LoadSound("../assets/audio/a.mp3");
     // LoadSoundAlias(s);
 
-    Weapon* w = new Weapon(GameObjectConfig{
-        .sprite = SpriteLoader::GetSprite("gun.png"),
-        .parent = player,
-        .localPosition = { 10, 5 }
-    }, { 12, -1 }, 
-    5, Sound());
-
-    float rndPosX = rand() * 100;
-    float rndPosY = rand() * 100;
+    Weapon* w = new Weapon(
+        GameObjectConfig{
+            .sprite = SpriteLoader::GetSprite("gun.png"),
+            .parent = player,
+            .localPosition = { 10, 5 }}, 
+        { 12, -1 }, 
+        5, Sound());
 
     bool toggleNerdInfo = true;
-    float deltaTime;
     float elapsedCoinSpawnTime = 0.0f;
 
     //GFXManager::RemoveDrawable(w);
-
-    BulletFactory bf = BulletFactory(10);
 
     // InputManager::GetInstance().SetKeybind(KEY_R, [](){Hello();}, ON_KEY_PRESSED);
     float elapsedBulletWaitTime = 0.0f;
 
     while (!WindowShouldClose()) {
-
-        if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-            elapsedBulletWaitTime += GetFrameTime();
-
-            if (elapsedBulletWaitTime >= 1.0f / 10) {
-                PlaySound(w->GetOnShootSound());
-                Vector2 bulletVelocity = Vector2Scale(w->GetOrientation(), 5);
-
-                bf.SpawnBullet(w->GetTipPos(), bulletVelocity);
-
-                elapsedBulletWaitTime = 0;
-            }
-        }
-
-        //===OTHERS===
-        deltaTime = GetFrameTime();
-        
+        //===OTHERS===        
         if (IsKeyPressed(KEY_TAB))
             toggleNerdInfo = !toggleNerdInfo;
 
@@ -87,6 +68,8 @@ int main(int argc, char* argv[]) {
             GFXManager::RenderCanvas();
 
             if (toggleNerdInfo) {
+                float deltaTime = GetFrameTime();
+
                 std::stringstream nerdInfoText;
 
                 nerdInfoText << std::fixed;
@@ -106,11 +89,14 @@ int main(int argc, char* argv[]) {
                     "W: [ROT: " << w->GetRotation() << "]\n\n";
 
                 DrawText(nerdInfoText.str().c_str(), 10, 10, 24, BLACK);
-
             }
 
         EndDrawing();
     }
+
+    BulletFactory::Uninit();
+
+    SerializationManager::SaveGame();
 
     GameManager::UninitGame();
 

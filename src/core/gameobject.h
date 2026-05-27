@@ -3,6 +3,8 @@
 
 #include <cstddef>
 
+#include "ionend.h"
+#include "ionstart.h"
 #include "raylib.h"
 
 #include "idrawable.h"
@@ -26,7 +28,7 @@ struct GameObjectConfig {
     bool isActive = true;
 };
 
-class GameObject : public IDrawable, public IUpdatable /*, public ICollidable*/ {
+class GameObject : public IDrawable, public IUpdatable, public IOnStart, public IOnEnd /*, public ICollidable*/ {
 public:
     //===CONSTANTS===
 
@@ -65,7 +67,10 @@ public:
     //===MEMBER FUNCTIONS===
     //---Inheriteds---
     void Draw() override;
+    
+    void OnStart() override {}
     void OnUpdate() override;
+    void OnEnd() override {}
 
 protected:
     GameObject *parent;

@@ -44,7 +44,12 @@ private:
 
     static std::unordered_map<std::size_t, GameObject*> gameObjects;
 
+    static std::vector<IOnStart*> onStartObjects;
     static std::vector<IUpdatable*> updatables;
+    static std::vector<IOnEnd*> onEndObjects;
+
+    static void HandleOnStart();
+    static void HandleOnEnd();
 };
 
 #endif

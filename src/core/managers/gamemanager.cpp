@@ -1,7 +1,7 @@
-#include "core\managers\gamemanager.h"
-#include "core\spriteloader.h"
+#include "gamemanager.h"
 #include "gfxmanager.h"
 
+#include "core\spriteloader.h"
 #include "core/audioloader.h"
 
 #include <algorithm>
@@ -11,6 +11,8 @@ unsigned short GameManager::WINDOW_WIDTH = 1280;
 unsigned short GameManager::WINDOW_HEIGHT = 720;
 
 std::vector<IUpdatable*> GameManager::updatables = std::vector<IUpdatable*>();
+std::vector<IOnStart*> GameManager::onStartObjects = std::vector<IOnStart*>();
+std::vector<IOnEnd*> GameManager::onEndObjects = std::vector<IOnEnd*>();
 
 std::unordered_map<std::size_t, GameObject*> GameManager::gameObjects = std::unordered_map<size_t, GameObject*>();
 
@@ -27,7 +29,9 @@ void GameManager::InitGame(
     SetTargetFPS(fps);
     
     GFXManager::Init();
-    //AudioLoader::Init();
+    AudioLoader::Init();
+
+    HandleOnStart();
 }
 
 void GameManager::UninitGame() {
@@ -37,6 +41,8 @@ void GameManager::UninitGame() {
 
     SpriteLoader::UnloadAll();
     //AudioLoader::UnloadAll();
+
+    HandleOnEnd();
 
     gameObjects.clear();
 
@@ -86,4 +92,16 @@ const std::vector<IUpdatable*>& GameManager::GetUpdatables() {
 void GameManager::OutputInfo(std::stringstream& ss) {
     ss << std::fixed << "GM: [\n\n\tALL: " << gameObjects.size() << "\n\n\t"
         << "-ACTIVE: " << std::count_if(gameObjects.begin(), gameObjects.end(), [](const auto& pair){return pair.second->IsActive();}) << "]\n\n";
+}
+
+void GameManager::HandleOnStart() {
+    for (auto it : onStartObjects) {
+        it->OnStart();
+    }
+}
+
+void GameManager::HandleOnEnd() {
+    for (auto it : onEndObjects) {
+        it->OnEnd();
+    }
 }

@@ -2,18 +2,23 @@
 #define _PLAYER_
 
 #include "core/gameobject.h"
+#include "core/iserializable.h"
+
 #include "entities/character.h"
 
 enum MovementDirection {
     IDLE_X, IDLE_Y, UP, RIGHT, DOWN, LEFT
 };
 
-class Player : public Character {
+class Player : public Character, public ISerializable {
 public:
     Player(const GameObjectConfig& config, const SpriteSheet& SpriteSheet, float moveSpeed);
+    ~Player();
 
     void OnUpdate() override final;
-    //void Draw() override;
+
+    void Serialize(std::ofstream& ofs) override;
+    void Deserialize(std::ifstream& ifs) override;
 private:
     //---Input Handling---
     short horizontalStack[2] = {};

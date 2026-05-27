@@ -2,6 +2,7 @@
 #include "raymath.h"
 
 #include "core/managers/inputmanager.h"
+#include "core/managers/serializationmanager.h"
 
 //===CONSTANTS===
 
@@ -12,8 +13,13 @@ Vector2 primaryDirection, secondaryDirection;
 
 Player::Player(const GameObjectConfig& config, const SpriteSheet& spriteSheet, float moveSpeed) : Character(config, spriteSheet, moveSpeed) { 
     velocity = {0,0};
+
+    SerializationManager::AddSerializable(this);
     
     SetKeybinds();
+}
+Player::~Player() {
+    SerializationManager::RemoveSerializable(this);
 }
 
 //===DESTRUCTOR===
@@ -131,4 +137,14 @@ void Player::OnUpdate() {
     Entity::OnUpdate();
     
     HandleMovement();
+}
+
+//---Serialization Handling---
+void Player::Serialize(std::ofstream& ofs) {
+    ofs.write(reinterpret_cast<char*>(&position.x), sizeof(position.x))
+        .write(reinterpret_cast<char*>(&position.y), sizeof(position.y));
+}
+void Player::Deserialize(std::ifstream& ifs) {
+    ifs.read(reinterpret_cast<char*>(&position.x), sizeof(position.x))
+        .read(reinterpret_cast<char*>(&position.y), sizeof(position.y));
 }

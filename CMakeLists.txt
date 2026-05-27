@@ -29,7 +29,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE "C:/raylib/lib")
 # 6. Link Raylib and standard Windows system graphics/audio dependencies
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     raylib 
-    opengl32 
+    opengl32  
     gdi32 
     winmm
 ) 

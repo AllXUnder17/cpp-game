@@ -50,21 +50,18 @@ void Weapon::OnUpdate() {
     this->tipPos = Vector2Add(this->position, rotatedOffset);
 
     HandleRotation();
-    //HandleShoot();
+    HandleShoot();
 }
 
 void Weapon::HandleShoot() {
+    elapsedBulletWaitTime += GetFrameTime();
     if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-        elapsedBulletWaitTime += GetFrameTime();
-
         if (elapsedBulletWaitTime >= bulletWaitTime) {
             // PlaySound(onShootSound);
 
             Vector2 bulletVelocity = Vector2Scale(orientation, 5);
 
-            BulletFactory bf = BulletFactory(10);
-
-            bf.SpawnBullet(this->tipPos, bulletVelocity);
+            BulletFactory::SpawnBullet(this->tipPos, bulletVelocity);
 
             elapsedBulletWaitTime = 0;
         }

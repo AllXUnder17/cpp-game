@@ -12,9 +12,11 @@ public:
     //===STATIC MEMBERS===
     
     //===CONSTRUCTORS===
-    BulletFactory(const size_t& capacity);
+    BulletFactory() = delete;
+    static void Init();
     
     //===DESTRUCTOR===
+    static void Uninit();
     
     //===OPERATORS===
     
@@ -23,11 +25,13 @@ public:
     //===SETTERS===
     
     //===MEMBER FUNCTIONS===
-    Bullet* SpawnBullet(const Vector2& pos, const Vector2& vel);
+    static Bullet* SpawnBullet(const Vector2& pos, const Vector2& vel);
 
-    void RecycleBullet(Bullet* bullet);
+    static void RecycleBullet(Bullet* bullet);
 private:
-    std::vector<Bullet*> pool;
+    static std::vector<Bullet*> pool;
+
+    static Bullet* baseBulletPrefab;
 };
 
 #endif
