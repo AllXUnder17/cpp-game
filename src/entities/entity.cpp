@@ -15,6 +15,9 @@ Entity::Entity(const GameObjectConfig& config, const SpriteSheet& spriteSheet)
 //===GETTERS===
 
 //===SETTERS===
+// void Entity::SetVelocity(const Vector2& vel) {
+//     this.
+// }
 
 //===MEMBER FUNCTIONS===
 
@@ -34,7 +37,11 @@ void Entity::OnUpdate() {
 
 void Entity::Draw() {
     //TraceLog(LOG_INFO, "Entity::Draw");
-    if (spriteSheet.IsEmpty()) return;
+    if (spriteSheet.IsEmpty()) { 
+        GameObject::Draw();
+
+        return;
+    }
 
     int layerIdx = 0;
     // TraceLog(LOG_INFO, this->spriteSheet.IsEmpty() ? "1" : "0");

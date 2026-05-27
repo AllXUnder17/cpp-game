@@ -19,9 +19,6 @@ Player::Player(const GameObjectConfig& config, const SpriteSheet& spriteSheet, f
 //===DESTRUCTOR===
 
 //===GETTERS===
-const Vector2& Player::GetVelocity() const {
-    return velocity;
-}
 
 //===SETTERS===
 

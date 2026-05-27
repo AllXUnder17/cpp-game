@@ -2,7 +2,10 @@
 #include "core\spriteloader.h"
 #include "gfxmanager.h"
 
+#include "core/audioloader.h"
+
 #include <algorithm>
+#include <iomanip> // IWYU pragma: keep
 
 unsigned short GameManager::WINDOW_WIDTH = 1280;
 unsigned short GameManager::WINDOW_HEIGHT = 720;
@@ -20,6 +23,7 @@ void GameManager::InitGame(
     GameManager::WINDOW_HEIGHT = windowHeight;
     
     InitWindow(windowWidth, windowHeight, windowTitle.c_str());
+    AudioLoader::Init();
 
     SetTargetFPS(fps);
 
@@ -32,8 +36,21 @@ void GameManager::UninitGame() {
     }
 
     SpriteLoader::UnloadAll();
+    AudioLoader::UnloadAll();
 
     CloseWindow();
+}
+
+void GameManager::AddGameObject(GameObject* gameObject) {
+    gameObjects[gameObject->GetID()] = gameObject;
+}
+
+void GameManager::Destroy(GameObject& gameObject) {
+    GFXManager::RemoveDrawable(&gameObject);
+
+    RemoveUpdatable(&gameObject);
+
+    gameObjects.erase(gameObject.GetID());
 }
 
 const std::unordered_map<std::size_t, GameObject*>& GameManager::GetGameObjects() {
@@ -61,4 +78,10 @@ void GameManager::RemoveUpdatable(IUpdatable* updatable) {
 
 const std::vector<IUpdatable*>& GameManager::GetUpdatables() {
     return updatables; 
+}
+
+//---Others---
+void GameManager::OutputInfo(std::stringstream& ss) {
+    ss << std::fixed << "GM: [\n\n\tALL: " << gameObjects.size() << "\n\n\t"
+        << "-ACTIVE: " << std::count_if(gameObjects.begin(), gameObjects.end(), [](const auto& pair){return pair.second->IsActive();}) << "]\n\n";
 }

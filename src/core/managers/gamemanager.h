@@ -22,8 +22,13 @@ public:
         
     static void UninitGame();
 
+    
     //===GETTERS===
+    //---Game Objects---
     static const std::unordered_map<std::size_t, GameObject*>& GetGameObjects();
+
+    static void AddGameObject(GameObject* gameObject);
+    static void Destroy(GameObject& gameObject);
     
     //---Updatables---
     static void HandleUpdatables();
@@ -32,6 +37,9 @@ public:
     static void RemoveUpdatable(IUpdatable* updatable);
 
     static const std::vector<IUpdatable*>& GetUpdatables();
+
+    //---Others---
+    static void OutputInfo(std::stringstream& ss);
 private:
     // GameManager() { 
     //     drawables = std::vector<IDrawable*>(); 

@@ -7,7 +7,7 @@
 //===STATIC MEMBERS===
 
 //===CONSTRUCTORS===
-Bullet::Bullet(const GameObjectConfig& config, const Vector2& velocity) : GameObject(config) {
+Bullet::Bullet(const GameObjectConfig& config, const SpriteSheet& spriteSheet, const Vector2& velocity) : Entity(config, spriteSheet) {
     this->velocity = velocity;
 }
 
@@ -16,13 +16,16 @@ Bullet::Bullet(const GameObjectConfig& config, const Vector2& velocity) : GameOb
 //===GETTERS===
 
 //===SETTERS===
-
-
+void Bullet::SetVelocity(const Vector2& vel) {
+    this->velocity = vel;
+}
 
 //===MEMBER FUNCTIONS===
 void Bullet::OnUpdate() {
-    Vector2 timeVel = Vector2Scale(velocity, GetFrameTime());
     Vector2 targPos = Vector2Add(position, velocity);
 
     SetPosition(targPos);
+
+    if (position.x > 500 || position.x < -500 || position.y > 500 || position.y < -500)
+        SetIsActive(false);
 }

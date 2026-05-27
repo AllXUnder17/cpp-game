@@ -12,8 +12,6 @@ class Player : public Character {
 public:
     Player(const GameObjectConfig& config, const SpriteSheet& SpriteSheet, float moveSpeed);
 
-    const Vector2& GetVelocity() const; 
-
     void OnUpdate() override final;
     //void Draw() override;
 private:

@@ -22,6 +22,8 @@ struct GameObjectConfig {
 
     float rotation = 0.0f;
     float localRotation = 0.0f;
+
+    bool isActive = true;
 };
 
 class GameObject : public IDrawable, public IUpdatable /*, public ICollidable*/ {
@@ -41,15 +43,19 @@ public:
 
     const float GetRotation() const;
 
+    const bool IsActive() const;
+    
     //---Setters---
     void SetPosition(const Vector2& position);
     void SetLocalPosition(const Vector2& localPosition);
-
+    
     void SetRotation(const float& rotation);
     void SetLocalRotation(const float& localRotation);
     
     void SetPositionAndRotation(const Vector2& position, const float& rotation);
-
+    
+    void SetIsActive(bool b);
+    
     //---Inheriteds---
     void Draw() override;
     void OnUpdate() override;
@@ -65,12 +71,14 @@ protected:
 
     // Rectangle hitbox
 
+    size_t id;
+    
     float rotation;
     float localRotation;
-
+    
     float scale;
-
-    size_t id;
+    
+    bool isActive;
 
     void UpdatePosition();
     void UpdateRotation();

@@ -1,4 +1,4 @@
-#include "libraryofalexandria.h"
+#include "libraryofalexandria.h" // IWYU pragma: keep
 
 void Hello() {
     TraceLog(LOG_INFO, "Hello world");
@@ -6,9 +6,9 @@ void Hello() {
 
 
 int main(int argc, char* argv[]) {
-    GameManager::InitGame(/*width:*/ 1280, /*height:*/ 720);
+    GameManager::InitGame(1280,720);
 
-    Player player = Player(
+    Player* player = new Player(
         GameObjectConfig{
             //.sprite = SpriteLoader::GetSprite("man.png"),
             .position = { 0, 0 }
@@ -20,13 +20,17 @@ int main(int argc, char* argv[]) {
             {2}
         ), 200);
     
-    Weapon w = Weapon(GameObjectConfig{
+    //Sound s = AudioLoader::GetSound("a.mp3", SPAMMABLE);
+    Sound s = LoadSound("../assets/audio/a.mp3");
+    LoadSoundAlias(s);
+
+    Weapon* w = new Weapon(GameObjectConfig{
         .sprite = SpriteLoader::GetSprite("gun.png"),
-        .parent = &player,
+        .parent = player,
         .localPosition = { 10, 5 }
     }, { 12, -1 }, 
-    5);
-    
+    5, s);
+
     float rndPosX = rand() * 100;
     float rndPosY = rand() * 100;
 
@@ -34,9 +38,25 @@ int main(int argc, char* argv[]) {
     float deltaTime;
     float elapsedCoinSpawnTime = 0.0f;
 
-    //InputManager::GetInstance().SetKeybind(KEY_R, [](){Hello();}, ON_KEY_PRESSED);
+    BulletFactory bf = BulletFactory(10);
+
+    // InputManager::GetInstance().SetKeybind(KEY_R, [](){Hello();}, ON_KEY_PRESSED);
+    float elapsedBulletWaitTime = 0.0f;
 
     while (!WindowShouldClose()) {
+
+        if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+            elapsedBulletWaitTime += GetFrameTime();
+
+            if (elapsedBulletWaitTime >= 1.0f / 10) {
+                PlaySound(w->GetOnShootSound());
+                Vector2 bulletVelocity = Vector2Scale(w->GetOrientation(), 5);
+
+                bf.SpawnBullet(w->GetTipPos(), bulletVelocity);
+
+                elapsedBulletWaitTime = 0;
+            }
+        }
 
         //===OTHERS===
         deltaTime = GetFrameTime();
@@ -69,20 +89,20 @@ int main(int argc, char* argv[]) {
 
                 nerdInfoText << std::fixed;
 
-                // nerdInfoText << std::fixed << std::setprecision(6) <<
-                //     "T: [DT: " << deltaTime << ",\t FPS:" << 1.0f / deltaTime << "]\n\n" <<
-                //     "===MANAGERS===\n\n";
+                nerdInfoText << std::fixed << std::setprecision(6) <<
+                    "T: [DT: " << deltaTime << ",\t FPS:" << 1.0f / deltaTime << "]\n\n" <<
+                    "===MANAGERS===\n\n";
 
-                // GFXManager::OutputInfo(nerdInfoText);
+                GameManager::OutputInfo(nerdInfoText);
+                GFXManager::OutputInfo(nerdInfoText);
 
-                // nerdInfoText <<
-                //     std::fixed << std::setprecision(2) <<
-                //     "PL: [X: " << player.GetPosition().x  << ",\t Y: " << player.GetPosition().y << "]\n\n" <<
-                //     "----\n\n"
-                //     "W: [ROT: " << w.GetRotation() << "]\n\n" << 
-                //     "B: [CNT: " << "]";
+                nerdInfoText <<
+                    std::fixed << std::setprecision(2) <<
+                    "PL: [POS_X: " << player->GetPosition().x  << ",\t POS_Y: " << player->GetPosition().y << "\n\n"
+                    << "\tDIR_X: " << player->GetVelocity().x << ",\t DIR_Y: " << player->GetVelocity().y << "]\n\n" <<
+                    "----\n\n"
+                    "W: [ROT: " << w->GetRotation() << "]\n\n";
 
-                nerdInfoText << player.GetVelocity().x << ", " << player.GetVelocity().y;
                 DrawText(nerdInfoText.str().c_str(), 10, 10, 24, BLACK);
 
             }

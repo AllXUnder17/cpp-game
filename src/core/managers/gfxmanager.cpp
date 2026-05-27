@@ -1,7 +1,9 @@
 #include "gfxmanager.h"
 #include "gamemanager.h"
 
-#include <iomanip>
+#include <iomanip> // IWYU pragma: keep
+
+#include <algorithm> // IWYU pragma: keep
 
 //===CONSTANTS===
 Color GFXManager::BACKGROUND_COLOR = MAGENTA;
@@ -55,6 +57,12 @@ void GFXManager::HandleDrawables() {
 void GFXManager::AddDrawable(IDrawable* drawable) {
     drawables.push_back(drawable);
 }
+void GFXManager::RemoveDrawable(IDrawable* drawable) {
+    // std::vector<IDrawable*>::iterator it = std::find(drawables.begin(), drawables.end(), 8);
+    
+    // if (it != drawables.end()) // == myVector.end() means the element was not found
+    //     drawables.erase(it);
+}
 
 const std::vector<IDrawable*>& GFXManager::GetDrawables() {
     return drawables;
@@ -83,11 +91,7 @@ void GFXManager::RenderCanvas() {
 
 //---Stuff---
 void GFXManager::OutputInfo(std::stringstream& ss) {
-    ss << std::fixed << "GFX: [\n\n\tCNT: " << drawables.size() << ",\n\n"
-        << "\tEMNTS: ";
-    for (auto it : drawables) {
-        ss << it << ", ";
-    }
+    ss << std::fixed << "GFX: [\n\n\tCNT: " << drawables.size() << ",\n\n";
 
     ss << "]\n\n----------\n\n";
 }

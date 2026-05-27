@@ -5,3 +5,7 @@ Character::Character(const GameObjectConfig& config,
     float moveSpeed) : Entity(config, spriteSheet) {
     this->moveSpeed = moveSpeed;
 }
+
+const Vector2& Character::GetVelocity() const {
+    return velocity;
+}

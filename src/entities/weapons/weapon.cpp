@@ -1,19 +1,36 @@
 #include "weapon.h"
 
+#include "entities/factories/bulletfactory.h"
 #include "raymath.h"
 
 #include "core/managers/gamemanager.h"
 #include "core/managers/gfxmanager.h"
 
+#include "core/spritesheet.h"  // IWYU pragma: keep
+
 #include <core/spriteloader.h>
 
 #include <entities/bullets/bullet.h>
 
-Weapon::Weapon(const GameObjectConfig& config, const Vector2& localTipOffset, int bulletsPerSecond) : GameObject(config) {
+Weapon::Weapon(const GameObjectConfig& config, const Vector2& localTipOffset, const int& bulletsPerSecond, Sound onShootSound) : GameObject(config) {
     this->localTipOffset = localTipOffset;
     this->bulletsPerSecond = bulletsPerSecond;
 
+    this->onShootSound = onShootSound;
+
     bulletWaitTime = 1.0f / bulletsPerSecond;
+}
+
+Vector2 Weapon::GetTipPos() const {
+    return tipPos;
+}
+
+Vector2 Weapon::GetOrientation() const {
+    return orientation;
+}
+
+Sound Weapon::GetOnShootSound() const {
+    return onShootSound;
 }
 
 float elapsedBulletWaitTime = 0.0f;
@@ -33,7 +50,7 @@ void Weapon::OnUpdate() {
     this->tipPos = Vector2Add(this->position, rotatedOffset);
 
     HandleRotation();
-    HandleShoot();
+    //HandleShoot();
 }
 
 void Weapon::HandleShoot() {
@@ -41,12 +58,13 @@ void Weapon::HandleShoot() {
         elapsedBulletWaitTime += GetFrameTime();
 
         if (elapsedBulletWaitTime >= bulletWaitTime) {
+            // PlaySound(onShootSound);
+
             Vector2 bulletVelocity = Vector2Scale(orientation, 5);
 
-            Bullet* b = new Bullet(GameObjectConfig{
-                .sprite = SpriteLoader::GetSprite("bullet.png"),
-                .position = this->tipPos 
-            }, bulletVelocity);
+            BulletFactory bf = BulletFactory(10);
+
+            bf.SpawnBullet(this->tipPos, bulletVelocity);
 
             elapsedBulletWaitTime = 0;
         }

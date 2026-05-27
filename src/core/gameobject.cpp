@@ -1,11 +1,9 @@
 #include "raylib.h"
-#include "raymath.h"
 
 #include "managers/gamemanager.h"
 #include "managers/gfxmanager.h"
 
 #include "gameobject.h"
-#include "utils.h"
 
 size_t GameObject::COUNTER = 0;
 
@@ -25,8 +23,12 @@ GameObject::GameObject(const GameObjectConfig& config) {
     this->parent = config.parent;
     this->localRotation = config.localRotation;
 
+    this->isActive = config.isActive;
+
     GFXManager::AddDrawable(this);
+
     GameManager::AddUpdatable(this);
+    GameManager::AddGameObject(this);
 }
 
 // GameObject::~GameObject() {
@@ -50,6 +52,10 @@ const float GameObject::GetRotation() const {
     return rotation;
 }
 
+const bool GameObject::IsActive() const {
+    return isActive;
+}
+
 void GameObject::SetPosition(const Vector2& position) {
     //this->position = utils::RoundToDigit(position, 2);
     this->position = position;
@@ -65,6 +71,10 @@ void GameObject::SetRotation(const float& rotation) {
 
 void GameObject::SetLocalRotation(const float& localRotation) {
     this->localRotation = localRotation;
+}
+
+void GameObject::SetIsActive(bool isActive) {
+    this->isActive = isActive;
 }
 
 //===METHODS===

@@ -13,12 +13,15 @@
 #include "core/managers/gfxmanager.h"
 #include "core/managers/inputmanager.h"
 
+#include "core/audioloader.h"
 #include "core/spriteloader.h"
 
 //nabutai vs entities v edin include file
 #include "entities/player.h"
 #include "entities/character.h"
 #include "entities/coin.h"
+
+#include "entities/factories/bulletfactory.h"
 
 #include "entities/weapons/weapon.h"
 
