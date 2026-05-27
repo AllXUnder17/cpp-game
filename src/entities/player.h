@@ -22,17 +22,17 @@ private:
     void HandleMovement(); 
 
     void SetDirection(const Vector2& moveDir);
-    void SetDirectionX(const float& velX);
-    void SetDirectionY(const float& velY);
+    void SetDirectionX(float velX);
+    void SetDirectionY(float velY);
 
     //---Input Handling---
     void SetKeybinds();
 
-    void PushInputX(const short& dirX);
-    void PopInputX(const short& dirX);
+    void PushInputX(short dirX);
+    void PopInputX(short dirX);
 
-    void PushInputY(const short& dirY);
-    void PopInputY(const short& dirY);
+    void PushInputY(short dirY);
+    void PopInputY(short dirY);
 };
 
 #endif

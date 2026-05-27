@@ -1,7 +1,7 @@
 #ifndef _GFX_MANAGER_
 #define _GFX_MANAGER_
 
-#include <ostream>
+#include <ostream> // IWYU pragma: keep
 #include <vector>
 #include "raylib.h"
 
@@ -9,6 +9,7 @@
 
 class GFXManager {
 public:
+    //===STATIC MEMBERS===
     static Color BACKGROUND_COLOR;
     
     static unsigned short VIRTUAL_WIDTH;
@@ -18,7 +19,7 @@ public:
     static float FRAME_WAIT_TIME;
 
     //===CONSTRUCTORS===
-    static void Init(const unsigned& animationFramesPerSecond = 12);
+    static void Init(const unsigned animationFramesPerSecond = 12);
     
     //===DESTRUCTOR===
 
@@ -46,6 +47,8 @@ public:
     //---Stuff---
     static void OutputInfo(std::stringstream& ss);
 private:
+    GFXManager() = delete;
+
     static std::vector<IDrawable*> drawables;
 
     static Camera2D camera;

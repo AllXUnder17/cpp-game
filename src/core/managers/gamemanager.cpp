@@ -15,28 +15,30 @@ std::vector<IUpdatable*> GameManager::updatables = std::vector<IUpdatable*>();
 std::unordered_map<std::size_t, GameObject*> GameManager::gameObjects = std::unordered_map<size_t, GameObject*>();
 
 void GameManager::InitGame(
-        const unsigned short& windowWidth, 
-        const unsigned short& windowHeight, 
+        const unsigned short windowWidth, 
+        const unsigned short windowHeight, 
         const std::string& windowTitle,
         const unsigned char fps) {
     GameManager::WINDOW_WIDTH = windowWidth;
     GameManager::WINDOW_HEIGHT = windowHeight;
     
     InitWindow(windowWidth, windowHeight, windowTitle.c_str());
-    AudioLoader::Init();
-
+    
     SetTargetFPS(fps);
-
+    
     GFXManager::Init();
+    //AudioLoader::Init();
 }
 
 void GameManager::UninitGame() {
-    for (auto& go : GameManager::GetGameObjects()) {
+    for (auto& go : gameObjects) {
         delete go.second;
     }
 
     SpriteLoader::UnloadAll();
-    AudioLoader::UnloadAll();
+    //AudioLoader::UnloadAll();
+
+    gameObjects.clear();
 
     CloseWindow();
 }
@@ -45,12 +47,12 @@ void GameManager::AddGameObject(GameObject* gameObject) {
     gameObjects[gameObject->GetID()] = gameObject;
 }
 
-void GameManager::Destroy(GameObject& gameObject) {
-    GFXManager::RemoveDrawable(&gameObject);
+void GameManager::Destroy(GameObject* gameObject) {
+    GFXManager::RemoveDrawable(gameObject);
 
-    RemoveUpdatable(&gameObject);
+    RemoveUpdatable(gameObject);
 
-    gameObjects.erase(gameObject.GetID());
+    gameObjects.erase(gameObject->GetID());
 }
 
 const std::unordered_map<std::size_t, GameObject*>& GameManager::GetGameObjects() {

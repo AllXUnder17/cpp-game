@@ -5,10 +5,12 @@
 
 #include "gameobject.h"
 
+//===CONSTANTS===
+
+//===STATIC MEMBERS===
 size_t GameObject::COUNTER = 0;
 
 //===CONSTRUCTORS===
-
 GameObject::GameObject(const GameObjectConfig& config) {
     id = ++GameObject::COUNTER;
 
@@ -31,12 +33,15 @@ GameObject::GameObject(const GameObjectConfig& config) {
     GameManager::AddGameObject(this);
 }
 
-// GameObject::~GameObject() {
-//     //GFXManager::RemoveDrawable(this);
-//     //GameManager::RemoveUpdatable(this);
-// }
+//===DESTRUCTOR===
+GameObject::~GameObject() {
+    GameManager::Destroy(this);
+}
 
-const size_t& GameObject::GetID() const {
+//===OPERATORS===
+
+//===GETTERS===
+size_t GameObject::GetID() const {
     return id;
 }
 
@@ -48,14 +53,15 @@ const Vector2& GameObject::GetLocalPosition() const {
     return localPosition;
 }
 
-const float GameObject::GetRotation() const {
+float GameObject::GetRotation() const {
     return rotation;
 }
 
-const bool GameObject::IsActive() const {
+bool GameObject::IsActive() const {
     return isActive;
 }
 
+//===SETTERS===
 void GameObject::SetPosition(const Vector2& position) {
     //this->position = utils::RoundToDigit(position, 2);
     this->position = position;
@@ -65,11 +71,11 @@ void GameObject::SetLocalPosition(const Vector2& localPosition) {
     this->localPosition = localPosition;
 }
 
-void GameObject::SetRotation(const float& rotation) {
+void GameObject::SetRotation(float rotation) {
     this->rotation = rotation;
 }
 
-void GameObject::SetLocalRotation(const float& localRotation) {
+void GameObject::SetLocalRotation(float localRotation) {
     this->localRotation = localRotation;
 }
 
@@ -77,8 +83,7 @@ void GameObject::SetIsActive(bool isActive) {
     this->isActive = isActive;
 }
 
-//===METHODS===
-
+//===MEMBER FUNCTIONS===
 void GameObject::Draw() {
     if (sprite == nullptr)
         return;
@@ -86,14 +91,15 @@ void GameObject::Draw() {
     Rectangle source = { 0.0f, 0.0f, (float)(*sprite).width, (float)(*sprite).height };
     Rectangle dest = { position.x, position.y, (float)(*sprite).width, (float)(*sprite).height };
     
-    // Set the handle rotation point (adjust these offsets based on your custom sprite)
     Vector2 origin = { (float)(*sprite).width / 2, (float)(*sprite).height / 2 }; 
 
-    // Draw the gun inside the camera-tracked world space
     DrawTexturePro(*sprite, source, dest, origin, rotation, (Color){ 255, 255, 255, 255 } );
 }
 
 void GameObject::OnUpdate() { 
+    if (!isActive)
+        return;
+
     UpdatePosition();
     UpdateRotation();
 }

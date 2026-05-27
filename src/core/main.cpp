@@ -21,15 +21,15 @@ int main(int argc, char* argv[]) {
         ), 200);
     
     //Sound s = AudioLoader::GetSound("a.mp3", SPAMMABLE);
-    Sound s = LoadSound("../assets/audio/a.mp3");
-    LoadSoundAlias(s);
+    // Sound s = LoadSound("../assets/audio/a.mp3");
+    // LoadSoundAlias(s);
 
     Weapon* w = new Weapon(GameObjectConfig{
         .sprite = SpriteLoader::GetSprite("gun.png"),
         .parent = player,
         .localPosition = { 10, 5 }
     }, { 12, -1 }, 
-    5, s);
+    5, Sound());
 
     float rndPosX = rand() * 100;
     float rndPosY = rand() * 100;
@@ -37,6 +37,8 @@ int main(int argc, char* argv[]) {
     bool toggleNerdInfo = true;
     float deltaTime;
     float elapsedCoinSpawnTime = 0.0f;
+
+    //GFXManager::RemoveDrawable(w);
 
     BulletFactory bf = BulletFactory(10);
 

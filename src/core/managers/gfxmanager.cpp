@@ -5,7 +5,7 @@
 
 #include <algorithm> // IWYU pragma: keep
 
-//===CONSTANTS===
+//===STATIC MEMBERS===
 Color GFXManager::BACKGROUND_COLOR = MAGENTA;
 
 unsigned short GFXManager::VIRTUAL_WIDTH = 320;
@@ -25,7 +25,8 @@ Camera2D GFXManager::camera = {
 };
 
 //===CONSTRUCTORS===
-void GFXManager::Init(const unsigned& animationFramesPerSecond) {
+void GFXManager::Init(const unsigned animationFramesPerSecond) {
+
     canvas = LoadRenderTexture(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
     SetTextureFilter(canvas.texture, TEXTURE_FILTER_POINT);
     FRAMES_PER_SECOND = animationFramesPerSecond;
@@ -58,10 +59,10 @@ void GFXManager::AddDrawable(IDrawable* drawable) {
     drawables.push_back(drawable);
 }
 void GFXManager::RemoveDrawable(IDrawable* drawable) {
-    // std::vector<IDrawable*>::iterator it = std::find(drawables.begin(), drawables.end(), 8);
+    std::vector<IDrawable*>::iterator it = std::find(drawables.begin(), drawables.end(), drawable);
     
-    // if (it != drawables.end()) // == myVector.end() means the element was not found
-    //     drawables.erase(it);
+    if (it != drawables.end()) // == myVector.end() means the element was not found
+        drawables.erase(it);
 }
 
 const std::vector<IDrawable*>& GFXManager::GetDrawables() {

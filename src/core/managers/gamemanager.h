@@ -15,20 +15,19 @@ public:
 
     //---Workflow---
     static void InitGame(
-        const unsigned short& windowWidth, 
-        const unsigned short& windowHeight, 
+        const unsigned short windowWidth, 
+        const unsigned short windowHeight, 
         const std::string& windowTitle = "Game",
         const unsigned char fps = 60);
         
     static void UninitGame();
 
-    
     //===GETTERS===
     //---Game Objects---
     static const std::unordered_map<std::size_t, GameObject*>& GetGameObjects();
 
     static void AddGameObject(GameObject* gameObject);
-    static void Destroy(GameObject& gameObject);
+    static void Destroy(GameObject* gameObject);
     
     //---Updatables---
     static void HandleUpdatables();
@@ -41,14 +40,9 @@ public:
     //---Others---
     static void OutputInfo(std::stringstream& ss);
 private:
-    // GameManager() { 
-    //     drawables = std::vector<IDrawable*>(); 
-    //     updatables = std::vector<IUpdatable*>();
-    // };
+    GameManager() = delete;
 
     static std::unordered_map<std::size_t, GameObject*> gameObjects;
-
-    GameManager() = delete;
 
     static std::vector<IUpdatable*> updatables;
 };

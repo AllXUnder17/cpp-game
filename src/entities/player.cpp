@@ -40,11 +40,11 @@ void Player::SetDirection(const Vector2& movementDir) {
     velocity = movementDir;
 }
 
-void Player::SetDirectionX(const float& velX) {    
+void Player::SetDirectionX(float velX) {    
     this->velocity.x = velX;
 }
 
-void Player::SetDirectionY(const float& velY) {
+void Player::SetDirectionY(float velY) {
     this->velocity.y = velY;
 }
 
@@ -91,13 +91,13 @@ void Player::SetKeybinds() {
         }, ON_KEY_RELEASED);
 }
 
-void Player::PushInputX(const short& dirX) {
+void Player::PushInputX(short dirX) {
     horizontalStack[0] = horizontalStack[1];
     horizontalStack[1] = dirX;
     this->velocity.x = horizontalStack[1];
 }
 
-void Player::PopInputX(const short& dirX) {
+void Player::PopInputX(short dirX) {
     if (horizontalStack[1] == dirX) {
         horizontalStack[1] = horizontalStack[0];
         horizontalStack[0] = 0;
@@ -109,13 +109,13 @@ void Player::PopInputX(const short& dirX) {
     this->velocity.x = horizontalStack[1];
 }
 
-void Player::PushInputY(const short& dirY) {
+void Player::PushInputY(short dirY) {
     verticalStack[0] = verticalStack[1];
     verticalStack[1] = dirY;
     this->velocity.y = verticalStack[1];
 }
 
-void Player::PopInputY(const short& dirY) {
+void Player::PopInputY(short dirY) {
     if (verticalStack[1] == dirY) {
         verticalStack[1] = verticalStack[0];
         verticalStack[0] = 0;

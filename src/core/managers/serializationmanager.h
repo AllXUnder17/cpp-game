@@ -1,26 +1,24 @@
-#ifndef _COIN_
-#define _COIN_
+#ifndef _SERIALIZATION_MANAGER_
+#define _SERIALIZATION_MANAGER_
 
-#include "entity.h"
-
-class Coin : Entity {
+class SerializationManager {
 public:
     //===CONSTANTS===
     
     //===STATIC MEMBERS===
     
     //===CONSTRUCTORS===
-    Coin(const GameObjectConfig& config, const SpriteSheet& spriteSheet);
-
+    
     //===DESTRUCTOR===
+    
+    //===OPERATORS===
     
     //===GETTERS===
     
     //===SETTERS===
     
     //===MEMBER FUNCTIONS===
-    // void OnUpdate() override {}
-    // void Draw() override {}
+    
 private:
     
 };

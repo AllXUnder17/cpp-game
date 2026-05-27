@@ -28,34 +28,41 @@ struct GameObjectConfig {
 
 class GameObject : public IDrawable, public IUpdatable /*, public ICollidable*/ {
 public:
-    //---Constants---
+    //===CONSTANTS===
+
+    //===STATIC MEMBERS===
     static size_t COUNTER;
 
-    //---Constructors---
+    //===CONSTRUCTORS===
     GameObject(const GameObjectConfig& config);
-    //~GameObject();
 
-    //---Getters---
-    const size_t& GetID() const;
+    //===DESTRUCTOR===
+    ~GameObject();
+    
+    //===OPERATORS===
+    
+    //===GETTERS===
+    size_t GetID() const;
 
     const Vector2& GetPosition() const;
     const Vector2& GetLocalPosition() const;
 
-    const float GetRotation() const;
+    float GetRotation() const;
 
-    const bool IsActive() const;
+    bool IsActive() const;
     
-    //---Setters---
+    //===SETTERS===
     void SetPosition(const Vector2& position);
     void SetLocalPosition(const Vector2& localPosition);
     
-    void SetRotation(const float& rotation);
-    void SetLocalRotation(const float& localRotation);
+    void SetRotation(float rotation);
+    void SetLocalRotation(float localRotation);
     
     void SetPositionAndRotation(const Vector2& position, const float& rotation);
     
-    void SetIsActive(bool b);
+    void SetIsActive(bool isActive);
     
+    //===MEMBER FUNCTIONS===
     //---Inheriteds---
     void Draw() override;
     void OnUpdate() override;
@@ -85,3 +92,8 @@ protected:
 };
 
 #endif
+
+    
+
+    
+    

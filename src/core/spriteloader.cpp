@@ -19,6 +19,7 @@ Texture2D* SpriteLoader::GetSprite(const std::string& fileName) {
 
 void SpriteLoader::UnloadAll() {
     for (auto& pair : textureCache) {
+        TraceLog(LOG_INFO, ("Unloaded texture: " + pair.first).c_str());
         UnloadTexture(pair.second);
     }
     
