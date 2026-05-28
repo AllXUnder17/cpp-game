@@ -1,5 +1,7 @@
 #include "gamemanager.h"
 
+#include "core/managers/inputmanager.h"
+
 #include "core\spriteloader.h"
 #include "core/audioloader.h"
 
@@ -67,6 +69,8 @@ const std::unordered_map<std::size_t, GameObject*>& GameManager::GetGameObjects(
 //---Updatables---
 
 void GameManager::HandleUpdatables() {
+    InputManager::OnUpdate();
+
     for (IUpdatable* updatable : GameManager::GetUpdatables()) {
         updatable->OnUpdate();
     }

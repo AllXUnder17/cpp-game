@@ -12,10 +12,13 @@
 #include "core/gameobject.h"
 #include "core/iupdatable.h"
 
+
 class GameManager {
 public:
     static unsigned short WINDOW_WIDTH;
     static unsigned short WINDOW_HEIGHT;
+
+    GameManager() = delete;
 
     //---Workflow---
     static void InitGame(
@@ -47,8 +50,6 @@ public:
     //---Others---
     static void OutputInfo(std::stringstream& ss);
 private:
-    GameManager() = delete;
-
     static std::unordered_map<std::size_t, GameObject*> gameObjects;
 
     static std::vector<IOnStart*> onStartObjects;

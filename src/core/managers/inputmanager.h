@@ -14,16 +14,14 @@ enum KeybindType {
     ON_KEY_DOWN
 };
 
-class InputManager : public IUpdatable {
+class InputManager {
 public:
     //===CONSTANTS===
     
     //===STATIC MEMBERS===
-    static InputManager& GetInstance();
     
     //===CONSTRUCTORS===
-    InputManager(const InputManager&) = delete;
-    void operator=(const InputManager&) = delete;
+    InputManager() = delete; 
 
     //===DESTRUCTOR===
     
@@ -32,15 +30,12 @@ public:
     //===GETTERS===
     
     //===SETTERS===
-    void SetKeybind(const KeyboardKey& key, std::function<void()> callback, const KeybindType& type);
+    static void SetKeybind(const KeyboardKey& key, std::function<void()> callback, const KeybindType& type);
     
     //===MEMBER FUNCTIONS===
-    void OnUpdate() override;
+    static void OnUpdate();
 
 private:
-    InputManager(); 
-    ~InputManager() = default;
-
     static std::unordered_map<KeyboardKey, std::function<void()>> onKeyPressedCallbacks;
     static std::unordered_map<KeyboardKey, std::function<void()>> onKeyReleasedCallbacks;
 

@@ -12,6 +12,7 @@ public:
     //===STATIC MEMBERS===
     
     //===CONSTRUCTORS===
+    SerializationManager() = delete;
     
     //===DESTRUCTOR===
     
@@ -31,8 +32,6 @@ public:
     static void SerializeObject(ISerializable* serializable);
     static void DeserializeObject(ISerializable* serializable);
 private:
-    SerializationManager() = delete;
-
     static std::string saveFileDir;
 
     static std::vector<ISerializable*> serializables;

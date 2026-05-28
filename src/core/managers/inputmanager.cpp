@@ -1,6 +1,6 @@
 #include "inputmanager.h"
 
-#include "gamemanager.h"
+#include "gamemanager.h" // IWYU pragma: keep
 
 //===CONSTANTS===
 
@@ -11,17 +11,7 @@ std::unordered_map<KeyboardKey, std::function<void()>> InputManager::onKeyReleas
 std::unordered_map<KeyboardKey, std::function<void()>> InputManager::onKeyDownCallbacks = std::unordered_map<KeyboardKey, std::function<void()>>();
 std::unordered_map<KeyboardKey, std::function<void()>> InputManager::onKeyUpCallbacks = std::unordered_map<KeyboardKey, std::function<void()>>();
 
-InputManager& InputManager::GetInstance() {
-    // This local static variable is initialized EXACTLY ONCE the first time 
-    // this function is called. C++ guarantees this is 100% thread-safe.
-    static InputManager instance;
-    return instance;
-}
-
 //===CONSTRUCTORS===
-InputManager::InputManager() {
-    GameManager::AddUpdatable(this);
-}
 
 //===DESTRUCTOR===
 
@@ -46,7 +36,6 @@ void InputManager::SetKeybind(const KeyboardKey& key, std::function<void()> call
         break;
     }
 }
-
 
 void InputManager::OnUpdate() {
     for (const auto& [key, callback] : onKeyPressedCallbacks) {

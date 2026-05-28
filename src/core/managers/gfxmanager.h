@@ -19,6 +19,8 @@ public:
     static float FRAME_WAIT_TIME;
 
     //===CONSTRUCTORS===
+    GFXManager() = delete;
+    
     static void Init(const unsigned animationFramesPerSecond = 12);
     
     //===DESTRUCTOR===
@@ -47,8 +49,6 @@ public:
     //---Stuff---
     static void OutputInfo(std::stringstream& ss);
 private:
-    GFXManager() = delete;
-
     static std::vector<IDrawable*> drawables;
 
     static Camera2D camera;

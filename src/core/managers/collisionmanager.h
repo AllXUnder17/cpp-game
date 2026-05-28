@@ -9,6 +9,7 @@
 class CollisionManager : public IUpdatable {
 public:
     //===CONSTANTS===
+    CollisionManager() = delete;
     
     //===STATIC MEMBERS===
     

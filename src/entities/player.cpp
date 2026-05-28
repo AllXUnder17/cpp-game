@@ -57,42 +57,34 @@ void Player::SetDirectionY(float velY) {
 //---Input Handling---
 void Player::SetKeybinds() {
     //RIGHT ->
-    InputManager::GetInstance()
-        .SetKeybind(KEY_D, [this]() {
+    InputManager::SetKeybind(KEY_D, [this]() {
             PushInputX(1);
         }, ON_KEY_PRESSED);
-    InputManager::GetInstance()
-        .SetKeybind(KEY_D, [this]() {
+    InputManager::SetKeybind(KEY_D, [this]() {
             PopInputX(1);
         }, ON_KEY_RELEASED);
 
     //LEFT <-
-    InputManager::GetInstance()
-        .SetKeybind(KEY_A, [this]() {
+    InputManager::SetKeybind(KEY_A, [this]() {
             PushInputX(-1);
         }, ON_KEY_PRESSED);
-    InputManager::GetInstance()
-        .SetKeybind(KEY_A, [this]() {
+    InputManager::SetKeybind(KEY_A, [this]() {
             PopInputX(-1);
         }, ON_KEY_RELEASED);
 
     //UP ↑
-    InputManager::GetInstance()
-        .SetKeybind(KEY_W, [this]() {
+    InputManager::SetKeybind(KEY_W, [this]() {
             PushInputY(-1);
         }, ON_KEY_PRESSED);
-    InputManager::GetInstance()
-        .SetKeybind(KEY_W, [this]() {
+    InputManager::SetKeybind(KEY_W, [this]() {
             PopInputY(-1);
         }, ON_KEY_RELEASED);
 
     //DOWN ↓
-    InputManager::GetInstance()
-        .SetKeybind(KEY_S, [this]() {
+    InputManager::SetKeybind(KEY_S, [this]() {
             PushInputY(1);
         }, ON_KEY_PRESSED);
-    InputManager::GetInstance()
-        .SetKeybind(KEY_S, [this]() {
+    InputManager::SetKeybind(KEY_S, [this]() {
             PopInputY(1);
         }, ON_KEY_RELEASED);
 }
