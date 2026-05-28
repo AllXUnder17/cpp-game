@@ -9,7 +9,6 @@
 //===STATIC MEMBERS===
 
 //===CONSTRUCTORS===
-Vector2 primaryDirection, secondaryDirection;
 
 Player::Player(const GameObjectConfig& config, const SpriteSheet& spriteSheet, float moveSpeed) : Character(config, spriteSheet, moveSpeed) { 
     velocity = {0,0};
@@ -18,6 +17,7 @@ Player::Player(const GameObjectConfig& config, const SpriteSheet& spriteSheet, f
     
     SetKeybinds();
 }
+
 Player::~Player() {
     SerializationManager::RemoveSerializable(this);
 }

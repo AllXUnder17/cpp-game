@@ -1,5 +1,4 @@
 #include "gamemanager.h"
-#include "gfxmanager.h"
 
 #include "core\spriteloader.h"
 #include "core/audioloader.h"

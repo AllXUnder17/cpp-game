@@ -27,15 +27,15 @@ GameObject::GameObject(const GameObjectConfig& config) {
 
     this->isActive = config.isActive;
 
-    GFXManager::AddDrawable(this);
+    // GFXManager::AddDrawable(this);
 
-    GameManager::AddUpdatable(this);
-    GameManager::AddGameObject(this);
+    // GameManager::AddUpdatable(this);
+    // GameManager::AddGameObject(this);
 }
 
 //===DESTRUCTOR===
 GameObject::~GameObject() {
-    GameManager::Destroy(this);
+    //GameManager::Destroy(this);
 }
 
 //===OPERATORS===

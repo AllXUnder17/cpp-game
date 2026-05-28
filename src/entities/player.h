@@ -12,9 +12,23 @@ enum MovementDirection {
 
 class Player : public Character, public ISerializable {
 public:
+    //===CONSTANTS===
+    
+    //===STATIC MEMBERS===
+    
+    //===CONSTRUCTORS===
     Player(const GameObjectConfig& config, const SpriteSheet& SpriteSheet, float moveSpeed);
+
+    //===DESTRUCTOR===
     ~Player();
 
+    //===OPERATORS===
+    
+    //===GETTERS===
+    
+    //===SETTERS===
+    
+    //===MEMBER FUNCTIONS===
     void OnUpdate() override final;
 
     void Serialize(std::ofstream& ofs) override;

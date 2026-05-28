@@ -11,28 +11,26 @@ int main(int argc, char* argv[]) {
     //potencialno tova shte se razkara i shte se zamesti s FactoriesManager iili neshto
     BulletFactory::Init();
 
-    Player* player = new Player(
-        GameObjectConfig{ }, 
+    Player* player = GameManager::InstantiateGameObject<Player>(GameObjectConfig{ }, 
         SpriteSheet(
             SpriteLoader::GetSprite("man_spritesheet.png"),
             16, 
             16, 
             {2}), 
         200);
-        
+
     SerializationManager::LoadGame();
         
     //Sound s = AudioLoader::GetSound("a.mp3", SPAMMABLE);
     // Sound s = LoadSound("../assets/audio/a.mp3");
     // LoadSoundAlias(s);
 
-    Weapon* w = new Weapon(
+    Weapon* w = GameManager::InstantiateGameObject<Weapon>(
         GameObjectConfig{
             .sprite = SpriteLoader::GetSprite("gun.png"),
             .parent = player,
-            .localPosition = { 10, 5 }}, 
-        { 12, -1 }, 
-        5, Sound());
+            .localPosition = { 10, 5 }, 
+        }, Vector2 { 12, -1 }, 5, Sound());
 
     bool toggleNerdInfo = true;
     float elapsedCoinSpawnTime = 0.0f;

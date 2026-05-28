@@ -15,6 +15,9 @@ Entity::Entity(const GameObjectConfig& config, const SpriteSheet& spriteSheet)
 //===GETTERS===
 
 //===SETTERS===
+void Entity::SetSpriteSheet(const SpriteSheet& sheet) {
+    spriteSheet = sheet;
+}
 // void Entity::SetVelocity(const Vector2& vel) {
 //     this.
 // }

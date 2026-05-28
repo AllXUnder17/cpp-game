@@ -10,7 +10,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # 1. Force C++17 Standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON) 
-
+ 
 # 2. FIXED DEEP SEARCH: Scan the entire src directory for any and all .cpp files
 file(GLOB_RECURSE GAME_SOURCES "src/*.cpp")
 

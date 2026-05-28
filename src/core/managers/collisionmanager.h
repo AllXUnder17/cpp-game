@@ -4,8 +4,9 @@
 #include <vector>
 
 #include "core/icollidable.h"
+#include "core/iupdatable.h"
 
-class CollisionManager {
+class CollisionManager : public IUpdatable {
 public:
     //===CONSTANTS===
     

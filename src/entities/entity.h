@@ -16,8 +16,10 @@ public:
     //===DESTRUCTOR===
     
     //===GETTERS===
+    SpriteSheet& GetSpriteSheet() const;
 
     //===SETTERS===
+    void SetSpriteSheet(const SpriteSheet& sheet);
     
     //===MEMBER FUNCTIONS===
     void OnUpdate() override;
