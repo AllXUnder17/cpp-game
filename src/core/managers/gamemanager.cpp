@@ -98,8 +98,8 @@ const std::vector<IUpdatable*>& GameManager::GetUpdatables() {
 
 //---Others---
 void GameManager::OutputInfo(std::stringstream& ss) {
-    ss << std::fixed << "GM: [\n\n\tALL: " << gameObjects.size() << "\n\n\t"
-        << "-ACTIVE: " << std::count_if(gameObjects.begin(), gameObjects.end(), [](const auto& pair){return pair.second->IsActive();}) << "]\n\n";
+    ss << std::fixed << "GM: [\tALL_CNT: " << gameObjects.size() << ",\t"
+        << "ACTIVE_CNT: " << std::count_if(gameObjects.begin(), gameObjects.end(), [](const auto& pair){return pair.second->IsActive();}) << " ]\n\n";
 }
 
 void GameManager::HandleOnStart() {

@@ -143,8 +143,12 @@ void Player::OnUpdate() {
 void Player::Serialize(std::ofstream& ofs) {
     ofs.write(reinterpret_cast<char*>(&position.x), sizeof(position.x))
         .write(reinterpret_cast<char*>(&position.y), sizeof(position.y));
+
+    // ofs.write(reinterpret_cast<char*>(this), sizeof(*this));
 }
 void Player::Deserialize(std::ifstream& ifs) {
     ifs.read(reinterpret_cast<char*>(&position.x), sizeof(position.x))
         .read(reinterpret_cast<char*>(&position.y), sizeof(position.y));
+
+    // ifs.read(reinterpret_cast<char*>(this), sizeof(*this));
 }

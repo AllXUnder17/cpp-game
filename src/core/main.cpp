@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
                 nerdInfoText << std::fixed;
 
                 nerdInfoText << std::fixed << std::setprecision(6) <<
-                    "T: [DT: " << deltaTime << ",\t FPS:" << 1.0f / deltaTime << "]\n\n" <<
+                    "T: [ DT: " << deltaTime << ",\t FPS:" << 1.0f / deltaTime << " ]\n\n" <<
                     "===MANAGERS===\n\n";
 
                 GameManager::OutputInfo(nerdInfoText);
@@ -91,10 +91,10 @@ int main(int argc, char* argv[]) {
 
                 nerdInfoText <<
                     std::fixed << std::setprecision(2) <<
-                    "PL: [POS_X: " << player->GetPosition().x  << ",\t POS_Y: " << player->GetPosition().y << "\n\n"
-                    << "\tDIR_X: " << player->GetVelocity().x << ",\t DIR_Y: " << player->GetVelocity().y << "]\n\n" <<
+                    "PL: [ POS_X: " << player->GetPosition().x  << ",\t POS_Y: " << player->GetPosition().y << "\n\n"
+                    << "\tDIR_X: " << player->GetVelocity().x << ",\t DIR_Y: " << player->GetVelocity().y << " ]\n\n" <<
                     "----\n\n"
-                    "W: [ROT: " << w->GetRotation() << "]\n\n";
+                    "W: [ ROT: " << w->GetRotation() << " ]\n\n";
 
                 DrawText(nerdInfoText.str().c_str(), 10, 10, 24, BLACK);
 
@@ -108,12 +108,9 @@ int main(int argc, char* argv[]) {
                     // Grab the bounding box via the interface contract
                     BoundingBox box = collidable->GetHitbox();
             
-                    //TraceLog(LOG_INFO, std::to_string(box.min.x).c_str());
-            
                     DrawBoundingBox(box, outlineColor);
             
                 }
-                //TraceLog(LOG_INFO, "-------");
             }
         EndDrawing();
         

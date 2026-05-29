@@ -92,7 +92,5 @@ void GFXManager::RenderCanvas() {
 
 //---Stuff---
 void GFXManager::OutputInfo(std::stringstream& ss) {
-    ss << std::fixed << "GFX: [\n\n\tCNT: " << drawables.size() << ",\n\n";
-
-    ss << "]\n\n----------\n\n";
+    ss << std::fixed << "GFX: [ CNT: " << drawables.size() << " ]\n\n----------\n\n";
 }

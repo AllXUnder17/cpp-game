@@ -37,6 +37,7 @@ public:
 
     //===CONSTRUCTORS===
     GameObject(const GameObjectConfig& config);
+    //DA SE NAPRAVI GOLQMATA 6CA
 
     //===DESTRUCTOR===
     ~GameObject();

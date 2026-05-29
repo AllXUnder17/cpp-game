@@ -1,7 +1,9 @@
 #ifndef _ENEMY_FACTORY_
 #define _ENEMY_FACTORY_
 
-#include <iostream>
+#include <vector>
+
+#include "entities/characters/enemy.h"
 
 class EnemyFactory {
 public:
@@ -22,7 +24,7 @@ public:
     //===MEMBER FUNCTIONS===
     
 private:
-    
+    static std::vector<Enemy*> enemies;
 };
 
 #endif

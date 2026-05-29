@@ -60,13 +60,6 @@ Bullet* BulletFactory::SpawnBullet(const Vector2& pos, const Vector2& vel, unsig
         }
     }
 
-    // Bullet* b = new Bullet({
-    //     .sprite = SpriteLoader::GetSprite("bullet.png"),
-    //     .position = pos,
-    //     .isActive = true
-    // }, SpriteSheet::empty, 
-    // vel);
-
     Bullet* b = GameManager::InstantiateGameObject<Bullet>(EntityConfig{
         GameObjectConfig{
             .sprite = SpriteLoader::GetSprite("bullet.png"),
