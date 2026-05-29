@@ -14,17 +14,17 @@ public:
     static SpriteSheet empty;
     
     //===CONSTRUCTORS===
-    SpriteSheet(Texture2D* spriteSheet, const unsigned& spriteWidth, const unsigned& spriteHeight, const std::vector<unsigned>& framesPerLayer);
+    SpriteSheet(Texture2D* spriteSheet, const unsigned spriteWidth, const unsigned spriteHeight, const std::vector<unsigned>& framesPerLayer);
     SpriteSheet(const SpriteSheet& other);
 
     //===DESTRUCTOR===
     ~SpriteSheet() = default;
     
     //===GETTERS===
-    Texture2D* GetSpriteSheet();
+    Texture2D* GetSpriteSheet() const;
+    const std::vector<std::vector<Rectangle>>& GetSpriteSheetMatrix() const;
     
     //===SETTERS===
-    const std::vector<std::vector<Rectangle>>& GetSpriteSheetMatrix();
     
     //===MEMBER FUNCTIONS===
     bool IsEmpty() const;

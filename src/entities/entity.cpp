@@ -7,35 +7,52 @@
 //===STATIC MEMBERS===
 
 //===CONSTRUCTORS===
-Entity::Entity(const GameObjectConfig& config, const SpriteSheet& spriteSheet) 
-    : GameObject(config), spriteSheet(spriteSheet), isFacingLeft(false) { }
+Entity::Entity(const EntityConfig& config) 
+    : GameObject(config.goConfig), spriteSheet(config.spriteSheet), isFacingLeft(false) {
+
+    elapsedFrameTime = 0.0f;
+    currFrameIdx = 0;
+    currAnimLayerIdx = 0;
+
+    this->size = config.size;
+
+    SetHitbox();
+}
 
 //===DESTRUCTOR===
 
 //===GETTERS===
+BoundingBox& Entity::GetHitbox() {
+    return hitbox;
+}
+
+bool Entity::IsColliderActive() {
+    return IsActive();
+}
 
 //===SETTERS===
 void Entity::SetSpriteSheet(const SpriteSheet& sheet) {
     spriteSheet = sheet;
 }
-// void Entity::SetVelocity(const Vector2& vel) {
-//     this.
-// }
+void Entity::SetHitbox() {
+    hitbox.min = Vector3{ position.x - size.x / 2, position.y - size.y / 2, 0.0f };
+    hitbox.max = Vector3{ position.x + size.x / 2, position.y + size.y / 2, 0.0f };
+}
 
 //===MEMBER FUNCTIONS===
 
 void Entity::OnUpdate() {
-    elapsedFrameTime += GetFrameTime();
-    // TraceLog(LOG_INFO, "Entity::OnUpdate");
-    // // TraceLog(LOG_INFO, std::to_string(currFrameIdx).c_str());
-    // // TraceLog(LOG_INFO, std::to_string(1.0f/12).c_str());
-    // TraceLog(LOG_INFO, std::to_string(elapsedFrameTime).c_str());
+    GameObject::OnUpdate();
 
-    if (elapsedFrameTime >= GFXManager::FRAME_WAIT_TIME) {
-        // TraceLog(LOG_INFO, "Changed Frame");
-        currFrameIdx = (currFrameIdx + 1) % 2;
-        elapsedFrameTime = 0.0f;
-    }
+    SetHitbox();
+
+    //---Animation handling---
+    auto& matrix = spriteSheet.GetSpriteSheetMatrix();
+
+    if (matrix.empty() || matrix[0].empty())
+        return;
+
+    HandleAnimation(matrix);
 }
 
 void Entity::Draw() {
@@ -57,4 +74,18 @@ void Entity::Draw() {
     Vector2 origin = { destRec.width / 2.0f, destRec.height / 2.0f };
 
     DrawTexturePro(*spriteSheet.GetSpriteSheet(), sourceRec, destRec, origin, rotation, WHITE);
+}
+
+void Entity::HandleAnimation(const std::vector<std::vector<Rectangle>>& animationMatrix) {
+    elapsedFrameTime += GetFrameTime();
+    // TraceLog(LOG_INFO, "Entity::OnUpdate");
+    // // TraceLog(LOG_INFO, std::to_string(currFrameIdx).c_str());
+    // // TraceLog(LOG_INFO, std::to_string(1.0f/12).c_str());
+    // TraceLog(LOG_INFO, std::to_string(elapsedFrameTime).c_str());
+
+    if (elapsedFrameTime >= GFXManager::FRAME_WAIT_TIME) {
+        currFrameIdx = (currFrameIdx + 1) % (animationMatrix[0]).size();
+        // TraceLog(LOG_INFO, ("Curr Frame: " + std::to_string(spriteSheet.GetSpriteSheetMatrix()[0].size())).c_str());
+        elapsedFrameTime = 0.0f;
+    }
 }

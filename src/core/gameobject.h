@@ -28,7 +28,7 @@ struct GameObjectConfig {
     bool isActive = true;
 };
 
-class GameObject : public IDrawable, public IUpdatable, public IOnStart, public IOnEnd /*, public ICollidable*/ {
+class GameObject : public IDrawable, public IUpdatable, public IOnStart, public IOnEnd {
 public:
     //===CONSTANTS===
 

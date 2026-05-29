@@ -26,11 +26,6 @@ GameObject::GameObject(const GameObjectConfig& config) {
     this->localRotation = config.localRotation;
 
     this->isActive = config.isActive;
-
-    // GFXManager::AddDrawable(this);
-
-    // GameManager::AddUpdatable(this);
-    // GameManager::AddGameObject(this);
 }
 
 //===DESTRUCTOR===
@@ -85,7 +80,7 @@ void GameObject::SetIsActive(bool isActive) {
 
 //===MEMBER FUNCTIONS===
 void GameObject::Draw() {
-    if (sprite == nullptr)
+    if (!isActive || sprite == nullptr)
         return;
 
     Rectangle source = { 0.0f, 0.0f, (float)(*sprite).width, (float)(*sprite).height };

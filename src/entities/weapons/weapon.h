@@ -5,11 +5,19 @@
 
 #include "core\gameobject.h"
 
+struct WeaponConfig {
+    GameObjectConfig goConfig;
+    Vector2 localTipOffset;
+    unsigned bulletsPerSecond;
+    unsigned damage;
+    Sound onShootSound;
+};
+
 class Weapon : public GameObject {
 public:
     //===CONSTRUCTORS===
     //add damage, magazine capacity
-    Weapon(const GameObjectConfig& config, const Vector2& localTipOffset, const int& bulletsPerSecond, Sound onShootSound);
+    Weapon(const WeaponConfig& config);
     
     //===DESTRUCTOR===
     
@@ -36,8 +44,9 @@ protected:
     
     Vector2 tipPos;
     Vector2 localTipOffset;
-    
-    int bulletsPerSecond;
+
+    unsigned damage;
+    unsigned bulletsPerSecond;
     float bulletWaitTime;
     
     //make it virtual

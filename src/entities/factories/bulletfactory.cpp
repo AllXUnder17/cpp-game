@@ -21,12 +21,13 @@ void BulletFactory::Init() {
     pool.reserve(poolSize);
     for (size_t i = 0; i < poolSize; ++i) {
 
-        Bullet* b = GameManager::InstantiateGameObject<Bullet>(
+        Bullet* b = GameManager::InstantiateGameObject<Bullet>(EntityConfig{
             GameObjectConfig {
                 .sprite = SpriteLoader::GetSprite("bullet.png"), 
                 .position = { -1000, -1000 }, 
                 .isActive = false
-            }, SpriteSheet::empty, Vector2{0, 0});
+            }, SpriteSheet::empty, Vector2{8., 8}}, 
+            Vector2{0, 0}, 0);
 
         pool.push_back(b);
     }
@@ -47,12 +48,13 @@ void BulletFactory::Uninit() {
 //===MEMBER FUNCTIONS===
 //---Inherited---
 
-Bullet* BulletFactory::SpawnBullet(const Vector2& pos, const Vector2& vel) {
+Bullet* BulletFactory::SpawnBullet(const Vector2& pos, const Vector2& vel, unsigned damage) {
     for (Bullet* b : pool) {
         if (!b->IsActive()) {
             b->SetIsActive(true);
             b->SetPosition(pos);
             b->SetVelocity(vel);
+            b->SetDamage(damage);
 
             return b;
         }
@@ -65,11 +67,12 @@ Bullet* BulletFactory::SpawnBullet(const Vector2& pos, const Vector2& vel) {
     // }, SpriteSheet::empty, 
     // vel);
 
-    Bullet* b = GameManager::InstantiateGameObject<Bullet>(GameObjectConfig{
-        .sprite = SpriteLoader::GetSprite("bullet.png"),
-        .position = pos,
-        .isActive = true
-    }, SpriteSheet::empty, vel);
+    Bullet* b = GameManager::InstantiateGameObject<Bullet>(EntityConfig{
+        GameObjectConfig{
+            .sprite = SpriteLoader::GetSprite("bullet.png"),
+            .position = pos,
+            .isActive = true
+        }, SpriteSheet::empty, Vector2{8., 8}}, vel, damage);
 
     pool.push_back(b);
 

@@ -1,18 +1,22 @@
 #ifndef _ICOLLIDABLE_
 #define _ICOLLIDABLE_
 
-class GameObject;
+#include "raylib.h"
+
 
 class ICollidable {
 public:
     ~ICollidable() = default;
-    
-    virtual void OnCollisionEnter(const GameObject& other) {};
-    virtual void OnCollisionExit(const GameObject& other) {};
 
-    virtual void OnTriggerEnter(const GameObject& other) {};
-    virtual void OnTriggerUpdate(const GameObject& other) {};
-    virtual void OnTriggerExit(const GameObject& other) {};
+    virtual BoundingBox& GetHitbox() = 0;
+    virtual bool IsColliderActive() = 0;
+    
+    virtual void OnCollisionEnter(ICollidable* other) {};
+    virtual void OnCollisionExit(ICollidable* other) {};
+
+    virtual void OnTriggerEnter(ICollidable* other) {};
+    virtual void OnTriggerUpdate(ICollidable* other) {};
+    virtual void OnTriggerExit(ICollidable* other) {};
 
 private:
     

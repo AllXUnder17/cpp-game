@@ -22,6 +22,8 @@
 #include "entities/character.h"
 #include "entities/coin.h"
 
+#include "entities/characters/enemy.h"
+
 #include "entities/factories/bulletfactory.h"
 
 #include "entities/weapons/weapon.h"

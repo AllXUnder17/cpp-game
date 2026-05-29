@@ -17,7 +17,7 @@ public:
     //===STATIC MEMBERS===
     
     //===CONSTRUCTORS===
-    Player(const GameObjectConfig& config, const SpriteSheet& SpriteSheet, float moveSpeed);
+    Player(const EntityConfig& config, float moveSpeed);
 
     //===DESTRUCTOR===
     ~Player();
@@ -31,8 +31,10 @@ public:
     //===MEMBER FUNCTIONS===
     void OnUpdate() override final;
 
-    void Serialize(std::ofstream& ofs) override;
-    void Deserialize(std::ifstream& ifs) override;
+    void OnCollisionEnter(ICollidable* other) override final;
+
+    void Serialize(std::ofstream& ofs) override final;
+    void Deserialize(std::ifstream& ifs) override final;
 private:
     //---Input Handling---
     short horizontalStack[2] = {};

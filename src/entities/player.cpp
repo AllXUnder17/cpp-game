@@ -4,13 +4,15 @@
 #include "core/managers/inputmanager.h"
 #include "core/managers/serializationmanager.h"
 
+#include "core/icollectable.h"
+
 //===CONSTANTS===
 
 //===STATIC MEMBERS===
 
 //===CONSTRUCTORS===
 
-Player::Player(const GameObjectConfig& config, const SpriteSheet& spriteSheet, float moveSpeed) : Character(config, spriteSheet, moveSpeed) { 
+Player::Player(const EntityConfig& config, float moveSpeed) : Character(config, moveSpeed) { 
     velocity = {0,0};
 
     SerializationManager::AddSerializable(this);
@@ -125,6 +127,12 @@ void Player::PopInputY(short dirY) {
     this->velocity.y = verticalStack[1];
 }
 
+void Player::OnCollisionEnter(ICollidable* other) {
+    ICollectable* collectable = dynamic_cast<ICollectable*>(other);
+
+    if (collectable != nullptr)
+        collectable->OnCollect();
+}
 void Player::OnUpdate() {
     Entity::OnUpdate();
     

@@ -25,7 +25,7 @@ public:
     //===SETTERS===
     
     //===MEMBER FUNCTIONS===
-    static Bullet* SpawnBullet(const Vector2& pos, const Vector2& vel);
+    static Bullet* SpawnBullet(const Vector2& pos, const Vector2& vel, unsigned damage);
 
     static void RecycleBullet(Bullet* bullet);
 private:

@@ -1,13 +1,13 @@
 #include "coin.h"
 
-#include <string>
+#include "core/managers/gamemanager.h"
 
 //===CONSTANTS===
 
 //===STATIC MEMBERS===
 
 //===CONSTRUCTORS===
-Coin::Coin(const GameObjectConfig& config, const SpriteSheet& spriteSheet) : Entity(config, spriteSheet) { }
+Coin::Coin(const EntityConfig& config) : Entity(config) { }
 
 //===DESTRUCTOR===
 
@@ -16,3 +16,11 @@ Coin::Coin(const GameObjectConfig& config, const SpriteSheet& spriteSheet) : Ent
 //===SETTERS===
 
 //===MEMBER FUNCTIONS===
+// void Coin::OnTakeDamage(unsigned damage) {
+//     TraceLog(LOG_INFO, "OUCH!!!");
+// }
+
+void Coin::OnCollect() {
+    TraceLog(LOG_INFO, "Collected coin!");
+    GameManager::Destroy(this);
+}

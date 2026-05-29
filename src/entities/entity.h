@@ -4,19 +4,29 @@
 #include "core/gameobject.h"
 #include "core/spritesheet.h"
 
-class Entity : public GameObject {
+struct EntityConfig {
+    GameObjectConfig goConfig;
+    SpriteSheet spriteSheet;
+    Vector2 size;
+};
+
+class Entity : public GameObject, public ICollidable {
 public:
     //===CONSTANTS===
     
     //===STATIC MEMBERS===
     
     //===CONSTRUCTORS===
-    Entity(const GameObjectConfig& config, const SpriteSheet& spriteSheet);
+    Entity(const EntityConfig& config);
     
     //===DESTRUCTOR===
     
     //===GETTERS===
     SpriteSheet& GetSpriteSheet() const;
+
+    BoundingBox& GetHitbox() override;
+
+    bool IsColliderActive() override final;
 
     //===SETTERS===
     void SetSpriteSheet(const SpriteSheet& sheet);
@@ -25,14 +35,21 @@ public:
     void OnUpdate() override;
     void Draw() override;
     
-protected:
+    protected:
     SpriteSheet spriteSheet;
-
+    
+    BoundingBox hitbox;
+    Vector2 size;
+    
     bool isFacingLeft;
     
 private:
-    float elapsedFrameTime = 0.0f;
-    char currFrameIdx = 0;
+    float elapsedFrameTime;
+    char currFrameIdx;
+    char currAnimLayerIdx;
+
+    void SetHitbox();
+    void HandleAnimation(const std::vector<std::vector<Rectangle>>& animationMatrix);
 };
 
 #endif

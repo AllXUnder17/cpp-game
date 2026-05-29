@@ -11,7 +11,7 @@ public:
     //===STATIC MEMBERS===
     
     //===CONSTRUCTORS===
-    Bullet(const GameObjectConfig& config, const SpriteSheet& spriteSheet, const Vector2& velocity);
+    Bullet(const EntityConfig& config, const Vector2& velocity, unsigned damage);
     
     //===DESTRUCTOR===
     
@@ -19,12 +19,16 @@ public:
     
     //===SETTERS===
     void SetVelocity(const Vector2& vel);
+    void SetDamage(unsigned damage);
 
     //===MEMBER FUNCTIONS===
     //void Draw() const;
     void OnUpdate() override;
+    void OnCollisionEnter(ICollidable* other) override;
 private:
     Vector2 velocity;
+
+    unsigned damage;
 };
 
 #endif

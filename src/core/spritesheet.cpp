@@ -10,7 +10,7 @@ SpriteSheet SpriteSheet::empty = SpriteSheet(nullptr, 0, 0, {});
 //===CONSTRUCTORS===
 // OPTIONAL UPGRADE: You can add `const std::vector<unsigned>& framesPerRow = {}` to your .h file 
 // to allow custom row lengths without needing a struct!
-SpriteSheet::SpriteSheet(Texture2D* spriteSheet, const unsigned& spriteWidth, const unsigned& spriteHeight, const std::vector<unsigned>& framesPerRow) {
+SpriteSheet::SpriteSheet(Texture2D* spriteSheet, const unsigned spriteWidth, const unsigned spriteHeight, const std::vector<unsigned>& framesPerRow) {
     this->spriteSheet = spriteSheet;
     
     // FIX: You forgot to save these in your original constructor! 
@@ -60,11 +60,11 @@ SpriteSheet::SpriteSheet(const SpriteSheet& other) {
 // }
 
 //===GETTERS===
-Texture2D* SpriteSheet::GetSpriteSheet() {
+Texture2D* SpriteSheet::GetSpriteSheet() const {
     return spriteSheet;
 }
 
-const std::vector<std::vector<Rectangle>>& SpriteSheet::GetSpriteSheetMatrix() {
+const std::vector<std::vector<Rectangle>>& SpriteSheet::GetSpriteSheetMatrix() const {
     return spriteSheetMatrix;
 }
 

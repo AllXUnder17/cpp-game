@@ -12,11 +12,12 @@
 
 #include <entities/bullets/bullet.h>
 
-Weapon::Weapon(const GameObjectConfig& config, const Vector2& localTipOffset, const int& bulletsPerSecond, Sound onShootSound) : GameObject(config) {
-    this->localTipOffset = localTipOffset;
-    this->bulletsPerSecond = bulletsPerSecond;
+Weapon::Weapon(const WeaponConfig& config) : GameObject(config.goConfig) {
+    this->localTipOffset = config.localTipOffset;
+    this->bulletsPerSecond = config.bulletsPerSecond;
 
-    this->onShootSound = onShootSound;
+    this->damage = config.damage;
+    this->onShootSound = config.onShootSound;
 
     bulletWaitTime = 1.0f / bulletsPerSecond;
 }
@@ -61,7 +62,7 @@ void Weapon::HandleShoot() {
 
             Vector2 bulletVelocity = Vector2Scale(orientation, 5);
 
-            BulletFactory::SpawnBullet(this->tipPos, bulletVelocity);
+            BulletFactory::SpawnBullet(this->tipPos, bulletVelocity, damage);
 
             elapsedBulletWaitTime = 0;
         }

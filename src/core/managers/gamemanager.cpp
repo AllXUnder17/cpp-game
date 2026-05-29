@@ -57,6 +57,10 @@ void GameManager::AddGameObject(GameObject* gameObject) {
 void GameManager::Destroy(GameObject* gameObject) {
     GFXManager::RemoveDrawable(gameObject);
 
+    ICollidable* collidable = dynamic_cast<ICollidable*>(gameObject);
+    if (collidable != nullptr)
+        CollisionManager::RemoveCollidable(collidable);
+
     RemoveUpdatable(gameObject);
 
     gameObjects.erase(gameObject->GetID());
@@ -70,6 +74,7 @@ const std::unordered_map<std::size_t, GameObject*>& GameManager::GetGameObjects(
 
 void GameManager::HandleUpdatables() {
     InputManager::OnUpdate();
+    CollisionManager::OnUpdate();
 
     for (IUpdatable* updatable : GameManager::GetUpdatables()) {
         updatable->OnUpdate();

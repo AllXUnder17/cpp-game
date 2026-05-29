@@ -1,23 +1,16 @@
 #include "libraryofalexandria.h" // IWYU pragma: keep
 
-void Hello() {
-    TraceLog(LOG_INFO, "Hello world");
-}
-
-
 int main(int argc, char* argv[]) {
     GameManager::InitGame(1280,720);
 
     //potencialno tova shte se razkara i shte se zamesti s FactoriesManager iili neshto
     BulletFactory::Init();
 
-    Player* player = GameManager::InstantiateGameObject<Player>(GameObjectConfig{ }, 
+    Player* player = GameManager::InstantiateGameObject<Player>(EntityConfig {GameObjectConfig{ }, 
         SpriteSheet(
             SpriteLoader::GetSprite("man_spritesheet.png"),
-            16, 
-            16, 
-            {2}), 
-        200);
+            16, 16, 
+            {2}), Vector2 {16,16}}, 200);
 
     SerializationManager::LoadGame();
         
@@ -25,26 +18,42 @@ int main(int argc, char* argv[]) {
     // Sound s = LoadSound("../assets/audio/a.mp3");
     // LoadSoundAlias(s);
 
-    Weapon* w = GameManager::InstantiateGameObject<Weapon>(
+    Weapon* w = GameManager::InstantiateGameObject<Weapon>(WeaponConfig{
         GameObjectConfig{
             .sprite = SpriteLoader::GetSprite("gun.png"),
             .parent = player,
             .localPosition = { 10, 5 }, 
-        }, Vector2 { 12, -1 }, 5, Sound());
+        }, Vector2 { 12, -1 },
+        5, 10,  Sound()});
 
     bool toggleNerdInfo = true;
     float elapsedCoinSpawnTime = 0.0f;
 
-    //GFXManager::RemoveDrawable(w);
+    Coin* c = GameManager::InstantiateGameObject<Coin>(EntityConfig{
+        GameObjectConfig{
+            .position = {40, -40}
+        },
+        SpriteSheet(
+            SpriteLoader::GetSprite("coin_spritesheet.png"),
+            16, 16, {2} 
+        ), Vector2{8., 8}});
 
-    // InputManager::GetInstance().SetKeybind(KEY_R, [](){Hello();}, ON_KEY_PRESSED);
-    float elapsedBulletWaitTime = 0.0f;
+    Enemy* e = GameManager::InstantiateGameObject<Enemy>(EntityConfig{
+        GameObjectConfig{
+            //.sprite = SpriteLoader::GetSprite()
+            .position = {50, 50}
+        },
+        SpriteSheet(
+            SpriteLoader::GetSprite("enemy_spritesheet.png"),
+            80, 80, {9}
+        ),
+        Vector2 {40, 40}
+    }, 0, 60);
+
+    InputManager::SetKeybind(KEY_TAB, [&toggleNerdInfo]() { toggleNerdInfo = !toggleNerdInfo;}, ON_KEY_PRESSED);
+
 
     while (!WindowShouldClose()) {
-        //===OTHERS===        
-        if (IsKeyPressed(KEY_TAB))
-            toggleNerdInfo = !toggleNerdInfo;
-
         //===HANDLE UPDATABLES===
         GameManager::HandleUpdatables();
 
@@ -65,6 +74,7 @@ int main(int argc, char* argv[]) {
 
             GFXManager::RenderCanvas();
 
+            
             if (toggleNerdInfo) {
                 float deltaTime = GetFrameTime();
 
@@ -87,9 +97,26 @@ int main(int argc, char* argv[]) {
                     "W: [ROT: " << w->GetRotation() << "]\n\n";
 
                 DrawText(nerdInfoText.str().c_str(), 10, 10, 24, BLACK);
-            }
 
+                //====DISPLAY COLLIDERS===
+                Color colliderColor = Color{ 0, 228, 48, 100 }; // Transparent Green (Lime)
+                Color outlineColor  = Color{ 0, 228, 48, 255 }; // Solid Green Outline
+            
+                for (ICollidable* collidable : CollisionManager::GetActiveCollidables()) {
+                    if (collidable == nullptr) continue;
+            
+                    // Grab the bounding box via the interface contract
+                    BoundingBox box = collidable->GetHitbox();
+            
+                    //TraceLog(LOG_INFO, std::to_string(box.min.x).c_str());
+            
+                    DrawBoundingBox(box, outlineColor);
+            
+                }
+                //TraceLog(LOG_INFO, "-------");
+            }
         EndDrawing();
+        
     }
 
     BulletFactory::Uninit();

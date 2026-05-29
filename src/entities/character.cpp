@@ -6,9 +6,7 @@
 
 //===CONSTRUCTORS===
 
-Character::Character(const GameObjectConfig& config, 
-    const SpriteSheet& spriteSheet, 
-    float moveSpeed) : Entity(config, spriteSheet) {
+Character::Character(const EntityConfig& config, float moveSpeed) : Entity(config) {
     this->moveSpeed = moveSpeed;
 }
 
@@ -27,3 +25,6 @@ void Character::SetMoveSpeed(float moveSpeed) {
 }
 
 //===MEMBER FUNCTIONS===
+void Character::OnUpdate() {
+    Entity::OnUpdate();
+}
