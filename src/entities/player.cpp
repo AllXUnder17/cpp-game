@@ -1,4 +1,5 @@
 #include "player.h"
+#include "entities/coin.h"
 #include "raymath.h"
 
 #include "core/managers/inputmanager.h"
@@ -14,6 +15,12 @@
 
 Player::Player(const EntityConfig& config, float moveSpeed) : Character(config, moveSpeed) { 
     velocity = {0,0};
+    collectedCoins = 0;
+    enemiesKilled = 0;
+
+    onCollectableEvent = Delegate<ICollectable*>();
+
+    onCollectableEvent.Add([this](ICollectable* collectable) {this->BroadcastOnCollectableEvent(collectable);});
 
     SerializationManager::AddSerializable(this);
     
@@ -27,6 +34,12 @@ Player::~Player() {
 //===DESTRUCTOR===
 
 //===GETTERS===
+size_t Player::GetCollectedCoins() const {
+    return collectedCoins;
+}
+size_t Player::GetEnemiesKilled() const {
+    return enemiesKilled;
+}
 
 //===SETTERS===
 
@@ -130,8 +143,9 @@ void Player::PopInputY(short dirY) {
 void Player::OnCollisionEnter(ICollidable* other) {
     ICollectable* collectable = dynamic_cast<ICollectable*>(other);
 
-    if (collectable != nullptr)
+    if (collectable != nullptr) {
         collectable->OnCollect();
+    }
 }
 void Player::OnUpdate() {
     Entity::OnUpdate();
@@ -151,4 +165,8 @@ void Player::Deserialize(std::ifstream& ifs) {
         .read(reinterpret_cast<char*>(&position.y), sizeof(position.y));
 
     // ifs.read(reinterpret_cast<char*>(this), sizeof(*this));
+}
+
+//---Events Handling---
+void Player::OnCollectableEvent(ICollectable* collectable) {
 }

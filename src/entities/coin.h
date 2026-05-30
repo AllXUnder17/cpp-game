@@ -4,7 +4,7 @@
 #include "core/icollectable.h"
 #include "entity.h"
 
-#include "core/idamagable.h"
+#include "core/idamagable.h"  // IWYU pragma: keep
 
 class Coin : public Entity, public ICollectable {
 public:
@@ -14,8 +14,12 @@ public:
     
     //===CONSTRUCTORS===
     Coin(const EntityConfig& config);
+    Coin(const Coin& other);
 
     //===DESTRUCTOR===
+
+    //===OPERATORS===
+    Coin& operator=(const Coin& other);
     
     //===GETTERS===
     

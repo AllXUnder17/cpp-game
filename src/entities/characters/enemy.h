@@ -13,10 +13,14 @@ public:
     
     //===CONSTRUCTORS===
     Enemy(const EntityConfig& config, float moveSpeed, unsigned health);
+    Enemy(const Enemy& other);
+    Enemy(Enemy&& other);
     
     //===DESTRUCTOR===
     
     //===OPERATORS===
+    Enemy& operator=(const Enemy& other);
+    Enemy& operator=(Enemy&& other);
     
     //===GETTERS===
     

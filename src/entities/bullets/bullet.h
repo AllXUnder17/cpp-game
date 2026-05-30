@@ -1,7 +1,7 @@
 #ifndef _BULLET_
 #define _BULLET_
 
-#include "core/gameobject.h"
+#include "core/gameobject.h"  // IWYU pragma: keep
 #include "entities/entity.h"
 
 class Bullet : public Entity {
@@ -12,8 +12,12 @@ public:
     
     //===CONSTRUCTORS===
     Bullet(const EntityConfig& config, const Vector2& velocity, unsigned damage);
-    
+    Bullet(const Bullet& other);
+
     //===DESTRUCTOR===
+
+    //===OPERATORS===
+    Bullet& operator=(const Bullet& other);
     
     //===GETTERS===
     

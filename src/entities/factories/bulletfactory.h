@@ -32,6 +32,8 @@ private:
     static std::vector<Bullet*> pool;
 
     static Bullet* baseBulletPrefab;
+
+    static void InitPrefabs();
 };
 
 #endif

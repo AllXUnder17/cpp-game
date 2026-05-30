@@ -18,8 +18,12 @@ public:
     //===CONSTRUCTORS===
     //add damage, magazine capacity
     Weapon(const WeaponConfig& config);
+    Weapon(const Weapon& other) = default;
     
     //===DESTRUCTOR===
+
+    //===OPERATORS===
+    Weapon& operator=(const Weapon& other) = default;
     
     //===GETTERS===
     Vector2 GetTipPos() const;

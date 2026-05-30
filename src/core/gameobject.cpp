@@ -23,9 +23,45 @@ GameObject::GameObject(const GameObjectConfig& config) {
     this->localRotation = config.localRotation;
 
     this->parent = config.parent;
-    this->localRotation = config.localRotation;
 
     this->isActive = config.isActive;
+}
+
+GameObject::GameObject(const GameObject& other) :
+    sprite(other.sprite) {
+    id = ++GameObject::COUNTER;
+
+    this->position = other.position;
+    this->localPosition = other.localPosition;
+
+    this->rotation = other.rotation;
+    this->localRotation = other.localRotation;
+
+    this->parent = other.parent;
+
+    this->isActive = other.isActive;
+}
+
+
+GameObject& GameObject::operator=(const GameObject& other) {
+    if (this == &other)
+        return *this;
+
+    id = ++GameObject::COUNTER;
+
+    this->position = other.position;
+    this->localPosition = other.localPosition;
+
+    this->rotation = other.rotation;
+    this->localRotation = other.localRotation;
+
+    this->parent = other.parent;
+
+    this->isActive = other.isActive;
+
+    this->sprite = other.sprite;
+
+    return *this;
 }
 
 //===DESTRUCTOR===

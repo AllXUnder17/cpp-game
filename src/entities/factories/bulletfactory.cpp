@@ -15,19 +15,16 @@ Bullet* BulletFactory::baseBulletPrefab = nullptr;
 
 //===CONSTRUCTORS===
 void BulletFactory::Init() {
+    //---Init prefabs---
+    InitPrefabs();
+
     //---Populate pool---
     size_t poolSize = 10;
 
     pool.reserve(poolSize);
     for (size_t i = 0; i < poolSize; ++i) {
 
-        Bullet* b = GameManager::InstantiateGameObject<Bullet>(EntityConfig{
-            GameObjectConfig {
-                .sprite = SpriteLoader::GetSprite("bullet.png"), 
-                .position = { -1000, -1000 }, 
-                .isActive = false
-            }, SpriteSheet::empty, Vector2{8., 8}}, 
-            Vector2{0, 0}, 0);
+        Bullet* b = GameManager::InstantiateGameObject<Bullet>(*baseBulletPrefab);
 
         pool.push_back(b);
     }
@@ -35,6 +32,16 @@ void BulletFactory::Init() {
 void BulletFactory::Uninit() {
     delete baseBulletPrefab;
     baseBulletPrefab = nullptr;
+}
+
+void BulletFactory::InitPrefabs() {
+    baseBulletPrefab = new Bullet(EntityConfig{
+            GameObjectConfig {
+                .sprite = SpriteLoader::GetSprite("bullet.png"), 
+                .position = { -1000, -1000 }, 
+                .isActive = false
+            }, SpriteSheet::empty, Vector2{8., 8}}, 
+            Vector2{0, 0}, 0);
 }
 
 //===DESTRUCTOR===
@@ -60,12 +67,9 @@ Bullet* BulletFactory::SpawnBullet(const Vector2& pos, const Vector2& vel, unsig
         }
     }
 
-    Bullet* b = GameManager::InstantiateGameObject<Bullet>(EntityConfig{
-        GameObjectConfig{
-            .sprite = SpriteLoader::GetSprite("bullet.png"),
-            .position = pos,
-            .isActive = true
-        }, SpriteSheet::empty, Vector2{8., 8}}, vel, damage);
+    Bullet* b = GameManager::InstantiateGameObject<Bullet>(*baseBulletPrefab);
+    b->SetVelocity(vel);
+    b->SetDamage(damage);
 
     pool.push_back(b);
 

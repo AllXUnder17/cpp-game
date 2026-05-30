@@ -2,8 +2,10 @@
 #define _PLAYER_
 
 #include "core/gameobject.h"
+#include "core/icollectable.h"
 #include "core/iserializable.h"
 
+#include "core/managers/delegate.h"
 #include "entities/character.h"
 
 enum MovementDirection {
@@ -25,6 +27,8 @@ public:
     //===OPERATORS===
     
     //===GETTERS===
+    size_t GetCollectedCoins() const;
+    size_t GetEnemiesKilled() const;
     
     //===SETTERS===
     
@@ -40,6 +44,11 @@ private:
     short horizontalStack[2] = {};
     short verticalStack[2] = {};
 
+    size_t collectedCoins;
+    size_t enemiesKilled;
+
+    Delegate<ICollectable*> onCollectableEvent;
+
     void HandleMovement(); 
 
     void SetDirection(const Vector2& moveDir);
@@ -54,6 +63,11 @@ private:
 
     void PushInputY(short dirY);
     void PopInputY(short dirY);
+
+    //---Event hanling---
+    void BroadcastOnCollectableEvent(ICollectable* collectable);
+
+    void OnCollectableEvent(ICollectable* collectable);
 };
 
 #endif

@@ -51,6 +51,11 @@ void GameManager::UninitGame() {
 }
 
 void GameManager::AddGameObject(GameObject* gameObject) {
+    if (gameObject == nullptr) {
+        TraceLog(LOG_INFO, "const char *text, ...");
+        return;
+    }
+
     gameObjects[gameObject->GetID()] = gameObject;
 }
 
@@ -82,6 +87,11 @@ void GameManager::HandleUpdatables() {
 }
 
 void GameManager::AddUpdatable(IUpdatable* updatable) {
+    if (updatable == nullptr) {
+        TraceLog(LOG_INFO, "const char *text, ...");
+        return;
+    }
+    
     updatables.push_back(updatable);
 }
 

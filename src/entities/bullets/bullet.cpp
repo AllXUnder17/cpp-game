@@ -12,8 +12,25 @@ Bullet::Bullet(const EntityConfig& config, const Vector2& velocity, unsigned dam
     this->velocity = velocity;
     this->damage = damage;
 }
+Bullet::Bullet(const Bullet& other) : Entity(other) {
+    this->velocity = other.velocity;
+    this->damage = other.damage;
+}
 
 //===DESTRUCTOR===
+
+//===OPERATORS===
+Bullet& Bullet::operator=(const Bullet& other) {
+    if (this == &other)
+        return *this;
+
+    Entity::operator=(other);
+
+    this->velocity = other.velocity;
+    this->damage = other.damage;
+
+    return *this;
+}
 
 //===GETTERS===
 

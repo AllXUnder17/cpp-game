@@ -8,8 +8,19 @@
 
 //===CONSTRUCTORS===
 Coin::Coin(const EntityConfig& config) : Entity(config) { }
+Coin::Coin(const Coin& other) : Entity(other) { }
 
 //===DESTRUCTOR===
+
+//===OPERATORS===
+Coin& Coin::operator=(const Coin& other) {
+    if (this == &other)
+        return *this;
+
+    Entity::operator=(other);
+
+    return *this;
+}
 
 //===GETTERS===
 
@@ -21,6 +32,5 @@ Coin::Coin(const EntityConfig& config) : Entity(config) { }
 // }
 
 void Coin::OnCollect() {
-    TraceLog(LOG_INFO, "Collected coin!");
     GameManager::Destroy(this);
 }

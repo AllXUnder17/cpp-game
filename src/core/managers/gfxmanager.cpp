@@ -56,6 +56,10 @@ void GFXManager::HandleDrawables() {
 }
 
 void GFXManager::AddDrawable(IDrawable* drawable) {
+    if (drawable == nullptr) {
+        TraceLog(LOG_INFO, "const char *text, ...");
+        return;
+    }
     drawables.push_back(drawable);
 }
 void GFXManager::RemoveDrawable(IDrawable* drawable) {

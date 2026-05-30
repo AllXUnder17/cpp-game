@@ -21,6 +21,10 @@ std::vector<ISerializable*> SerializationManager::serializables = std::vector<IS
 
 //===MEMBER FUNCTIONS===
 void SerializationManager::AddSerializable(ISerializable* serializable) {
+    if (serializable == nullptr) {
+        return;
+    }
+
     serializables.push_back(serializable);
 }
 void SerializationManager::RemoveSerializable(ISerializable* serializable) {

@@ -18,8 +18,13 @@ public:
     
     //===CONSTRUCTORS===
     Entity(const EntityConfig& config);
+    Entity(const Entity& other);
     
     //===DESTRUCTOR===
+    ~Entity() = default;
+
+    //===OPERATORS===
+    Entity& operator=(const Entity& other);
     
     //===GETTERS===
     SpriteSheet& GetSpriteSheet() const;

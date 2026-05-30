@@ -19,7 +19,37 @@ Entity::Entity(const EntityConfig& config)
     SetHitbox();
 }
 
+Entity::Entity(const Entity& other) : GameObject(other), spriteSheet(other.spriteSheet) {
+    elapsedFrameTime = 0.0f;
+    currFrameIdx = 0;
+    currAnimLayerIdx = 0;
+
+    this->size = other.size;
+
+    SetHitbox();
+}
+
 //===DESTRUCTOR===
+//~Entity() = default; 
+
+//===OPERATORS===
+Entity& Entity::operator=(const Entity& other) {
+    if (this == &other)
+        return *this;
+
+    GameObject::operator=(other);
+    spriteSheet = other.spriteSheet;
+
+    elapsedFrameTime = 0.0f;
+    currFrameIdx = 0;
+    currAnimLayerIdx = 0;
+
+    this->size = other.size;
+
+    SetHitbox();
+
+    return *this;
+}
 
 //===GETTERS===
 BoundingBox& Entity::GetHitbox() {

@@ -1,7 +1,8 @@
 #include "libraryofalexandria.h" // IWYU pragma: keep
 
 int main(int argc, char* argv[]) {
-    GameManager::InitGame(1280,720);
+
+    GameManager::InitGame(1280, 720);
 
     //potencialno tova shte se razkara i shte se zamesti s FactoriesManager iili neshto
     BulletFactory::Init();
@@ -25,6 +26,8 @@ int main(int argc, char* argv[]) {
             .localPosition = { 10, 5 }, 
         }, Vector2 { 12, -1 },
         5, 10,  Sound()});
+
+    TraceLog(LOG_INFO, "load");
 
     bool toggleNerdInfo = true;
     float elapsedCoinSpawnTime = 0.0f;
@@ -74,7 +77,6 @@ int main(int argc, char* argv[]) {
 
             GFXManager::RenderCanvas();
 
-            
             if (toggleNerdInfo) {
                 float deltaTime = GetFrameTime();
 
@@ -112,6 +114,13 @@ int main(int argc, char* argv[]) {
             
                 }
             }
+
+            std::stringstream playerInfo;
+
+            playerInfo << std::fixed << "Collected coins: " << player->GetCollectedCoins() << "\n\n" <<
+                "Enemies killed: " << player->GetEnemiesKilled();
+            
+            DrawText(playerInfo.str().c_str(), 10, 720 - 64, 32, GRAY);
         EndDrawing();
         
     }

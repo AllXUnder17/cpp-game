@@ -8,7 +8,6 @@
 template<typename... Args>
 class Delegate {
 public:
-
     //===CONSTANTS===
     
     //===STATIC MEMBERS===
