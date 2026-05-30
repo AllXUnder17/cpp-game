@@ -67,7 +67,7 @@ private:
     //---Event hanling---
     void BroadcastOnCollectableEvent(ICollectable* collectable);
 
-    void OnCollectableEvent(ICollectable* collectable);
+    //void OnCollectableEvent(ICollectable* collectable);
 };
 
 #endif

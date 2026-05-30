@@ -4,9 +4,6 @@ int main(int argc, char* argv[]) {
 
     GameManager::InitGame(1280, 720);
 
-    //potencialno tova shte se razkara i shte se zamesti s FactoriesManager iili neshto
-    BulletFactory::Init();
-
     Player* player = GameManager::InstantiateGameObject<Player>(EntityConfig {GameObjectConfig{ }, 
         SpriteSheet(
             SpriteLoader::GetSprite("man_spritesheet.png"),
@@ -32,26 +29,9 @@ int main(int argc, char* argv[]) {
     bool toggleNerdInfo = true;
     float elapsedCoinSpawnTime = 0.0f;
 
-    Coin* c = GameManager::InstantiateGameObject<Coin>(EntityConfig{
-        GameObjectConfig{
-            .position = {40, -40}
-        },
-        SpriteSheet(
-            SpriteLoader::GetSprite("coin_spritesheet.png"),
-            16, 16, {2} 
-        ), Vector2{8., 8}});
+    CollectableFactory::SpawnCoin({-40, -40});
 
-    Enemy* e = GameManager::InstantiateGameObject<Enemy>(EntityConfig{
-        GameObjectConfig{
-            //.sprite = SpriteLoader::GetSprite()
-            .position = {50, 50}
-        },
-        SpriteSheet(
-            SpriteLoader::GetSprite("enemy_spritesheet.png"),
-            80, 80, {9}
-        ),
-        Vector2 {40, 40}
-    }, 0, 60);
+    EnemyFactory::SpawnBaseEnemy({50, 50});
 
     InputManager::SetKeybind(KEY_TAB, [&toggleNerdInfo]() { toggleNerdInfo = !toggleNerdInfo;}, ON_KEY_PRESSED);
 

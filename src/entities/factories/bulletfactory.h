@@ -3,7 +3,10 @@
 
 #include <vector>
 
+#include "core/factory.h"
+
 #include "entities/bullets/bullet.h"
+
 
 class BulletFactory {
 public:

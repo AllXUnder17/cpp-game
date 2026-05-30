@@ -11,6 +11,10 @@ Enemy::Enemy(const EntityConfig& config, float moveSpeed, unsigned health) : Cha
     this->currHealth = health;
 }
 
+Enemy::Enemy(const Enemy& other) : Character(other) {
+    this->currHealth = other.currHealth;
+}
+
 //===DESTRUCTOR===
 
 //===OPERATORS===

@@ -31,6 +31,8 @@ Coin& Coin::operator=(const Coin& other) {
 //     TraceLog(LOG_INFO, "OUCH!!!");
 // }
 
-void Coin::OnCollect() {
+CollectableType Coin::OnCollect() {
     GameManager::Destroy(this);
+
+    return COIN;
 }

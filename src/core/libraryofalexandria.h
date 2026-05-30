@@ -22,6 +22,9 @@
 #include "entities/character.h"
 #include "entities/coin.h"
 
+#include "entities/factories/collectablefactory.h"
+#include "entities/factories/enemyfactory.h"
+
 #include "entities/characters/enemy.h"
 
 #include "entities/factories/bulletfactory.h"

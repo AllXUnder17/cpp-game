@@ -27,7 +27,7 @@ public:
     
     //===MEMBER FUNCTIONS===
     //void OnTakeDamage(unsigned damage) override final;
-    void OnCollect() override final;
+    CollectableType OnCollect() override final;
     // void OnUpdate() override {}
     // void Draw() override {}
 private:

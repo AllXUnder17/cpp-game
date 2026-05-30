@@ -1,16 +1,15 @@
-#ifndef _ENEMY_FACTORY_
-#define _ENEMY_FACTORY_
+#ifndef _COLLECTABLE_FACTORY_
+#define _COLLECTABLE_FACTORY_
 
-#include "entities/characters/enemy.h"
-
-class EnemyFactory {
+#include "entities/coin.h"
+class CollectableFactory {
 public:
     //===CONSTANTS===
     
     //===STATIC MEMBERS===
     
     //===CONSTRUCTORS===
-    EnemyFactory() = delete;
+    CollectableFactory() = delete;
 
     static void Init();
     
@@ -24,9 +23,9 @@ public:
     //===SETTERS===
     
     //===MEMBER FUNCTIONS===
-    static Enemy* SpawnBaseEnemy(const Vector2& pos);
+    static Coin* SpawnCoin(const Vector2& pos);
 private:
-    static Enemy* baseEnemyPrefab;
+    static Coin* baseCoinPrefab;
 
     static void InitPrefabs();
 };

@@ -5,6 +5,10 @@
 #include "core\spriteloader.h"
 #include "core/audioloader.h"
 
+#include "entities/factories/bulletfactory.h"
+#include "entities/factories/collectablefactory.h"
+#include "entities/factories/enemyfactory.h"
+
 #include <algorithm>
 #include <iomanip> // IWYU pragma: keep
 
@@ -31,6 +35,11 @@ void GameManager::InitGame(
     
     GFXManager::Init();
     AudioLoader::Init();
+
+    //---INIT FACTORIES---
+    BulletFactory::Init();
+    CollectableFactory::Init();
+    EnemyFactory::Init();
 
     HandleOnStart();
 }

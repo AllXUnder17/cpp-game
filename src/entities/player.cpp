@@ -18,9 +18,9 @@ Player::Player(const EntityConfig& config, float moveSpeed) : Character(config, 
     collectedCoins = 0;
     enemiesKilled = 0;
 
-    onCollectableEvent = Delegate<ICollectable*>();
+    //onCollectableEvent = Delegate<ICollectable*>();
 
-    onCollectableEvent.Add([this](ICollectable* collectable) {this->BroadcastOnCollectableEvent(collectable);});
+    //onCollectableEvent.Add([this](ICollectable* collectable) {this->BroadcastOnCollectableEvent(collectable);});
 
     SerializationManager::AddSerializable(this);
     
@@ -144,7 +144,17 @@ void Player::OnCollisionEnter(ICollidable* other) {
     ICollectable* collectable = dynamic_cast<ICollectable*>(other);
 
     if (collectable != nullptr) {
-        collectable->OnCollect();
+        CollectableType ct = collectable->OnCollect();
+
+        switch (ct) {
+            case KEY:
+                break;
+            case AMMO:
+                break;
+            case COIN:
+                ++collectedCoins;
+                break;
+        }
     }
 }
 void Player::OnUpdate() {
@@ -156,17 +166,17 @@ void Player::OnUpdate() {
 //---Serialization Handling---
 void Player::Serialize(std::ofstream& ofs) {
     ofs.write(reinterpret_cast<char*>(&position.x), sizeof(position.x))
-        .write(reinterpret_cast<char*>(&position.y), sizeof(position.y));
+        .write(reinterpret_cast<char*>(&position.y), sizeof(position.y))
+        .write(reinterpret_cast<char*>(&collectedCoins), sizeof(collectedCoins));
 
     // ofs.write(reinterpret_cast<char*>(this), sizeof(*this));
 }
 void Player::Deserialize(std::ifstream& ifs) {
     ifs.read(reinterpret_cast<char*>(&position.x), sizeof(position.x))
-        .read(reinterpret_cast<char*>(&position.y), sizeof(position.y));
+        .read(reinterpret_cast<char*>(&position.y), sizeof(position.y))
+        .read(reinterpret_cast<char*>(&collectedCoins), sizeof(collectedCoins));
 
     // ifs.read(reinterpret_cast<char*>(this), sizeof(*this));
 }
 
 //---Events Handling---
-void Player::OnCollectableEvent(ICollectable* collectable) {
-}
