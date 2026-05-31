@@ -14,6 +14,8 @@
 class GameObject;
 
 struct GameObjectConfig {
+    std::string tag = "---";
+
     Texture2D *sprite = nullptr;
     GameObject *parent = nullptr;
 
@@ -55,6 +57,8 @@ public:
     float GetRotation() const;
 
     bool IsActive() const;
+
+    const std::string& GetTag() const; 
     
     //===SETTERS===
     void SetPosition(const Vector2& position);
@@ -76,6 +80,8 @@ public:
     void OnEnd() override {}
 
 protected:
+    std::string tag;
+
     GameObject *parent;
     Texture2D *sprite;
 

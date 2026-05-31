@@ -32,6 +32,8 @@ void GameManager::InitGame(
     InitWindow(windowWidth, windowHeight, windowTitle.c_str());
     
     SetTargetFPS(fps);
+
+    // gameObjects.reserve(100);
     
     GFXManager::Init();
     AudioLoader::Init();
@@ -61,7 +63,6 @@ void GameManager::UninitGame() {
 
 void GameManager::AddGameObject(GameObject* gameObject) {
     if (gameObject == nullptr) {
-        TraceLog(LOG_INFO, "const char *text, ...");
         return;
     }
 
@@ -131,4 +132,13 @@ void GameManager::HandleOnEnd() {
     for (auto it : onEndObjects) {
         it->OnEnd();
     }
+}
+
+GameObject* GameManager::GetGameObjectWithTag(const std::string& tag) {
+    auto it = std::find_if(gameObjects.begin(), gameObjects.end(), [tag](const auto& pair) { return pair.second->GetTag() == tag;});
+
+    if (it != gameObjects.end())
+        return it->second;
+
+    return nullptr;
 }

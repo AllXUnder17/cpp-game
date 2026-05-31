@@ -68,6 +68,13 @@ void Entity::SetHitbox() {
     hitbox.min = Vector3{ position.x - size.x / 2, position.y - size.y / 2, 0.0f };
     hitbox.max = Vector3{ position.x + size.x / 2, position.y + size.y / 2, 0.0f };
 }
+void Entity::SetAnimationLayer(char newLayerIdx) {
+    if (currAnimLayerIdx != newLayerIdx) {
+        currAnimLayerIdx = newLayerIdx;
+        currFrameIdx = 0;        // Reset back to frame 0 for the new animation!
+        elapsedFrameTime = 0.0f; // Reset the clock tick
+    }
+}
 
 //===MEMBER FUNCTIONS===
 
@@ -79,7 +86,7 @@ void Entity::OnUpdate() {
     //---Animation handling---
     auto& matrix = spriteSheet.GetSpriteSheetMatrix();
 
-    if (matrix.empty() || matrix[0].empty())
+    if (matrix.empty() || matrix[currAnimLayerIdx].empty())
         return;
 
     HandleAnimation(matrix);
@@ -93,7 +100,7 @@ void Entity::Draw() {
         return;
     }
 
-    int layerIdx = 0;
+    int layerIdx = currAnimLayerIdx;
     // TraceLog(LOG_INFO, this->spriteSheet.IsEmpty() ? "1" : "0");
     Rectangle sourceRec = this->spriteSheet.GetFrameRect(layerIdx, currFrameIdx);
 
@@ -108,14 +115,10 @@ void Entity::Draw() {
 
 void Entity::HandleAnimation(const std::vector<std::vector<Rectangle>>& animationMatrix) {
     elapsedFrameTime += GetFrameTime();
-    // TraceLog(LOG_INFO, "Entity::OnUpdate");
-    // // TraceLog(LOG_INFO, std::to_string(currFrameIdx).c_str());
-    // // TraceLog(LOG_INFO, std::to_string(1.0f/12).c_str());
-    // TraceLog(LOG_INFO, std::to_string(elapsedFrameTime).c_str());
 
     if (elapsedFrameTime >= GFXManager::FRAME_WAIT_TIME) {
-        currFrameIdx = (currFrameIdx + 1) % (animationMatrix[0]).size();
-        // TraceLog(LOG_INFO, ("Curr Frame: " + std::to_string(spriteSheet.GetSpriteSheetMatrix()[0].size())).c_str());
+        currFrameIdx = (currFrameIdx + 1) % (animationMatrix[currAnimLayerIdx]).size();
+
         elapsedFrameTime = 0.0f;
     }
 }

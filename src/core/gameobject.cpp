@@ -14,6 +14,8 @@ size_t GameObject::COUNTER = 0;
 GameObject::GameObject(const GameObjectConfig& config) {
     id = ++GameObject::COUNTER;
 
+    this->tag = config.tag;
+
     this->position = config.position;
     this->localPosition = config.localPosition;
 
@@ -30,6 +32,8 @@ GameObject::GameObject(const GameObjectConfig& config) {
 GameObject::GameObject(const GameObject& other) :
     sprite(other.sprite) {
     id = ++GameObject::COUNTER;
+
+    this->tag = other.tag;
 
     this->position = other.position;
     this->localPosition = other.localPosition;
@@ -90,6 +94,10 @@ float GameObject::GetRotation() const {
 
 bool GameObject::IsActive() const {
     return isActive;
+}
+
+const std::string& GameObject::GetTag() const {
+    return tag;
 }
 
 //===SETTERS===

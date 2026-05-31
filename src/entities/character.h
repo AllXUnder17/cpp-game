@@ -27,7 +27,8 @@ public:
     
     //===MEMBER FUNCTIONS===
     void OnUpdate() override;
-    //void Draw() override;
+
+    void MoveTowardsLerp(const Vector2& targetPos, float t);
 protected:
     Vector2 velocity;
     Vector2 movementDirection;

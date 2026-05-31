@@ -36,6 +36,8 @@ private:
     std::unordered_map<unsigned, std::vector<Rectangle>> stateAnimations;
     std::vector<std::vector<Rectangle>> spriteSheetMatrix;
 
+    std::vector<unsigned> framesPerRow;
+
     int spriteWidth, spriteHeight;
 };
 

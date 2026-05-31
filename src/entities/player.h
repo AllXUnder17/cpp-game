@@ -40,6 +40,7 @@ public:
     void Serialize(std::ofstream& ofs) override final;
     void Deserialize(std::ifstream& ifs) override final;
 private:
+
     //---Input Handling---
     short horizontalStack[2] = {};
     short verticalStack[2] = {};

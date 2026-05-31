@@ -1,5 +1,7 @@
 #include "character.h"
 
+#include "raymath.h"
+
 //===CONSTANTS===
 
 //===STATIC MEMBERS===
@@ -27,4 +29,8 @@ void Character::SetMoveSpeed(float moveSpeed) {
 //===MEMBER FUNCTIONS===
 void Character::OnUpdate() {
     Entity::OnUpdate();
+}
+
+void Character::MoveTowardsLerp(const Vector2& targetPos, float t) {
+    this->position = Vector2Lerp(this->position, targetPos, t);
 }

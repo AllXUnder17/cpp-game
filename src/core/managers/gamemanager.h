@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 
+#include "entities/player.h"
 #include "gfxmanager.h"
 
 #include "core/managers/collisionmanager.h"
@@ -39,6 +40,8 @@ public:
     static T* InstantiateGameObject(Args&&... args);
     static void Destroy(GameObject* gameObject);
     
+    static GameObject* GetGameObjectWithTag(const std::string& tag);
+
     //---Updatables---
     static void HandleUpdatables();
 

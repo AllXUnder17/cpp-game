@@ -18,6 +18,8 @@ Player::Player(const EntityConfig& config, float moveSpeed) : Character(config, 
     collectedCoins = 0;
     enemiesKilled = 0;
 
+    tag = "Player";
+
     //onCollectableEvent = Delegate<ICollectable*>();
 
     //onCollectableEvent.Add([this](ICollectable* collectable) {this->BroadcastOnCollectableEvent(collectable);});

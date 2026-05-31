@@ -7,12 +7,24 @@
 //===STATIC MEMBERS===
 
 //===CONSTRUCTORS===
-Enemy::Enemy(const EntityConfig& config, float moveSpeed, unsigned health) : Character(config, moveSpeed){
+Enemy::Enemy(const EntityConfig& config, float moveSpeed, unsigned health) : Character(config, moveSpeed) {
     this->currHealth = health;
+
+    this->idleState = IdleState();
+    this->chaseState = ChaseState();
+    this->attackState = AttackState();
+
+    stateMachine.ChangeState(this, &idleState);
 }
 
 Enemy::Enemy(const Enemy& other) : Character(other) {
     this->currHealth = other.currHealth;
+
+    this->idleState = IdleState();
+    this->chaseState = ChaseState();
+    this->attackState = AttackState();
+
+    stateMachine.ChangeState(this, &idleState);
 }
 
 //===DESTRUCTOR===
@@ -20,10 +32,39 @@ Enemy::Enemy(const Enemy& other) : Character(other) {
 //===OPERATORS===
 
 //===GETTERS===
+float Enemy::GetAttackRadius() const {
+    return 25;
+}
+float Enemy::GetChaseRadius() const {
+    return 100;
+}
+float Enemy::GetAttackTime() const {
+    return 0.5;
+}
+
+EnemyStateMachine& Enemy::GetStateMachine() {
+    return stateMachine;
+}
+
+EnemyState* Enemy::GetIdleState() {
+    return &idleState;
+}
+EnemyState* Enemy::GetChaseState() {
+    return &chaseState;
+}
+EnemyState* Enemy::GetAttackState() {
+    return &attackState;
+}
 
 //===SETTERS===
 
 //===MEMBER FUNCTIONS===
+void Enemy::OnUpdate() {
+    Character::OnUpdate();
+
+    stateMachine.OnUpdate(this, GetFrameTime());
+}
+
 void Enemy::OnTakeDamage(unsigned damage) {
     currHealth -= damage;
     TraceLog(LOG_INFO, ("Ouch!!! Curr Health: " + std::to_string(currHealth)).c_str());

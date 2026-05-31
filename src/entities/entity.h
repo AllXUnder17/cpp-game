@@ -35,6 +35,7 @@ public:
 
     //===SETTERS===
     void SetSpriteSheet(const SpriteSheet& sheet);
+    void SetAnimationLayer(char currAnimLayerIdx);
     
     //===MEMBER FUNCTIONS===
     void OnUpdate() override;
