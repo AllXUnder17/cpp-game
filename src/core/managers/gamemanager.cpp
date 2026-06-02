@@ -40,7 +40,7 @@ void GameManager::InitGame(
 
     //---INIT FACTORIES---
     BulletFactory::Init();
-    CollectableFactory::Init();
+    CollectableFactory::Init(2);
     EnemyFactory::Init();
 
     HandleOnStart();
@@ -55,6 +55,10 @@ void GameManager::UninitGame() {
     //AudioLoader::UnloadAll();
 
     HandleOnEnd();
+
+    BulletFactory::Uninit();
+    EnemyFactory::Uninit();
+    CollectableFactory::Uninit();
 
     gameObjects.clear();
 
@@ -76,6 +80,10 @@ void GameManager::Destroy(GameObject* gameObject) {
     if (collidable != nullptr)
         CollisionManager::RemoveCollidable(collidable);
 
+    ISerializable* serializable = dynamic_cast<ISerializable*>(gameObject);
+    if (serializable != nullptr)
+        SerializationManager::RemoveSerializable(serializable);
+
     RemoveUpdatable(gameObject);
 
     gameObjects.erase(gameObject->GetID());
@@ -90,6 +98,8 @@ const std::unordered_map<std::size_t, GameObject*>& GameManager::GetGameObjects(
 void GameManager::HandleUpdatables() {
     InputManager::OnUpdate();
     CollisionManager::OnUpdate();
+
+    CollectableFactory::OnUpdate(GetFrameTime());
 
     for (IUpdatable* updatable : GameManager::GetUpdatables()) {
         updatable->OnUpdate();

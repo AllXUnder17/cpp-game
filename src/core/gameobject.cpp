@@ -1,8 +1,5 @@
 #include "raylib.h"
 
-#include "managers/gamemanager.h"
-#include "managers/gfxmanager.h"
-
 #include "gameobject.h"
 
 //===CONSTANTS===

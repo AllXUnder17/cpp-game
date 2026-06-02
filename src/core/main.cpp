@@ -12,10 +12,6 @@ int main(int argc, char* argv[]) {
 
     SerializationManager::LoadGame();
         
-    //Sound s = AudioLoader::GetSound("a.mp3", SPAMMABLE);
-    // Sound s = LoadSound("../assets/audio/a.mp3");
-    // LoadSoundAlias(s);
-
     Weapon* w = GameManager::InstantiateGameObject<Weapon>(WeaponConfig{
         GameObjectConfig{
             .sprite = SpriteLoader::GetSprite("gun.png"),
@@ -34,7 +30,6 @@ int main(int argc, char* argv[]) {
     EnemyFactory::SpawnBaseEnemy({50, 50});
 
     InputManager::SetKeybind(KEY_TAB, [&toggleNerdInfo]() { toggleNerdInfo = !toggleNerdInfo;}, ON_KEY_PRESSED);
-
 
     while (!WindowShouldClose()) {
         //===HANDLE UPDATABLES===
@@ -104,8 +99,6 @@ int main(int argc, char* argv[]) {
         EndDrawing();
         
     }
-
-    BulletFactory::Uninit();
 
     SerializationManager::SaveGame();
 

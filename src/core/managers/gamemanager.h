@@ -5,9 +5,9 @@
 #include <vector>
 #include <string>
 
-#include "entities/player.h"
 #include "gfxmanager.h"
 
+#include "core/managers/serializationmanager.h"
 #include "core/managers/collisionmanager.h"
 
 #include "core/gameobject.h"
@@ -75,6 +75,11 @@ T* GameManager::InstantiateGameObject(Args&&... args) {
     ICollidable* collidable = dynamic_cast<ICollidable*>(go);
     if (collidable != nullptr)
         CollisionManager::AddCollidable(collidable);
+
+    ISerializable* serializable = dynamic_cast<ISerializable*>(go);
+    if (serializable != nullptr)
+        SerializationManager::AddSerializable(serializable);
+
 
     return static_cast<T*>(go);
 }

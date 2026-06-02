@@ -22,7 +22,7 @@ public:
     Player(const EntityConfig& config, float moveSpeed);
 
     //===DESTRUCTOR===
-    ~Player();
+    ~Player() = default;
 
     //===OPERATORS===
     

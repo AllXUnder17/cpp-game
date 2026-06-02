@@ -11,7 +11,7 @@ public:
     //===CONSTRUCTORS===
     CollectableFactory() = delete;
 
-    static void Init();
+    static void Init(float collectableSpawnTime = 0);
     
     //===DESTRUCTOR===
     static void Uninit();
@@ -23,11 +23,16 @@ public:
     //===SETTERS===
     
     //===MEMBER FUNCTIONS===
+    static void OnUpdate(float deltaTime);
+
     static Coin* SpawnCoin(const Vector2& pos);
 private:
     static Coin* baseCoinPrefab;
 
     static void InitPrefabs();
+
+    static float elapsedCoinSpawnTime;
+    static float collectableSpawnTime;
 };
 
 #endif

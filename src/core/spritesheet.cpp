@@ -1,5 +1,4 @@
 #include "spritesheet.h"
-#include <string>
 
 //===CONSTANTS===
 

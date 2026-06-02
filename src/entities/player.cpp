@@ -23,14 +23,8 @@ Player::Player(const EntityConfig& config, float moveSpeed) : Character(config, 
     //onCollectableEvent = Delegate<ICollectable*>();
 
     //onCollectableEvent.Add([this](ICollectable* collectable) {this->BroadcastOnCollectableEvent(collectable);});
-
-    SerializationManager::AddSerializable(this);
     
     SetKeybinds();
-}
-
-Player::~Player() {
-    SerializationManager::RemoveSerializable(this);
 }
 
 //===DESTRUCTOR===
