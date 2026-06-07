@@ -1,6 +1,7 @@
 #ifndef _ICOLLIDABLE_
 #define _ICOLLIDABLE_
 
+#include "physics/collisionlayer.h"
 #include "raylib.h"
 
 
@@ -9,6 +10,7 @@ public:
     ~ICollidable() = default;
 
     virtual BoundingBox& GetHitbox() = 0;
+    virtual CollisionLayer GetCollisionLayer() = 0; 
     virtual bool IsColliderActive() = 0;
     
     virtual void OnCollisionEnter(ICollidable* other) {};

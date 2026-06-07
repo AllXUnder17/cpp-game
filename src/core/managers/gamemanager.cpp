@@ -2,6 +2,7 @@
 
 #include "core/managers/inputmanager.h"
 
+
 #include "core\spriteloader.h"
 #include "core/audioloader.h"
 
@@ -33,10 +34,11 @@ void GameManager::InitGame(
     
     SetTargetFPS(fps);
 
-    // gameObjects.reserve(100);
+    gameObjects.reserve(100);
     
     GFXManager::Init();
     AudioLoader::Init();
+    PhysicsManager::InitLayerMatrix();
 
     //---INIT FACTORIES---
     BulletFactory::Init();
@@ -78,7 +80,7 @@ void GameManager::Destroy(GameObject* gameObject) {
 
     ICollidable* collidable = dynamic_cast<ICollidable*>(gameObject);
     if (collidable != nullptr)
-        CollisionManager::RemoveCollidable(collidable);
+        PhysicsManager::RemoveCollidable(collidable);
 
     ISerializable* serializable = dynamic_cast<ISerializable*>(gameObject);
     if (serializable != nullptr)
@@ -97,9 +99,9 @@ const std::unordered_map<std::size_t, GameObject*>& GameManager::GetGameObjects(
 
 void GameManager::HandleUpdatables() {
     InputManager::OnUpdate();
-    CollisionManager::OnUpdate();
+    PhysicsManager::UpdateCollision();
 
-    CollectableFactory::OnUpdate(GetFrameTime());
+    //CollectableFactory::OnUpdate(GetFrameTime());
 
     for (IUpdatable* updatable : GameManager::GetUpdatables()) {
         updatable->OnUpdate();

@@ -21,16 +21,12 @@ public:
     //===OPERATORS===
     
     //===GETTERS===
-    static std::vector<ICollidable*>& GetCollidables();
-    static std::vector<ICollidable*> GetActiveCollidables();
+
     
     //===SETTERS===
     
     //===MEMBER FUNCTIONS===
-    static void OnUpdate();
 
-    static void AddCollidable(ICollidable* collidable);
-    static void RemoveCollidable(ICollidable* collidable);
 private:
     static std::vector<ICollidable*> collidables;
 

@@ -2,7 +2,7 @@
 
 #include "enemystate.h"
 
-#include "raylib.h"
+#include "raylib.h"  // IWYU pragma: keep
 
 //===CONSTANTS===
 

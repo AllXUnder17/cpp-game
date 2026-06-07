@@ -7,6 +7,9 @@
 
 #include "gfxmanager.h"
 
+#include "core/physics/collisionlayer.h"
+#include "core/physics/physicsmanager.h"
+
 #include "core/managers/serializationmanager.h"
 #include "core/managers/collisionmanager.h"
 
@@ -74,7 +77,7 @@ T* GameManager::InstantiateGameObject(Args&&... args) {
 
     ICollidable* collidable = dynamic_cast<ICollidable*>(go);
     if (collidable != nullptr)
-        CollisionManager::AddCollidable(collidable);
+        PhysicsManager::AddCollidable(collidable);
 
     ISerializable* serializable = dynamic_cast<ISerializable*>(go);
     if (serializable != nullptr)

@@ -9,6 +9,7 @@ struct WeaponConfig {
     GameObjectConfig goConfig;
     Vector2 localTipOffset;
     unsigned bulletsPerSecond;
+    unsigned magazineCapacity;
     unsigned damage;
     Sound onShootSound;
 };
@@ -36,7 +37,8 @@ public:
     
     //===MEMBER FUNCTIONS===
     // virtual void OnShoot();
-    void OnShoot();
+    virtual void OnShoot();
+    virtual void OnReload();
     
     //---Inherited---
     void OnUpdate() override;
@@ -49,12 +51,14 @@ protected:
     Vector2 tipPos;
     Vector2 localTipOffset;
 
-    unsigned damage;
     unsigned bulletsPerSecond;
+    unsigned magazineCapacity;
+    unsigned currBullets;
+    unsigned damage;
     float bulletWaitTime;
     
     //make it virtual
-    void HandleShoot();
+    virtual void HandleShoot();
     void HandleRotation();
 };
 

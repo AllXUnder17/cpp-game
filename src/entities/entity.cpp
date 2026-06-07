@@ -15,6 +15,7 @@ Entity::Entity(const EntityConfig& config)
     currAnimLayerIdx = 0;
 
     this->size = config.size;
+    this->collisionLayer = config.collisionLayer;
 
     SetHitbox();
 }
@@ -25,6 +26,7 @@ Entity::Entity(const Entity& other) : GameObject(other), spriteSheet(other.sprit
     currAnimLayerIdx = 0;
 
     this->size = other.size;
+    this->collisionLayer = other.collisionLayer;
 
     SetHitbox();
 }
@@ -52,6 +54,10 @@ Entity& Entity::operator=(const Entity& other) {
 }
 
 //===GETTERS===
+CollisionLayer Entity::GetCollisionLayer() {
+    return collisionLayer;
+}
+
 BoundingBox& Entity::GetHitbox() {
     return hitbox;
 }

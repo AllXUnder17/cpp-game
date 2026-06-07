@@ -16,6 +16,8 @@ Weapon::Weapon(const WeaponConfig& config) : GameObject(config.goConfig) {
     this->localTipOffset = config.localTipOffset;
     this->bulletsPerSecond = config.bulletsPerSecond;
 
+    this->magazineCapacity = config.magazineCapacity;
+    this->currBullets = config.magazineCapacity;
     this->damage = config.damage;
     this->onShootSound = config.onShootSound;
 
@@ -58,17 +60,24 @@ void Weapon::HandleShoot() {
     elapsedBulletWaitTime += GetFrameTime();
     if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
         if (elapsedBulletWaitTime >= bulletWaitTime) {
-            // PlaySound(onShootSound);
-
-            Vector2 bulletVelocity = Vector2Scale(orientation, 5);
-
-            BulletFactory::SpawnBullet(this->tipPos, bulletVelocity, damage);
-
-            elapsedBulletWaitTime = 0;
+            OnShoot();
         }
     }
 }
 
+void Weapon::OnShoot() {
+    // PlaySound(onShootSound);
+
+    Vector2 bulletVelocity = Vector2Scale(orientation, 5);
+
+    BulletFactory::SpawnBullet(this->tipPos, bulletVelocity, damage);
+
+    elapsedBulletWaitTime = 0;
+}
+
+void Weapon::OnReload() {
+    currBullets = magazineCapacity;
+}
 
 void Weapon::HandleRotation() {
     Vector2 mousePos = GetMousePosition();

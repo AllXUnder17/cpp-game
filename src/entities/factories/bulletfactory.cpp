@@ -40,7 +40,7 @@ void BulletFactory::InitPrefabs() {
                 .sprite = SpriteLoader::GetSprite("bullet.png"), 
                 .position = { -1000, -1000 }, 
                 .isActive = false
-            }, SpriteSheet::empty, Vector2{8., 8}}, 
+            }, SpriteSheet::empty, Vector2{8., 8}, CollisionLayer::PLAYER_PROJECTILE}, 
             Vector2{0, 0}, 0);
 }
 

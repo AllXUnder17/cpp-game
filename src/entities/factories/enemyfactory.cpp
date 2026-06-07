@@ -36,7 +36,7 @@ void EnemyFactory::InitPrefabs() {
             SpriteLoader::GetSprite("enemy_spritesheet.png"),
             80, 80, {9, 6, 12}
         ),
-        Vector2 {40, 40}
+        Vector2 {40, 40}, CollisionLayer::ENEMY
     }, 0, 60);
 }
 

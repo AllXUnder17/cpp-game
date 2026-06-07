@@ -67,10 +67,8 @@ void Enemy::OnUpdate() {
 
 void Enemy::OnTakeDamage(unsigned damage) {
     currHealth -= damage;
-    TraceLog(LOG_INFO, ("Ouch!!! Curr Health: " + std::to_string(currHealth)).c_str());
 
     if (currHealth <= 0) {
-        TraceLog(LOG_INFO, "Enemy dead!");
         GameManager::Destroy(this);
     }
 }

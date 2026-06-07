@@ -98,6 +98,10 @@ const std::string& GameObject::GetTag() const {
 }
 
 //===SETTERS===
+void GameObject::SetTag(const std::string& tag) {
+    this->tag = tag;
+}
+
 void GameObject::SetPosition(const Vector2& position) {
     //this->position = utils::RoundToDigit(position, 2);
     this->position = position;

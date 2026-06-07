@@ -56,6 +56,11 @@ void Bullet::OnUpdate() {
 }
 
 void Bullet::OnCollisionEnter(ICollidable* other) {
+    GameObject* go = dynamic_cast<GameObject*>(other);
+
+    if (go == nullptr && go->GetTag() == "player")
+        return;
+
     IDamagable* damagable = dynamic_cast<IDamagable*>(other);
 
     if (damagable != nullptr)

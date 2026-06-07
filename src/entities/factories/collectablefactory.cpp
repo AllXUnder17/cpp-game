@@ -53,7 +53,7 @@ void CollectableFactory::InitPrefabs() {
         SpriteSheet(
             SpriteLoader::GetSprite("coin_spritesheet.png"),
             16, 16, {2} 
-        ), Vector2{8., 8}});
+        ), Vector2{8., 8}, CollisionLayer::COLLECTABLE});
 }
 
 Coin* CollectableFactory::SpawnCoin(const Vector2& pos) {

@@ -8,6 +8,7 @@ struct EntityConfig {
     GameObjectConfig goConfig;
     SpriteSheet spriteSheet;
     Vector2 size;
+    CollisionLayer collisionLayer = CollisionLayer::DEFAULT;
 };
 
 class Entity : public GameObject, public ICollidable {
@@ -27,6 +28,8 @@ public:
     Entity& operator=(const Entity& other);
     
     //===GETTERS===
+    CollisionLayer GetCollisionLayer() override;
+
     SpriteSheet& GetSpriteSheet() const;
 
     BoundingBox& GetHitbox() override;
@@ -50,6 +53,8 @@ public:
     bool isFacingLeft;
     
 private:
+    CollisionLayer collisionLayer;
+
     float elapsedFrameTime;
     char currFrameIdx;
     char currAnimLayerIdx;

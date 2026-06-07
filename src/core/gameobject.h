@@ -61,6 +61,8 @@ public:
     const std::string& GetTag() const; 
     
     //===SETTERS===
+    void SetTag(const std::string& tag);
+
     void SetPosition(const Vector2& position);
     void SetLocalPosition(const Vector2& localPosition);
     

@@ -12,34 +12,10 @@ std::vector<ICollidable*> CollisionManager::collidables = std::vector<ICollidabl
 //===DESTRUCTOR===
 
 //===GETTERS===
-std::vector<ICollidable*>& CollisionManager::GetCollidables() {
-    return collidables;
-}
-std::vector<ICollidable*> CollisionManager::GetActiveCollidables() {
-    std::vector<ICollidable*> activeCollidables;
-    std::copy_if(collidables.begin(), collidables.end(), std::back_inserter(activeCollidables), [](ICollidable* collidable) { return collidable->IsColliderActive(); });
-
-    return activeCollidables;
-}
 
 //===SETTERS===
 
-//===MEMBER FUNCTIONS===
-void CollisionManager::OnUpdate() {
-    CollisionManager::DrawDebugColliders();
-
-    //Can be optimized
-    std::vector<ICollidable*> activeCollidables = GetActiveCollidables();
-
-    for (auto collidable1 : activeCollidables) {
-        for (auto collidable2 : activeCollidables) {
-            if (collidable1 != collidable2) {
-                if (CheckCollisionBoxes(collidable1->GetHitbox(), collidable2->GetHitbox()))
-                    collidable1->OnCollisionEnter(collidable2);
-            }
-        }
-    }
-}
+//===MEMBER FUNCTIONS===s
 
 void CollisionManager::DrawDebugColliders() {
     // Only run this if we actually have objects to display
@@ -58,14 +34,3 @@ void CollisionManager::DrawDebugColliders() {
     }
 }
 
-
-void CollisionManager::AddCollidable(ICollidable* collidable) {
-    collidables.push_back(collidable);
-}
-
-void CollisionManager::RemoveCollidable(ICollidable* collidable) {
-    auto it = std::find(collidables.begin(), collidables.end(), collidable);
-
-    if (it != collidables.end())
-        collidables.erase(it);
-}

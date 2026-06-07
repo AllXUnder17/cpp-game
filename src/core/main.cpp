@@ -8,7 +8,7 @@ int main(int argc, char* argv[]) {
         SpriteSheet(
             SpriteLoader::GetSprite("man_spritesheet.png"),
             16, 16, 
-            {2}), Vector2 {16,16}}, 200);
+            {2}), Vector2 {16,16}, CollisionLayer::PLAYER}, 200);
 
     SerializationManager::LoadGame();
         
@@ -18,12 +18,11 @@ int main(int argc, char* argv[]) {
             .parent = player,
             .localPosition = { 10, 5 }, 
         }, Vector2 { 12, -1 },
-        5, 10,  Sound()});
+        5, 10, 10,  Sound()});
 
     TraceLog(LOG_INFO, "load");
 
     bool toggleNerdInfo = true;
-    float elapsedCoinSpawnTime = 0.0f;
 
     CollectableFactory::SpawnCoin({-40, -40});
 
@@ -65,6 +64,9 @@ int main(int argc, char* argv[]) {
 
                 GameManager::OutputInfo(nerdInfoText);
                 GFXManager::OutputInfo(nerdInfoText);
+                PhysicsManager::OutputInfo(nerdInfoText);
+
+                nerdInfoText << "----------";
 
                 nerdInfoText <<
                     std::fixed << std::setprecision(2) <<
@@ -79,7 +81,7 @@ int main(int argc, char* argv[]) {
                 Color colliderColor = Color{ 0, 228, 48, 100 }; // Transparent Green (Lime)
                 Color outlineColor  = Color{ 0, 228, 48, 255 }; // Solid Green Outline
             
-                for (ICollidable* collidable : CollisionManager::GetActiveCollidables()) {
+                for (ICollidable* collidable : PhysicsManager::GetActiveCollidables()) {
                     if (collidable == nullptr) continue;
             
                     // Grab the bounding box via the interface contract
