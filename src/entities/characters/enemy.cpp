@@ -55,6 +55,9 @@ EnemyState* Enemy::GetChaseState() {
 EnemyState* Enemy::GetAttackState() {
     return &attackState;
 }
+EnemyState* Enemy::GetDeathState() {
+    return  &deathState;
+}
 
 //===SETTERS===
 
@@ -69,6 +72,6 @@ void Enemy::OnTakeDamage(unsigned damage) {
     currHealth -= damage;
 
     if (currHealth <= 0) {
-        GameManager::Destroy(this);
+        this->stateMachine.ChangeState(this, GetDeathState());
     }
 }

@@ -66,6 +66,14 @@ bool Entity::IsColliderActive() {
     return IsActive();
 }
 
+char Entity::GetCurrFrameIdx() const {
+    return currFrameIdx;
+}
+
+char Entity::GetCurrAnimLayerLength() const {
+    return spriteSheet.GetSpriteSheetMatrix()[currAnimLayerIdx].size();
+}
+
 //===SETTERS===
 void Entity::SetSpriteSheet(const SpriteSheet& sheet) {
     spriteSheet = sheet;

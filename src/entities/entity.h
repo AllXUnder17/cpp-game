@@ -36,6 +36,9 @@ public:
 
     bool IsColliderActive() override final;
 
+    char GetCurrFrameIdx() const;
+    char GetCurrAnimLayerLength() const;
+    
     //===SETTERS===
     void SetSpriteSheet(const SpriteSheet& sheet);
     void SetAnimationLayer(char currAnimLayerIdx);
@@ -52,12 +55,14 @@ public:
     
     bool isFacingLeft;
     
-private:
+protected:
     CollisionLayer collisionLayer;
 
     float elapsedFrameTime;
     char currFrameIdx;
     char currAnimLayerIdx;
+
+
 
     void SetHitbox();
     void HandleAnimation(const std::vector<std::vector<Rectangle>>& animationMatrix);

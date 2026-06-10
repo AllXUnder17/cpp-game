@@ -13,7 +13,7 @@ std::unordered_map<CollisionLayer, unsigned int> PhysicsManager::layerMatrix;
 std::vector<ICollidable*> PhysicsManager::collidables;
 
 //===CONSTRUCTORS===
-void PhysicsManager::InitLayerMatrix() {
+void PhysicsManager::Init() {
     layerMatrix.clear();
 
     layerMatrix[CollisionLayer::PLAYER] = CollisionLayer::DEFAULT | 

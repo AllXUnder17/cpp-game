@@ -15,7 +15,7 @@ public:
     //===STATIC MEMBERS===
     
     //===CONSTRUCTORS===
-    static void InitLayerMatrix();
+    static void Init();
 
     //===DESTRUCTOR===
     

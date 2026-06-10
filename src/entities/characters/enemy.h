@@ -5,6 +5,7 @@
 
 #include "enemy_statemachine/attackstate.h"
 #include "enemy_statemachine/chasestate.h"
+#include "enemy_statemachine/deathstate.h"
 #include "enemy_statemachine/enemystatemachine.h"
 #include "enemy_statemachine/idlestate.h"
 #include "entities/character.h"
@@ -34,6 +35,7 @@ public:
     EnemyState* GetIdleState();
     EnemyState* GetChaseState();
     EnemyState* GetAttackState();
+    EnemyState* GetDeathState();
     
     //===SETTERS===
     
@@ -43,7 +45,7 @@ public:
     void OnTakeDamage(unsigned damage) override;
     void OnUpdate() override;
 
-private:
+protected:
     unsigned currHealth;
 
     EnemyStateMachine stateMachine;
@@ -51,6 +53,7 @@ private:
     IdleState idleState;
     ChaseState chaseState;
     AttackState attackState;
+    DeathState deathState;
 };
 
 #endif

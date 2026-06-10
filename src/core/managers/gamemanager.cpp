@@ -38,7 +38,7 @@ void GameManager::InitGame(
     
     GFXManager::Init();
     AudioLoader::Init();
-    PhysicsManager::InitLayerMatrix();
+    PhysicsManager::Init();
 
     //---INIT FACTORIES---
     BulletFactory::Init();

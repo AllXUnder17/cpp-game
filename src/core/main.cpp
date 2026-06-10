@@ -1,5 +1,9 @@
 #include "libraryofalexandria.h" // IWYU pragma: keep
 
+void DisplayNerdInfo() {
+    
+}
+
 int main(int argc, char* argv[]) {
 
     GameManager::InitGame(1280, 720);
@@ -80,15 +84,15 @@ int main(int argc, char* argv[]) {
                 //====DISPLAY COLLIDERS===
                 Color colliderColor = Color{ 0, 228, 48, 100 }; // Transparent Green (Lime)
                 Color outlineColor  = Color{ 0, 228, 48, 255 }; // Solid Green Outline
-            
+
                 for (ICollidable* collidable : PhysicsManager::GetActiveCollidables()) {
                     if (collidable == nullptr) continue;
-            
+
                     // Grab the bounding box via the interface contract
                     BoundingBox box = collidable->GetHitbox();
-            
+
                     DrawBoundingBox(box, outlineColor);
-            
+
                 }
             }
 
