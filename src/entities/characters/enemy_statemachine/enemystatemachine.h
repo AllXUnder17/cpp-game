@@ -20,6 +20,8 @@ public:
     //===OPERATORS===
     
     //===GETTERS===
+    EnemyState* GetPrevState() const;
+    EnemyState* GetCurrState() const;
     
     //===SETTERS===
     
@@ -27,7 +29,7 @@ public:
     void OnUpdate(Enemy* enemy, float deltaTime);
     void ChangeState(Enemy* enemy, EnemyState* newState);
 private:
-
+    EnemyState* prevState = nullptr;
     EnemyState* currState = nullptr;
 };
 

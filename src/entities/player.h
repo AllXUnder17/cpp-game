@@ -48,7 +48,7 @@ private:
     size_t collectedCoins;
     size_t enemiesKilled;
 
-    Delegate<ICollectable*> onCollectableEvent;
+    Delegate<void(ICollectable*)> onCollectableEvent;
 
     void HandleMovement(); 
 

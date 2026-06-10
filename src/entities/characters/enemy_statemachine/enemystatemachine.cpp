@@ -15,6 +15,12 @@
 //===OPERATORS===
 
 //===GETTERS===
+EnemyState* EnemyStateMachine::GetCurrState() const {
+    return currState;
+}
+EnemyState* EnemyStateMachine::GetPrevState() const {
+    return prevState;
+}
 
 //===SETTERS===
 
@@ -23,6 +29,8 @@ void EnemyStateMachine::ChangeState(Enemy* enemy, EnemyState* newState) {
     if (newState == currState) {
         return;
     }
+
+    prevState = currState;
 
     if (currState != nullptr)
         currState->OnExit(enemy);

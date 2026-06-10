@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
     Player* player = GameManager::InstantiateGameObject<Player>(EntityConfig {GameObjectConfig{ }, 
         SpriteSheet(
             SpriteLoader::GetSprite("man_spritesheet.png"),
-            16, 16, 
+        16, 16,
             {2}), Vector2 {16,16}, CollisionLayer::PLAYER}, 200);
 
     SerializationManager::LoadGame();

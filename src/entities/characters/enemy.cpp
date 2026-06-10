@@ -13,6 +13,7 @@ Enemy::Enemy(const EntityConfig& config, float moveSpeed, unsigned health) : Cha
     this->idleState = IdleState();
     this->chaseState = ChaseState();
     this->attackState = AttackState();
+    this->deathState = DeathState();
 
     stateMachine.ChangeState(this, &idleState);
 }
@@ -58,6 +59,9 @@ EnemyState* Enemy::GetAttackState() {
 EnemyState* Enemy::GetDeathState() {
     return  &deathState;
 }
+EnemyState* Enemy::GetOnHitState() {
+    return &onHitState;
+}
 
 //===SETTERS===
 
@@ -70,6 +74,10 @@ void Enemy::OnUpdate() {
 
 void Enemy::OnTakeDamage(unsigned damage) {
     currHealth -= damage;
+
+    stateMachine.ChangeState(this, &onHitState);
+
+    // this->SetSpriteTint(RED);
 
     if (currHealth <= 0) {
         this->stateMachine.ChangeState(this, GetDeathState());

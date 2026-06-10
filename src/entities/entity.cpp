@@ -16,6 +16,9 @@ Entity::Entity(const EntityConfig& config)
 
     this->size = config.size;
     this->collisionLayer = config.collisionLayer;
+    this->spriteTint = config.spriteTint;
+
+    onCurrAnimEndEvent = Delegate<void()>();
 
     SetHitbox();
 }
@@ -27,6 +30,9 @@ Entity::Entity(const Entity& other) : GameObject(other), spriteSheet(other.sprit
 
     this->size = other.size;
     this->collisionLayer = other.collisionLayer;
+    this->spriteTint = other.spriteTint;
+
+    onCurrAnimEndEvent = Delegate<void()>();
 
     SetHitbox();
 }
@@ -74,6 +80,10 @@ char Entity::GetCurrAnimLayerLength() const {
     return spriteSheet.GetSpriteSheetMatrix()[currAnimLayerIdx].size();
 }
 
+Delegate<void()>& Entity::GetOnCurrAnimEndEvent() {
+    return onCurrAnimEndEvent;
+}
+
 //===SETTERS===
 void Entity::SetSpriteSheet(const SpriteSheet& sheet) {
     spriteSheet = sheet;
@@ -90,8 +100,11 @@ void Entity::SetAnimationLayer(char newLayerIdx) {
     }
 }
 
-//===MEMBER FUNCTIONS===
+void Entity::SetSpriteTint(const Color& tint) {
+    this->spriteTint = tint;
+}
 
+//===MEMBER FUNCTIONS===
 void Entity::OnUpdate() {
     GameObject::OnUpdate();
 
@@ -107,7 +120,6 @@ void Entity::OnUpdate() {
 }
 
 void Entity::Draw() {
-    //TraceLog(LOG_INFO, "Entity::Draw");
     if (spriteSheet.IsEmpty()) { 
         GameObject::Draw();
 
@@ -115,7 +127,6 @@ void Entity::Draw() {
     }
 
     int layerIdx = currAnimLayerIdx;
-    // TraceLog(LOG_INFO, this->spriteSheet.IsEmpty() ? "1" : "0");
     Rectangle sourceRec = this->spriteSheet.GetFrameRect(layerIdx, currFrameIdx);
 
     // If looking left, flip the source rectangle width
@@ -124,15 +135,18 @@ void Entity::Draw() {
     Rectangle destRec = { position.x, position.y, std::abs(sourceRec.width), sourceRec.height };
     Vector2 origin = { destRec.width / 2.0f, destRec.height / 2.0f };
 
-    DrawTexturePro(*spriteSheet.GetSpriteSheet(), sourceRec, destRec, origin, rotation, WHITE);
+    DrawTexturePro(*spriteSheet.GetSpriteSheet(), sourceRec, destRec, origin, rotation, spriteTint);
 }
 
 void Entity::HandleAnimation(const std::vector<std::vector<Rectangle>>& animationMatrix) {
     elapsedFrameTime += GetFrameTime();
 
     if (elapsedFrameTime >= GFXManager::FRAME_WAIT_TIME) {
-        currFrameIdx = (currFrameIdx + 1) % (animationMatrix[currAnimLayerIdx]).size();
+        currFrameIdx = (currFrameIdx + 1) % GetCurrAnimLayerLength();
 
         elapsedFrameTime = 0.0f;
     }
+
+    if (currFrameIdx >= GetCurrAnimLayerLength() - 1)
+        onCurrAnimEndEvent();
 }

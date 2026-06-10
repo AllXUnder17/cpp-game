@@ -2,6 +2,7 @@
 #define _ENTITY_
 
 #include "core/gameobject.h"
+#include "core/managers/delegate.h"
 #include "core/spritesheet.h"
 
 struct EntityConfig {
@@ -9,6 +10,7 @@ struct EntityConfig {
     SpriteSheet spriteSheet;
     Vector2 size;
     CollisionLayer collisionLayer = CollisionLayer::DEFAULT;
+    Color spriteTint = WHITE;
 };
 
 class Entity : public GameObject, public ICollidable {
@@ -38,10 +40,14 @@ public:
 
     char GetCurrFrameIdx() const;
     char GetCurrAnimLayerLength() const;
+
+    Delegate<void()>& GetOnCurrAnimEndEvent();
     
     //===SETTERS===
     void SetSpriteSheet(const SpriteSheet& sheet);
     void SetAnimationLayer(char currAnimLayerIdx);
+
+    void SetSpriteTint(const Color& tint);
     
     //===MEMBER FUNCTIONS===
     void OnUpdate() override;
@@ -57,12 +63,13 @@ public:
     
 protected:
     CollisionLayer collisionLayer;
+    Color spriteTint;
 
     float elapsedFrameTime;
     char currFrameIdx;
     char currAnimLayerIdx;
 
-
+    Delegate<void()> onCurrAnimEndEvent;
 
     void SetHitbox();
     void HandleAnimation(const std::vector<std::vector<Rectangle>>& animationMatrix);

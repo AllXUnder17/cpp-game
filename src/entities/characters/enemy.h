@@ -3,11 +3,13 @@
 
 #include "core/idamagable.h"
 
+#include "enemy_statemachine/enemystatemachine.h"
 #include "enemy_statemachine/attackstate.h"
 #include "enemy_statemachine/chasestate.h"
 #include "enemy_statemachine/deathstate.h"
-#include "enemy_statemachine/enemystatemachine.h"
 #include "enemy_statemachine/idlestate.h"
+#include "enemy_statemachine/onhitstate.h"
+
 #include "entities/character.h"
 
 class Enemy : public Character, public IDamagable {
@@ -36,6 +38,7 @@ public:
     EnemyState* GetChaseState();
     EnemyState* GetAttackState();
     EnemyState* GetDeathState();
+    EnemyState* GetOnHitState();
     
     //===SETTERS===
     
@@ -54,6 +57,7 @@ protected:
     ChaseState chaseState;
     AttackState attackState;
     DeathState deathState;
+    OnHitState onHitState;
 };
 
 #endif
