@@ -1,9 +1,5 @@
 #include "libraryofalexandria.h" // IWYU pragma: keep
 
-void DisplayNerdInfo() {
-    
-}
-
 int main(int argc, char* argv[]) {
 
     GameManager::InitGame(1280, 720);
@@ -23,8 +19,6 @@ int main(int argc, char* argv[]) {
             .localPosition = { 10, 5 }, 
         }, Vector2 { 12, -1 },
         5, 10, 10,  Sound()});
-
-    TraceLog(LOG_INFO, "load");
 
     bool toggleNerdInfo = true;
 
@@ -103,7 +97,6 @@ int main(int argc, char* argv[]) {
             
             DrawText(playerInfo.str().c_str(), 10, 720 - 64, 32, GRAY);
         EndDrawing();
-        
     }
 
     SerializationManager::SaveGame();

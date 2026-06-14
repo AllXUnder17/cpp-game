@@ -38,6 +38,8 @@ void EnemyFactory::InitPrefabs() {
         ),
         Vector2 {40, 40}, CollisionLayer::ENEMY
     }, 0, 60);
+
+    baseEnemyPrefab->AddAnimationEvent(2, 9, 1243546, []() {baseEnemyPrefab->OnAttack();});
 }
 
 Enemy* EnemyFactory::SpawnBaseEnemy(const Vector2& pos) {

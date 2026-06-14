@@ -15,6 +15,8 @@ struct EntityConfig {
 
 class Entity : public GameObject, public ICollidable {
 public:
+    using FrameEventMap = std::unordered_map<int, Delegate<void()>>;
+
     //===CONSTANTS===
     
     //===STATIC MEMBERS===
@@ -52,8 +54,12 @@ public:
     //===MEMBER FUNCTIONS===
     void OnUpdate() override;
     void Draw() override;
+
+    void AddAnimationEvent(size_t animLayer, size_t frameIdx, size_t eventId, std::function<void()> callback);
     
-    protected:
+protected:
+    std::unordered_map<int, FrameEventMap> animationEvents;
+
     SpriteSheet spriteSheet;
     
     BoundingBox hitbox;
@@ -61,7 +67,7 @@ public:
     
     bool isFacingLeft;
     
-protected:
+private:
     CollisionLayer collisionLayer;
     Color spriteTint;
 

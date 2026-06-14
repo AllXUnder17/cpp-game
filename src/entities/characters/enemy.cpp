@@ -83,3 +83,7 @@ void Enemy::OnTakeDamage(unsigned damage) {
         this->stateMachine.ChangeState(this, GetDeathState());
     }
 }
+
+void Enemy::OnAttack() {
+    TraceLog(LOG_INFO, " dda");
+}

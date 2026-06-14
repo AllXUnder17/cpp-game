@@ -9,12 +9,19 @@
 //===MEMBER FUNCTIONS===
 void DeathState::OnEnter(Enemy* enemy) {    
     enemy->SetAnimationLayer(4);
+
+    delegateIdx = enemy->GetOnCurrAnimEndEvent().AddListener([this, enemy]() {
+        EnemyState* prevState = enemy->GetStateMachine().GetPrevState(); 
+
+        enemy->SetIsActive(false);
+        
+        enemy->GetOnCurrAnimEndEvent().Remove(delegateIdx);
+
+        OnExit(enemy);
+    });
 }
 
-void DeathState::OnUpdate(Enemy* enemy, float deltaTime) {
-    if (enemy->GetCurrFrameIdx() == enemy->GetCurrAnimLayerLength() - 1)
-        OnExit(enemy);
-}
+void DeathState::OnUpdate(Enemy* enemy, float deltaTime) { }
 
 void DeathState::OnExit(Enemy* enemy) { 
     GameManager::Destroy(enemy);

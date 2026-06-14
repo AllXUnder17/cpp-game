@@ -36,9 +36,10 @@ public:
     //===SETTERS===
     
     //===MEMBER FUNCTIONS===
-    // virtual void OnShoot();
     virtual void OnShoot();
     virtual void OnReload();
+
+    virtual void OutputInfo(std::stringstream& ss);
     
     //---Inherited---
     void OnUpdate() override;

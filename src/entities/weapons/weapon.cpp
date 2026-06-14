@@ -1,5 +1,7 @@
 #include "weapon.h"
 
+#include <iomanip> // IWYU pragma: keep
+
 #include "entities/factories/bulletfactory.h"
 #include "raymath.h"
 
@@ -8,9 +10,9 @@
 
 #include "core/spritesheet.h"  // IWYU pragma: keep
 
-#include <core/spriteloader.h>
+#include "core/spriteloader.h" // IWYU pragma: keep
 
-#include <entities/bullets/bullet.h>
+#include "entities/bullets/bullet.h" // IWYU pragma: keep
 
 Weapon::Weapon(const WeaponConfig& config) : GameObject(config.goConfig) {
     this->localTipOffset = config.localTipOffset;
@@ -90,4 +92,8 @@ void Weapon::HandleRotation() {
     Vector2 worldMousePos = GetScreenToWorld2D(virtualMousePos, GFXManager::GetCamera());
 
     rotation = atan2f(worldMousePos.y - parent->GetPosition().y, worldMousePos.x - parent->GetPosition().x) * RAD2DEG;
+}
+
+void Weapon::OutputInfo(std::stringstream& ss) {
+    ss << std::fixed << currBullets << " / " << magazineCapacity;
 }

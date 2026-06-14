@@ -149,4 +149,20 @@ void Entity::HandleAnimation(const std::vector<std::vector<Rectangle>>& animatio
 
     if (currFrameIdx >= GetCurrAnimLayerLength() - 1)
         onCurrAnimEndEvent();
+
+    auto layerIt = animationEvents.find(currAnimLayerIdx);
+    if (layerIt != animationEvents.end()) {
+        
+        // 4. Look up if the current specific frame index has an active event
+        auto frameIt = layerIt->second.find(currFrameIdx);
+        if (frameIt != layerIt->second.end()) {
+            
+            // Fire the delegate! All registered functions execute instantly.
+            frameIt->second(); 
+        }
+    }
+}
+
+void Entity::AddAnimationEvent(size_t animLayer, size_t frameIdx, size_t eventId, std::function<void()> callback) {
+    animationEvents[animLayer][frameIdx].AddListener(eventId, callback);
 }

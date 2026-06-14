@@ -11,14 +11,6 @@ std::unordered_map<KeyboardKey, std::function<void()>> InputManager::onKeyReleas
 std::unordered_map<KeyboardKey, std::function<void()>> InputManager::onKeyDownCallbacks = std::unordered_map<KeyboardKey, std::function<void()>>();
 std::unordered_map<KeyboardKey, std::function<void()>> InputManager::onKeyUpCallbacks = std::unordered_map<KeyboardKey, std::function<void()>>();
 
-//===CONSTRUCTORS===
-
-//===DESTRUCTOR===
-
-//===GETTERS===
-
-//===SETTERS===
-
 //===MEMBER FUNCTIONS===
 void InputManager::SetKeybind(const KeyboardKey& key, std::function<void()> callback, const KeybindType& type) {
     switch (type) {

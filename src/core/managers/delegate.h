@@ -2,9 +2,8 @@
 #define _DELEGATE_
 
 #include <functional>
-#include <algorithm>
+#include <unordered_map>
 #include <iostream> // IWYU pragma: keep
-#include <vector>
 
 template<typename T>
 class Delegate;
@@ -13,9 +12,6 @@ template<typename ReturnType, typename... Args>
 class Delegate<ReturnType(Args ...)> {
 public:
     using CallbackType = std::function<ReturnType(Args...)>;
-    //===CONSTANTS===
-    
-    //===STATIC MEMBERS===
     
     //===CONSTRUCTORS===
     Delegate() = default;
@@ -25,46 +21,41 @@ public:
     
     //===OPERATORS===
     ReturnType operator()(Args... args) {
-    for (auto& [id, callback] : callbacks) {
-        callback(args ...);
+        // Structured binding works perfectly on maps out-of-the-box!
+        for (auto& [id, callback] : callbacks) {
+            if (callback) {
+                callback(args...);
+            }
+        }
     }
-}
-    
-    //===GETTERS===
-    
-    //===SETTERS===
     
     //===MEMBER FUNCTIONS===
-    size_t Add(CallbackType callback) {
+    size_t AddListener(CallbackType callback) {
         size_t id = currId++;
-
-        callbacks.push_back({id, callback});
-
+        callbacks[id] = callback;
         return id;
     }
 
+    void AddListener(size_t listenerId, CallbackType callback) {
+        // If the ID already exists, this safely updates/overwrites it
+        callbacks[listenerId] = callback;
+    }
+
     void Remove(const size_t& id) {
-    auto it = std::find_if(callbacks.begin(), callbacks.end(), [id](const Entry& entry) {
-        return id == entry.id;
-    });
+        // Instant map erasure instead of iterating through a vector search
+        callbacks.erase(id);
+    }
 
-    if (it != callbacks.end())
-        callbacks.erase(it);
-}
-
-
-    ReturnType Invoke(CallbackType callback);
+    // Clears all listeners registered to this specific delegate instances
+    void Clear() {
+        callbacks.clear();
+    }
 
 private:
-    struct Entry {
-        std::size_t id = 0;
-        CallbackType callback;
-    };
-
     size_t currId = 0;
-
-    std::vector<Entry> callbacks;
+    
+    // Key: listener ID | Value: The bound std::function callback
+    std::unordered_map<size_t, CallbackType> callbacks;
 };
-
 
 #endif
