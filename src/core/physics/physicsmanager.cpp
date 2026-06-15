@@ -47,7 +47,6 @@ std::vector<ICollidable*> PhysicsManager::GetActiveCollidables() {
     return activeCollidables;
 }
 
-
 //===SETTERS===
 
 //===MEMBER FUNCTIONS===

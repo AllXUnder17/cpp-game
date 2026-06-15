@@ -1,6 +1,7 @@
 #ifndef _GAME_MANAGER_
 #define _GAME_MANAGER_
 
+#include <functional>
 #include <unordered_map>
 #include <vector>
 #include <string>
@@ -16,6 +17,12 @@
 #include "core/gameobject.h"
 #include "core/iupdatable.h"
 
+struct DelayedCallback {
+    std::function<void()> callback;
+    float delay;
+    float elapsedTime = 0;
+    bool isRepeated;
+};
 
 class GameManager {
 public:
@@ -55,8 +62,12 @@ public:
 
     //---Others---
     static void OutputInfo(std::stringstream& ss);
+
+    static void Invoke(std::function<void()> callback, float delay,bool isRepeated = false);
+    static void HandleDelayedCallbacks();
 private:
     static std::unordered_map<std::size_t, GameObject*> gameObjects;
+    static std::vector<DelayedCallback> delayedCallbacks;
 
     static std::vector<IOnStart*> onStartObjects;
     static std::vector<IUpdatable*> updatables;

@@ -20,6 +20,8 @@ Entity::Entity(const EntityConfig& config)
 
     onCurrAnimEndEvent = Delegate<void()>();
 
+    EnableCollider();
+
     SetHitbox();
 }
 
@@ -33,6 +35,8 @@ Entity::Entity(const Entity& other) : GameObject(other), spriteSheet(other.sprit
     this->spriteTint = other.spriteTint;
 
     onCurrAnimEndEvent = Delegate<void()>();
+
+    EnableCollider();
 
     SetHitbox();
 }
@@ -69,7 +73,7 @@ BoundingBox& Entity::GetHitbox() {
 }
 
 bool Entity::IsColliderActive() {
-    return IsActive();
+    return isColliderEnabled;
 }
 
 char Entity::GetCurrFrameIdx() const {
@@ -102,6 +106,14 @@ void Entity::SetAnimationLayer(char newLayerIdx) {
 
 void Entity::SetSpriteTint(const Color& tint) {
     this->spriteTint = tint;
+}
+
+//---Collider---
+void Entity::EnableCollider() {
+    isColliderEnabled = true;
+}
+void Entity::DisableCollider() {
+    isColliderEnabled = false;
 }
 
 //===MEMBER FUNCTIONS===

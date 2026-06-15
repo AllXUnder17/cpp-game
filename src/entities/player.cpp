@@ -2,6 +2,7 @@
 #include "entities/coin.h"
 #include "raymath.h"
 
+#include "core/managers/gamemanager.h"
 #include "core/managers/inputmanager.h"
 #include "core/managers/serializationmanager.h"
 
@@ -52,6 +53,16 @@ void Player::HandleMovement() {
     
     position = Vector2Add(position, deltaVelocity);
 }
+void Player::Dash() {
+    moveSpeed *= 2;
+    DisableCollider();
+
+    GameManager::Invoke([this](){
+        moveSpeed = initMoveSpeed;
+        EnableCollider();
+    }, 0.1);
+}
+
 //---Direction Handling---
 void Player::SetDirection(const Vector2& movementDir) {
     velocity = movementDir;
@@ -98,6 +109,11 @@ void Player::SetKeybinds() {
     InputManager::SetKeybind(KEY_S, [this]() {
             PopInputY(1);
         }, ON_KEY_RELEASED);
+
+    //DASH |_|
+    InputManager::SetKeybind(KEY_SPACE, [this]() {
+        Dash();
+    }, ON_KEY_PRESSED);
 }
 
 void Player::PushInputX(short dirX) {

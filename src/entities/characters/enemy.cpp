@@ -24,6 +24,7 @@ Enemy::Enemy(const Enemy& other) : Character(other) {
     this->idleState = IdleState();
     this->chaseState = ChaseState();
     this->attackState = AttackState();
+    this->deathState = DeathState();
 
     stateMachine.ChangeState(this, &idleState);
 }
@@ -77,6 +78,8 @@ void Enemy::OnTakeDamage(unsigned damage) {
 
     stateMachine.ChangeState(this, &onHitState);
 
+    TraceLog(LOG_INFO, std::to_string(currHealth).c_str());
+
     // this->SetSpriteTint(RED);
 
     if (currHealth <= 0) {
@@ -85,5 +88,5 @@ void Enemy::OnTakeDamage(unsigned damage) {
 }
 
 void Enemy::OnAttack() {
-    TraceLog(LOG_INFO, " dda");
+    TraceLog(LOG_INFO, "Attacked player");
 }

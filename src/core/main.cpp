@@ -3,7 +3,7 @@
 int main(int argc, char* argv[]) {
 
     GameManager::InitGame(1280, 720);
-
+    
     Player* player = GameManager::InstantiateGameObject<Player>(EntityConfig {GameObjectConfig{ }, 
         SpriteSheet(
             SpriteLoader::GetSprite("man_spritesheet.png"),
@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
                 GFXManager::OutputInfo(nerdInfoText);
                 PhysicsManager::OutputInfo(nerdInfoText);
 
-                nerdInfoText << "----------";
+                nerdInfoText << "----------\n\n";
 
                 nerdInfoText <<
                     std::fixed << std::setprecision(2) <<

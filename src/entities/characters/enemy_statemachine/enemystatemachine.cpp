@@ -1,5 +1,6 @@
 #include "enemystatemachine.h"
 
+#include "entities/characters/enemy.h"
 #include "enemystate.h"
 
 #include "raylib.h"  // IWYU pragma: keep
@@ -26,9 +27,12 @@ EnemyState* EnemyStateMachine::GetPrevState() const {
 
 //===MEMBER FUNCTIONS===
 void EnemyStateMachine::ChangeState(Enemy* enemy, EnemyState* newState) {
-    if (newState == currState) {
+    if (newState == currState)
         return;
-    }
+
+    //---Special states---
+    if (currState == enemy->GetDeathState())
+        return;
 
     prevState = currState;
 

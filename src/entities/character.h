@@ -33,6 +33,7 @@ protected:
     Vector2 velocity;
     Vector2 movementDirection;
     float moveSpeed;
+    float initMoveSpeed;
 };
 
 #endif

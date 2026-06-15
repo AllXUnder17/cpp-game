@@ -22,6 +22,8 @@ std::vector<IOnEnd*> GameManager::onEndObjects = std::vector<IOnEnd*>();
 
 std::unordered_map<std::size_t, GameObject*> GameManager::gameObjects = std::unordered_map<size_t, GameObject*>();
 
+std::vector<DelayedCallback> GameManager::delayedCallbacks = std::vector<DelayedCallback>();
+
 void GameManager::InitGame(
         const unsigned short windowWidth, 
         const unsigned short windowHeight, 
@@ -101,6 +103,8 @@ void GameManager::HandleUpdatables() {
     InputManager::OnUpdate();
     PhysicsManager::UpdateCollision();
 
+    HandleDelayedCallbacks();
+
     //CollectableFactory::OnUpdate(GetFrameTime());
 
     for (IUpdatable* updatable : GameManager::GetUpdatables()) {
@@ -153,4 +157,29 @@ GameObject* GameManager::GetGameObjectWithTag(const std::string& tag) {
         return it->second;
 
     return nullptr;
+}
+
+void GameManager::Invoke(std::function<void()> callback, float delay,bool isRepeated) {
+    delayedCallbacks.push_back({callback, delay, 0, isRepeated});
+}
+void GameManager::HandleDelayedCallbacks() {
+    float deltaTime = GetFrameTime();
+
+    // Loop backwards to safely delete elements without breaking iterators
+    for (int i = static_cast<int>(delayedCallbacks.size()) - 1; i >= 0; --i) {
+        auto& item = delayedCallbacks[i];
+        item.elapsedTime += deltaTime;
+
+        // Check if the timer has finished
+        if (item.elapsedTime >= item.delay) {
+            item.callback(); // Fire the function!
+
+            if (item.isRepeated) {
+                item.elapsedTime = 0.0f; // Reset timer for the next cycle
+            } else {
+                // Safe to remove now because we are looping backwards!
+                delayedCallbacks.erase(delayedCallbacks.begin() + i);
+            }
+        }
+    }
 }

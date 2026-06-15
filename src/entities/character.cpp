@@ -10,6 +10,7 @@
 
 Character::Character(const EntityConfig& config, float moveSpeed) : Entity(config) {
     this->moveSpeed = moveSpeed;
+    this->initMoveSpeed = moveSpeed;
 }
 
 //===DESTRUCTOR===

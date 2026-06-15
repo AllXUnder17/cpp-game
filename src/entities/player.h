@@ -52,6 +52,8 @@ private:
 
     void HandleMovement(); 
 
+    void Dash();
+
     void SetDirection(const Vector2& moveDir);
     void SetDirectionX(float velX);
     void SetDirectionY(float velY);

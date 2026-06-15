@@ -36,9 +36,14 @@ public:
         return id;
     }
 
-    void AddListener(size_t listenerId, CallbackType callback) {
+    size_t AddListener(size_t& listenerId, CallbackType callback) {
         // If the ID already exists, this safely updates/overwrites it
+        while (callbacks.find(listenerId) != callbacks.end())
+            listenerId++;
+
         callbacks[listenerId] = callback;
+
+        return listenerId;
     }
 
     void Remove(const size_t& id) {

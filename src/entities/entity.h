@@ -50,6 +50,10 @@ public:
     void SetAnimationLayer(char currAnimLayerIdx);
 
     void SetSpriteTint(const Color& tint);
+
+    //---Handle Collider---
+    void EnableCollider();
+    void DisableCollider();
     
     //===MEMBER FUNCTIONS===
     void OnUpdate() override;
@@ -66,7 +70,7 @@ protected:
     Vector2 size;
     
     bool isFacingLeft;
-    
+    bool isColliderEnabled;
 private:
     CollisionLayer collisionLayer;
     Color spriteTint;
