@@ -2,8 +2,8 @@
 
 int main(int argc, char* argv[]) {
 
-    GameManager::InitGame(1280, 720);
-    
+    GameManager::InitGame(1920, 1080);
+
     Player* player = GameManager::InstantiateGameObject<Player>(EntityConfig {GameObjectConfig{ }, 
         SpriteSheet(
             SpriteLoader::GetSprite("man_spritesheet.png"),
@@ -12,13 +12,20 @@ int main(int argc, char* argv[]) {
 
     SerializationManager::LoadGame();
         
-    Weapon* w = GameManager::InstantiateGameObject<Weapon>(WeaponConfig{
+    // Weapon* w = GameManager::InstantiateGameObject<Weapon>(WeaponConfig{
+    //     GameObjectConfig{
+    //         .sprite = SpriteLoader::GetSprite("gun.png"),
+    //         .parent = player,
+    //         .localPosition = { 10, 5 }, 
+    //     }, Vector2 { 12, -1 },
+    //     5, 10, 10,  Sound()});
+
+    Weapon* sungun = GameManager::InstantiateGameObject<Weapon>(WeaponConfig{
         GameObjectConfig{
-            .sprite = SpriteLoader::GetSprite("gun.png"),
+            .sprite = SpriteLoader::GetSprite("sungun_spritesheet.png"),
             .parent = player,
             .localPosition = { 10, 5 }, 
-        }, Vector2 { 12, -1 },
-        5, 10, 10,  Sound()});
+        }, Vector2 { 12, -1 }, 5, 10, 10,  Sound()});
 
     bool toggleNerdInfo = true;
 
@@ -26,7 +33,7 @@ int main(int argc, char* argv[]) {
 
     EnemyFactory::SpawnBaseEnemy({50, 50});
 
-    InputManager::SetKeybind(KEY_TAB, [&toggleNerdInfo]() { toggleNerdInfo = !toggleNerdInfo;}, ON_KEY_PRESSED);
+    InputManager::SetKeybind(KEY_TAB, [&toggleNerdInfo]() { toggleNerdInfo = !toggleNerdInfo; }, ON_KEY_PRESSED);
 
     while (!WindowShouldClose()) {
         //===HANDLE UPDATABLES===
@@ -70,8 +77,7 @@ int main(int argc, char* argv[]) {
                     std::fixed << std::setprecision(2) <<
                     "PL: [ POS_X: " << player->GetPosition().x  << ",\t POS_Y: " << player->GetPosition().y << "\n\n"
                     << "\tDIR_X: " << player->GetVelocity().x << ",\t DIR_Y: " << player->GetVelocity().y << " ]\n\n" <<
-                    "----\n\n"
-                    "W: [ ROT: " << w->GetRotation() << " ]\n\n";
+                    "----\n\n";
 
                 DrawText(nerdInfoText.str().c_str(), 10, 10, 24, BLACK);
 

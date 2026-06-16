@@ -31,8 +31,9 @@ void GameManager::InitGame(
         const unsigned char fps) {
     GameManager::WINDOW_WIDTH = windowWidth;
     GameManager::WINDOW_HEIGHT = windowHeight;
-    
+
     InitWindow(windowWidth, windowHeight, windowTitle.c_str());
+    //ToggleFullscreen();
     
     SetTargetFPS(fps);
 

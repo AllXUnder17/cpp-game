@@ -36,7 +36,7 @@ void EnemyFactory::InitPrefabs() {
             SpriteLoader::GetSprite("enemy_spritesheet.png"),
             80, 80, {9, 6, 12, 5, 23}
         ),
-        Vector2 {40, 40}, CollisionLayer::ENEMY
+        Vector2 {20, 40}, CollisionLayer::ENEMY
     }, 0, 60);
 
     baseEnemyPrefab->AddAnimationEvent(2, 9, 1243546, []() {baseEnemyPrefab->OnAttack();});

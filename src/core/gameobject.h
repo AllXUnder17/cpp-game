@@ -71,7 +71,7 @@ public:
     
     void SetPositionAndRotation(const Vector2& position, const float& rotation);
     
-    void SetIsActive(bool isActive);
+    virtual void SetIsActive(bool isActive);
     
     //===MEMBER FUNCTIONS===
     //---Inheriteds---

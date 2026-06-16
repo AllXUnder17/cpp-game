@@ -108,6 +108,15 @@ void Entity::SetSpriteTint(const Color& tint) {
     this->spriteTint = tint;
 }
 
+void Entity::SetIsActive(bool toggle) {
+    GameObject::SetIsActive(toggle);
+
+    if (toggle)
+        EnableCollider();
+    else
+        DisableCollider();
+}
+
 //---Collider---
 void Entity::EnableCollider() {
     isColliderEnabled = true;

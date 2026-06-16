@@ -50,6 +50,8 @@ public:
     void SetAnimationLayer(char currAnimLayerIdx);
 
     void SetSpriteTint(const Color& tint);
+    
+    void SetIsActive(bool toggle) override;
 
     //---Handle Collider---
     void EnableCollider();
