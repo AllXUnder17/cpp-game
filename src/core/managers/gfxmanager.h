@@ -5,7 +5,9 @@
 #include <vector>
 #include "raylib.h"
 
-#include "core/idrawable.h"
+// #include "core/idrawable.h"
+
+class IDrawable;
 
 class GFXManager {
 public:

@@ -6,7 +6,9 @@
 #include <vector>
 
 #include "collisionlayer.h"
-#include "core/icollidable.h"
+// #include "core/icollidable.h"
+
+class ICollidable;
 
 class PhysicsManager {
 public:

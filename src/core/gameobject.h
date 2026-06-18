@@ -57,8 +57,11 @@ public:
     float GetRotation() const;
 
     bool IsActive() const;
+    bool IsDrawableActive() override;
 
     const std::string& GetTag() const; 
+
+    bool GetIsDead() const;
     
     //===SETTERS===
     void SetTag(const std::string& tag);
@@ -73,6 +76,8 @@ public:
     
     virtual void SetIsActive(bool isActive);
     
+    void SetIsDead(bool isDead);
+
     //===MEMBER FUNCTIONS===
     //---Inheriteds---
     void Draw() override;
@@ -102,6 +107,7 @@ protected:
     float scale;
     
     bool isActive;
+    bool isDead;
 
     void UpdatePosition();
     void UpdateRotation();

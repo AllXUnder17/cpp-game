@@ -32,7 +32,7 @@ Coin& Coin::operator=(const Coin& other) {
 // }
 
 CollectableType Coin::OnCollect() {
-    GameManager::Destroy(this);
+    SetIsDead(true);
 
     return COIN;
 }

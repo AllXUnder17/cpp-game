@@ -48,7 +48,8 @@ void CollectableFactory::OnUpdate(float deltaTime) {
 void CollectableFactory::InitPrefabs() {
     baseCoinPrefab = new Coin(EntityConfig{
         GameObjectConfig{
-            .position = {40, -40}
+            .position = {40, -40},
+            .isActive = false
         },
         SpriteSheet(
             SpriteLoader::GetSprite("coin_spritesheet.png"),
@@ -59,6 +60,6 @@ void CollectableFactory::InitPrefabs() {
 Coin* CollectableFactory::SpawnCoin(const Vector2& pos) {
     Coin* clone = GameManager::InstantiateGameObject<Coin>(*baseCoinPrefab);
     clone->SetPosition(pos);
-
+    clone->SetIsActive(true);
     return clone;
 }

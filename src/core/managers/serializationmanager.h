@@ -2,8 +2,11 @@
 #define _SERIALIZATION_MANAGER_
 
 #include <vector>
+#include <string>
 
-#include "core/iserializable.h"
+// #include "core/iserializable.h"
+
+class ISerializable;
 
 class SerializationManager {
 public:

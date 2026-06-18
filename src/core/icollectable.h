@@ -8,6 +8,7 @@ enum CollectableType {
 class ICollectable {
 public:
     ICollectable() = default;
+    virtual ~ICollectable() = default;
 
     virtual CollectableType OnCollect() = 0;
 };

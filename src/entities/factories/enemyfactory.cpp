@@ -30,7 +30,8 @@ void EnemyFactory::InitPrefabs() {
     baseEnemyPrefab = new Enemy(EntityConfig{
         GameObjectConfig{
             //.sprite = SpriteLoader::GetSprite()
-            .position = {50, 50}
+            .position = {50, 50},
+            .isActive = false
         },
         SpriteSheet(
             SpriteLoader::GetSprite("enemy_spritesheet.png"),
@@ -46,6 +47,7 @@ Enemy* EnemyFactory::SpawnBaseEnemy(const Vector2& pos) {
     Enemy* clone = GameManager::InstantiateGameObject<Enemy>(*baseEnemyPrefab);
 
     clone->SetPosition(pos);
+    clone->SetIsActive(true);
 
     return clone;
 }

@@ -28,7 +28,7 @@ SpriteSheet::SpriteSheet(Texture2D* spriteSheet, const unsigned spriteWidth, con
         for (int row = 0; row < rows; row++) {
             // If we passed an array defining specific frame counts for this row, use it.
             // Otherwise, fallback to the default max columns.
-            int colsInThisRow = (row < framesPerRow.size()) ? framesPerRow[row] : defaultColumns;
+            int colsInThisRow = (row < framesPerRow.size()) ? framesPerRow.at(row) : defaultColumns;
 
             for (int col = 0; col < colsInThisRow; col++) {
                 Rectangle frameBox = {
@@ -37,7 +37,7 @@ SpriteSheet::SpriteSheet(Texture2D* spriteSheet, const unsigned spriteWidth, con
                     (float)spriteWidth,
                     (float)spriteHeight
                 };
-                spriteSheetMatrix[row].push_back(frameBox);
+                spriteSheetMatrix.at(row).push_back(frameBox);
                 stateAnimations[row].push_back(frameBox);
             }
         }
@@ -65,7 +65,7 @@ SpriteSheet::SpriteSheet(const SpriteSheet& other) {
         for (int row = 0; row < rows; row++) {
             // If we passed an array defining specific frame counts for this row, use it.
             // Otherwise, fallback to the default max columns.
-            int colsInThisRow = (row < framesPerRow.size()) ? framesPerRow[row] : defaultColumns;
+            int colsInThisRow = (row < framesPerRow.size()) ? framesPerRow.at(row) : defaultColumns;
 
             for (int col = 0; col < colsInThisRow; col++) {
                 Rectangle frameBox = {
@@ -74,7 +74,7 @@ SpriteSheet::SpriteSheet(const SpriteSheet& other) {
                     (float)spriteWidth,
                     (float)spriteHeight
                 };
-                spriteSheetMatrix[row].push_back(frameBox);
+                spriteSheetMatrix.at(row).push_back(frameBox);
                 stateAnimations[row].push_back(frameBox);
             }
         }

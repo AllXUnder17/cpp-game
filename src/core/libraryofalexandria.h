@@ -10,6 +10,7 @@
 #include "raymath.h"
 
 #include "core/managers/gamemanager.h"
+#include "core/managers/scenemanager.h"
 #include "core/managers/gfxmanager.h"
 #include "core/managers/inputmanager.h"
 #include "core/managers/serializationmanager.h"

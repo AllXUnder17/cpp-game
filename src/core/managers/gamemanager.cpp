@@ -2,7 +2,6 @@
 
 #include "core/managers/inputmanager.h"
 
-
 #include "core\spriteloader.h"
 #include "core/audioloader.h"
 
@@ -15,12 +14,6 @@
 
 unsigned short GameManager::WINDOW_WIDTH = 1280;
 unsigned short GameManager::WINDOW_HEIGHT = 720;
-
-std::vector<IUpdatable*> GameManager::updatables = std::vector<IUpdatable*>();
-std::vector<IOnStart*> GameManager::onStartObjects = std::vector<IOnStart*>();
-std::vector<IOnEnd*> GameManager::onEndObjects = std::vector<IOnEnd*>();
-
-std::unordered_map<std::size_t, GameObject*> GameManager::gameObjects = std::unordered_map<size_t, GameObject*>();
 
 std::vector<DelayedCallback> GameManager::delayedCallbacks = std::vector<DelayedCallback>();
 
@@ -36,14 +29,14 @@ void GameManager::InitGame(
     //ToggleFullscreen();
     
     SetTargetFPS(fps);
-
-    gameObjects.reserve(100);
     
+    //build all scenes
+
     GFXManager::Init();
-    AudioLoader::Init();
+    //AudioLoader::Init();
     PhysicsManager::Init();
 
-    //---INIT FACTORIES---
+    // //---INIT FACTORIES---
     BulletFactory::Init();
     CollectableFactory::Init(2);
     EnemyFactory::Init();
@@ -52,9 +45,7 @@ void GameManager::InitGame(
 }
 
 void GameManager::UninitGame() {
-    for (auto& go : gameObjects) {
-        delete go.second;
-    }
+    //unload all current scenes
 
     SpriteLoader::UnloadAll();
     //AudioLoader::UnloadAll();
@@ -65,42 +56,18 @@ void GameManager::UninitGame() {
     EnemyFactory::Uninit();
     CollectableFactory::Uninit();
 
-    gameObjects.clear();
-
     CloseWindow();
 }
 
-void GameManager::AddGameObject(GameObject* gameObject) {
-    if (gameObject == nullptr) {
-        return;
-    }
+//---Others---
 
-    gameObjects[gameObject->GetID()] = gameObject;
+void GameManager::Destroy(GameObject* go) {
+    if (go == nullptr) return;
+
+    go->SetIsDead(true);
 }
 
-void GameManager::Destroy(GameObject* gameObject) {
-    GFXManager::RemoveDrawable(gameObject);
-
-    ICollidable* collidable = dynamic_cast<ICollidable*>(gameObject);
-    if (collidable != nullptr)
-        PhysicsManager::RemoveCollidable(collidable);
-
-    ISerializable* serializable = dynamic_cast<ISerializable*>(gameObject);
-    if (serializable != nullptr)
-        SerializationManager::RemoveSerializable(serializable);
-
-    RemoveUpdatable(gameObject);
-
-    gameObjects.erase(gameObject->GetID());
-}
-
-const std::unordered_map<std::size_t, GameObject*>& GameManager::GetGameObjects() {
-    return gameObjects;
-}
-
-//---Updatables---
-
-void GameManager::HandleUpdatables() {
+void GameManager::HandleUpdate() {
     InputManager::OnUpdate();
     PhysicsManager::UpdateCollision();
 
@@ -108,79 +75,78 @@ void GameManager::HandleUpdatables() {
 
     //CollectableFactory::OnUpdate(GetFrameTime());
 
-    for (IUpdatable* updatable : GameManager::GetUpdatables()) {
-        updatable->OnUpdate();
+    SceneManager::Update();
+
+    CleanupDeadObjects();
+}
+
+void GameManager::CleanupDeadObjects() {
+    // 1. Get the safe read-only copy of pointers (No ampersand!)
+    auto loadedGameObjects = SceneManager::GetLoadedGameObjects();
+
+    // 2. Clear the actual heap memory allocated for dead objects
+    for (auto go : loadedGameObjects) {
+        if (go && go->GetIsDead()) {
+            delete go; // Triggers RAII unregistrations safely
+        }
     }
+
+    // 3. Tell your scenes to scrub the now-deleted pointers out of their vectors
+    SceneManager::ClearDeadSceneReferences();
 }
 
-void GameManager::AddUpdatable(IUpdatable* updatable) {
-    if (updatable == nullptr) {
-        TraceLog(LOG_INFO, "const char *text, ...");
-        return;
-    }
-    
-    updatables.push_back(updatable);
-}
 
-void GameManager::RemoveUpdatable(IUpdatable* updatable) {
-    auto it = std::find(updatables.begin(), updatables.end(), updatable);
-    if (it != updatables.end()) {
-        updatables.erase(it);
-    }
-}
-
-const std::vector<IUpdatable*>& GameManager::GetUpdatables() {
-    return updatables; 
-}
-
-//---Others---
 void GameManager::OutputInfo(std::stringstream& ss) {
-    ss << std::fixed << "GM: [\tALL_CNT: " << gameObjects.size() << ",\t"
-        << "ACTIVE_CNT: " << std::count_if(gameObjects.begin(), gameObjects.end(), [](const auto& pair){return pair.second->IsActive();}) << " ]\n\n";
+    // ss << std::fixed << "GM: [\tALL_CNT: " << gameObjects.size() << ",\t"
+    //     << "ACTIVE_CNT: " << std::count_if(gameObjects.begin(), gameObjects.end(), [](const auto& pair){return pair.second->IsActive();}) << " ]\n\n";
 }
 
 void GameManager::HandleOnStart() {
-    for (auto it : onStartObjects) {
-        it->OnStart();
-    }
+
 }
 
 void GameManager::HandleOnEnd() {
-    for (auto it : onEndObjects) {
-        it->OnEnd();
-    }
+
 }
 
 GameObject* GameManager::GetGameObjectWithTag(const std::string& tag) {
-    auto it = std::find_if(gameObjects.begin(), gameObjects.end(), [tag](const auto& pair) { return pair.second->GetTag() == tag;});
+    auto gameObjects = SceneManager::GetActiveScene()->GetGameObjects();
+    auto it = std::find_if(gameObjects.begin(), gameObjects.end(), [tag](const auto& go) { return go->GetTag() == tag;});
 
-    if (it != gameObjects.end())
-        return it->second;
+    if (it == gameObjects.end())
+        return nullptr;
 
-    return nullptr;
+    return *it;
 }
 
 void GameManager::Invoke(std::function<void()> callback, float delay,bool isRepeated) {
     delayedCallbacks.push_back({callback, delay, 0, isRepeated});
 }
+
 void GameManager::HandleDelayedCallbacks() {
     float deltaTime = GetFrameTime();
 
-    // Loop backwards to safely delete elements without breaking iterators
-    for (int i = static_cast<int>(delayedCallbacks.size()) - 1; i >= 0; --i) {
-        auto& item = delayedCallbacks[i];
+    // 1. Create a snapshot copy of the list of callbacks to iterate through.
+    // This isolates the loops from any new callbacks pushed inside item.callback()!
+    auto callbacksCopy = delayedCallbacks;
+    delayedCallbacks.clear(); // Empty the master list to accept new additions cleanly
+
+    // 2. Loop forward through your safe snapshot
+    for (size_t i = 0; i < callbacksCopy.size(); ++i) {
+        auto& item = callbacksCopy.at(i);
         item.elapsedTime += deltaTime;
 
-        // Check if the timer has finished
         if (item.elapsedTime >= item.delay) {
-            item.callback(); // Fire the function!
+            item.callback(); // Entirely safe if this adds items to 'delayedCallbacks'!
 
             if (item.isRepeated) {
-                item.elapsedTime = 0.0f; // Reset timer for the next cycle
-            } else {
-                // Safe to remove now because we are looping backwards!
-                delayedCallbacks.erase(delayedCallbacks.begin() + i);
+                item.elapsedTime = 0.0f;
+                delayedCallbacks.push_back(item); // Re-add it to the main queue
             }
+            // If it's not repeated, we simply let it drop here (no erase needed!)
+        } else {
+            // Timer didn't finish, keep it alive by transferring back to main queue
+            delayedCallbacks.push_back(item);
         }
     }
 }

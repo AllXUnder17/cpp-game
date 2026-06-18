@@ -8,11 +8,7 @@
 
 #include "gfxmanager.h"
 
-#include "core/physics/collisionlayer.h"
-#include "core/physics/physicsmanager.h"
-
-#include "core/managers/serializationmanager.h"
-#include "core/managers/collisionmanager.h"
+#include "core/managers/scenemanager.h"
 
 #include "core/gameobject.h"
 #include "core/iupdatable.h"
@@ -42,60 +38,35 @@ public:
 
     //===GETTERS===
     //---Game Objects---
-    static const std::unordered_map<std::size_t, GameObject*>& GetGameObjects();
-
-    static void AddGameObject(GameObject* gameObject);
-
     template <typename T, typename... Args>
     static T* InstantiateGameObject(Args&&... args);
-    static void Destroy(GameObject* gameObject);
-    
+    static void Destroy(GameObject* go);
+
     static GameObject* GetGameObjectWithTag(const std::string& tag);
 
-    //---Updatables---
-    static void HandleUpdatables();
-
-    static void AddUpdatable(IUpdatable* updatable);
-    static void RemoveUpdatable(IUpdatable* updatable);
-
-    static const std::vector<IUpdatable*>& GetUpdatables();
-
     //---Others---
+    static void HandleUpdate();
+    static void CleanupDeadObjects();
+
     static void OutputInfo(std::stringstream& ss);
 
     static void Invoke(std::function<void()> callback, float delay,bool isRepeated = false);
     static void HandleDelayedCallbacks();
 private:
-    static std::unordered_map<std::size_t, GameObject*> gameObjects;
+    // static std::unordered_map<std::size_t, GameObject*> gameObjects;
     static std::vector<DelayedCallback> delayedCallbacks;
-
-    static std::vector<IOnStart*> onStartObjects;
-    static std::vector<IUpdatable*> updatables;
-    static std::vector<IOnEnd*> onEndObjects;
 
     static void HandleOnStart();
     static void HandleOnEnd();
 };
 
+// Inside GameManager.h (or SceneManager.h)
 template <typename T, typename... Args>
 T* GameManager::InstantiateGameObject(Args&&... args) {
-    GameObject* go = new T(std::forward<Args>(args)...);
+    T* go = new T(std::forward<Args>(args)...);
 
-    AddGameObject(go);
-    AddUpdatable(go);
+    SceneManager::GetActiveScene()->AddGameObject(go);
 
-    GFXManager::AddDrawable(go);
-
-    ICollidable* collidable = dynamic_cast<ICollidable*>(go);
-    if (collidable != nullptr)
-        PhysicsManager::AddCollidable(collidable);
-
-    ISerializable* serializable = dynamic_cast<ISerializable*>(go);
-    if (serializable != nullptr)
-        SerializationManager::AddSerializable(serializable);
-
-
-    return static_cast<T*>(go);
+    return go;
 }
-
 #endif

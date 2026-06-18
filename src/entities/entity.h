@@ -36,7 +36,7 @@ public:
 
     SpriteSheet& GetSpriteSheet() const;
 
-    BoundingBox& GetHitbox() override;
+    BoundingBox GetHitbox() override;
 
     bool IsColliderActive() override final;
 

@@ -1,9 +1,11 @@
 #include "gfxmanager.h"
-#include "gamemanager.h"
 
 #include <iomanip> // IWYU pragma: keep
-
 #include <algorithm> // IWYU pragma: keep
+
+#include "gamemanager.h"
+
+#include "core/idrawable.h"
 
 //===STATIC MEMBERS===
 Color GFXManager::BACKGROUND_COLOR = MAGENTA;
@@ -26,7 +28,6 @@ Camera2D GFXManager::camera = {
 
 //===CONSTRUCTORS===
 void GFXManager::Init(const unsigned animationFramesPerSecond) {
-
     canvas = LoadRenderTexture(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
     SetTextureFilter(canvas.texture, TEXTURE_FILTER_POINT);
     FRAMES_PER_SECOND = animationFramesPerSecond;
@@ -50,8 +51,9 @@ const RenderTexture2D& GFXManager::GetCanvas() {
 //===MEMBER FUNCTIONS===
 //---Drawables---
 void GFXManager::HandleDrawables() {
-    for (IDrawable* drawable : GFXManager::GetDrawables()) {
-        drawable->Draw();
+    for (IDrawable* drawable : GetDrawables()) {
+        if (drawable->IsDrawableActive())
+            drawable->Draw();
     } 
 }
 

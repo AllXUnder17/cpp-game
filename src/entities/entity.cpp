@@ -34,7 +34,7 @@ Entity::Entity(const Entity& other) : GameObject(other), spriteSheet(other.sprit
     this->collisionLayer = other.collisionLayer;
     this->spriteTint = other.spriteTint;
 
-    onCurrAnimEndEvent = Delegate<void()>();
+    // onCurrAnimEndEvent = Delegate<void()>();
 
     EnableCollider();
 
@@ -68,7 +68,7 @@ CollisionLayer Entity::GetCollisionLayer() {
     return collisionLayer;
 }
 
-BoundingBox& Entity::GetHitbox() {
+BoundingBox Entity::GetHitbox() {
     return hitbox;
 }
 

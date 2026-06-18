@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "core/iserializable.h"
+
 //===CONSTANTS===
 
 //===STATIC MEMBERS===

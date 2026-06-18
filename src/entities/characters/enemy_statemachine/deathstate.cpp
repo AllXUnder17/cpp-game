@@ -24,5 +24,6 @@ void DeathState::OnEnter(Enemy* enemy) {
 void DeathState::OnUpdate(Enemy* enemy, float deltaTime) { }
 
 void DeathState::OnExit(Enemy* enemy) { 
+    // delete enemy;
     GameManager::Destroy(enemy);
 }

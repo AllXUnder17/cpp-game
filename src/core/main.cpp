@@ -1,6 +1,13 @@
 #include "libraryofalexandria.h" // IWYU pragma: keep
 
 int main(int argc, char* argv[]) {
+    Scene sc1 = Scene("sc1");
+
+    SceneManager::AddBuildScene(&sc1);
+
+    SceneManager::LoadScene("sc1");
+
+    SceneManager::SetActiveScene(&sc1);
 
     GameManager::InitGame(1920, 1080);
 
@@ -12,20 +19,22 @@ int main(int argc, char* argv[]) {
 
     SerializationManager::LoadGame();
         
-    // Weapon* w = GameManager::InstantiateGameObject<Weapon>(WeaponConfig{
-    //     GameObjectConfig{
-    //         .sprite = SpriteLoader::GetSprite("gun.png"),
-    //         .parent = player,
-    //         .localPosition = { 10, 5 }, 
-    //     }, Vector2 { 12, -1 },
-    //     5, 10, 10,  Sound()});
-
-    Weapon* sungun = GameManager::InstantiateGameObject<Weapon>(WeaponConfig{
+    Weapon* w = GameManager::InstantiateGameObject<Weapon>(WeaponConfig{
         GameObjectConfig{
-            .sprite = SpriteLoader::GetSprite("sungun_spritesheet.png"),
+            .sprite = SpriteLoader::GetSprite("gun.png"),
             .parent = player,
             .localPosition = { 10, 5 }, 
-        }, Vector2 { 12, -1 }, 5, 10, 10,  Sound()});
+        }, Vector2 { 12, -1 },
+        5, 10, 10,  Sound()});
+    
+    // TraceLog(LOG_INFO, ("da " + std::to_string(w->GetID())).c_str());
+
+    // Weapon* sungun = GameManager::InstantiateGameObject<Weapon>(WeaponConfig{
+    //     GameObjectConfig{
+    //         .sprite = SpriteLoader::GetSprite("sungun_spritesheet.png"),
+    //         .parent = player,
+    //         .localPosition = { 10, 5 }, 
+    //     }, Vector2 { 12, -1 }, 5, 10, 10,  Sound()});
 
     bool toggleNerdInfo = true;
 
@@ -37,7 +46,7 @@ int main(int argc, char* argv[]) {
 
     while (!WindowShouldClose()) {
         //===HANDLE UPDATABLES===
-        GameManager::HandleUpdatables();
+        GameManager::HandleUpdate();
 
         //===HANDLE GFX===
         //Draw screen content to canvas (GFX buffer)
@@ -70,6 +79,12 @@ int main(int argc, char* argv[]) {
                 GameManager::OutputInfo(nerdInfoText);
                 GFXManager::OutputInfo(nerdInfoText);
                 PhysicsManager::OutputInfo(nerdInfoText);
+
+                nerdInfoText << std::fixed << std::setprecision(6) <<
+                    "===SCENES===" << "\n\n" <<
+                    "Build Scenes: " << SceneManager::GetBuildScenes().size() << "\n\n" <<
+                    "Loaded Scenes: " << SceneManager::GetLoadedScenes().size() << "\n\n" <<
+                    "Loaded Game Objects: " << SceneManager::GetLoadedGameObjects().size() << "\n\n";
 
                 nerdInfoText << "----------\n\n";
 

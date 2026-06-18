@@ -58,8 +58,8 @@ void PhysicsManager::UpdateCollision() {
 
     for (size_t i = 0; i < activeCollidables.size(); ++i) {
         for (size_t j = i + 1; j < activeCollidables.size(); ++j) {
-            ICollidable* objA = activeCollidables[i];
-            ICollidable* objB = activeCollidables[j];
+            ICollidable* objA = activeCollidables.at(i);
+            ICollidable* objB = activeCollidables.at(j);
 
             // UNITY LAYER FILTER: Check if these two layers are allowed to interact
             if (!CanCollide(objA->GetCollisionLayer(), objB->GetCollisionLayer()) && 

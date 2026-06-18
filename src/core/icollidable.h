@@ -1,15 +1,22 @@
 #ifndef _ICOLLIDABLE_
 #define _ICOLLIDABLE_
 
-#include "physics/collisionlayer.h"
 #include "raylib.h"
 
+#include "physics/physicsmanager.h"
+#include "physics/collisionlayer.h"
 
 class ICollidable {
 public:
-    ~ICollidable() = default;
+    ICollidable() {
+        PhysicsManager::AddCollidable(this);
+    }
 
-    virtual BoundingBox& GetHitbox() = 0;
+    virtual ~ICollidable() {
+        PhysicsManager::RemoveCollidable(this);
+    }
+
+    virtual BoundingBox GetHitbox() = 0;
     virtual CollisionLayer GetCollisionLayer() = 0; 
     virtual bool IsColliderActive() = 0;
     
@@ -19,9 +26,6 @@ public:
     virtual void OnTriggerEnter(ICollidable* other) {};
     virtual void OnTriggerUpdate(ICollidable* other) {};
     virtual void OnTriggerExit(ICollidable* other) {};
-
-private:
-    
 };
 
 #endif

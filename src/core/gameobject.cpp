@@ -2,6 +2,8 @@
 
 #include "gameobject.h"
 
+#include "managers/scenemanager.h"
+
 //===CONSTANTS===
 
 //===STATIC MEMBERS===
@@ -92,9 +94,16 @@ float GameObject::GetRotation() const {
 bool GameObject::IsActive() const {
     return isActive;
 }
+bool GameObject::IsDrawableActive() {
+    return isActive;
+}
 
 const std::string& GameObject::GetTag() const {
     return tag;
+}
+
+bool GameObject::GetIsDead() const {
+    return isDead;
 }
 
 //===SETTERS===
@@ -120,7 +129,11 @@ void GameObject::SetLocalRotation(float localRotation) {
 }
 
 void GameObject::SetIsActive(bool isActive) {
-    this->isActive = isActive;
+    this->isActive = isActive; 
+}
+
+void GameObject::SetIsDead(bool isDead) {
+    this->isDead = isDead;
 }
 
 //===MEMBER FUNCTIONS===

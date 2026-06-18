@@ -3,9 +3,17 @@
 
 #include <fstream>  // IWYU pragma: keep
 
+#include "managers/serializationmanager.h"
+
 class ISerializable {
 public:
-    ~ISerializable() = default;
+    ISerializable() {
+        SerializationManager::AddSerializable(this);
+    }
+
+    virtual ~ISerializable() {
+        SerializationManager::RemoveSerializable(this);
+    }
 
     virtual void Serialize(std::ofstream& ofs) = 0;
     virtual void Deserialize(std::ifstream& ifs) = 0;
