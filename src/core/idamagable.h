@@ -3,7 +3,7 @@
 
 class IDamagable {
 public:
-    ~IDamagable() = default;
+    virtual ~IDamagable() = default;
 
     //virtual unsigned short& GetHealth();
 

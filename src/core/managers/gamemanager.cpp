@@ -2,7 +2,7 @@
 
 #include "core/managers/inputmanager.h"
 
-#include "core\spriteloader.h"
+#include "core/spriteloader.h"
 #include "core/audioloader.h"
 
 #include "entities/factories/bulletfactory.h"
@@ -36,7 +36,7 @@ void GameManager::InitGame(
     //AudioLoader::Init();
     PhysicsManager::Init();
 
-    // //---INIT FACTORIES---
+    //---INIT FACTORIES---
     BulletFactory::Init();
     CollectableFactory::Init(2);
     EnemyFactory::Init();
@@ -64,6 +64,8 @@ void GameManager::UninitGame() {
 void GameManager::Destroy(GameObject* go) {
     if (go == nullptr) return;
 
+    go->OnDestroy();
+
     go->SetIsDead(true);
 }
 
@@ -81,20 +83,19 @@ void GameManager::HandleUpdate() {
 }
 
 void GameManager::CleanupDeadObjects() {
-    // 1. Get the safe read-only copy of pointers (No ampersand!)
     auto loadedGameObjects = SceneManager::GetLoadedGameObjects();
 
-    // 2. Clear the actual heap memory allocated for dead objects
     for (auto go : loadedGameObjects) {
         if (go && go->GetIsDead()) {
-            delete go; // Triggers RAII unregistrations safely
+            TraceLog(LOG_INFO, "Deleted object: %p", go);
+            
+            delete go;
         }
     }
 
     // 3. Tell your scenes to scrub the now-deleted pointers out of their vectors
     SceneManager::ClearDeadSceneReferences();
 }
-
 
 void GameManager::OutputInfo(std::stringstream& ss) {
     // ss << std::fixed << "GM: [\tALL_CNT: " << gameObjects.size() << ",\t"

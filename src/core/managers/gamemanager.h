@@ -65,7 +65,10 @@ template <typename T, typename... Args>
 T* GameManager::InstantiateGameObject(Args&&... args) {
     T* go = new T(std::forward<Args>(args)...);
 
+    // TraceLog(LOG_INFO, "INSTANTIATED OBJECT AT ADDRESS: %p", (void*)go);
     SceneManager::GetActiveScene()->AddGameObject(go);
+
+    go->OnAwake();
 
     return go;
 }

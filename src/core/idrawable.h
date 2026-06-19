@@ -5,12 +5,7 @@
 
 class IDrawable {
 public:
-    IDrawable() {
-        GFXManager::AddDrawable(this);
-    }
-    virtual ~IDrawable() {
-        GFXManager::RemoveDrawable(this);
-    }
+    virtual ~IDrawable() = default;
 
     virtual bool IsDrawableActive() = 0;
 

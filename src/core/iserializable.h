@@ -7,13 +7,7 @@
 
 class ISerializable {
 public:
-    ISerializable() {
-        SerializationManager::AddSerializable(this);
-    }
-
-    virtual ~ISerializable() {
-        SerializationManager::RemoveSerializable(this);
-    }
+    virtual ~ISerializable() = default;
 
     virtual void Serialize(std::ofstream& ofs) = 0;
     virtual void Deserialize(std::ifstream& ifs) = 0;

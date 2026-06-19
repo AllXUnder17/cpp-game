@@ -8,13 +8,7 @@
 
 class ICollidable {
 public:
-    ICollidable() {
-        PhysicsManager::AddCollidable(this);
-    }
-
-    virtual ~ICollidable() {
-        PhysicsManager::RemoveCollidable(this);
-    }
+    virtual ~ICollidable() = default;
 
     virtual BoundingBox GetHitbox() = 0;
     virtual CollisionLayer GetCollisionLayer() = 0; 

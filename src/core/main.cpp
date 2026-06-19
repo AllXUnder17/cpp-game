@@ -1,6 +1,6 @@
 #include "libraryofalexandria.h" // IWYU pragma: keep
 
-int main(int argc, char* argv[]) {
+int main() {
     Scene sc1 = Scene("sc1");
 
     SceneManager::AddBuildScene(&sc1);
@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
 
     GameManager::InitGame(1920, 1080);
 
-    Player* player = GameManager::InstantiateGameObject<Player>(EntityConfig {GameObjectConfig{ }, 
+    Player* player = GameManager::InstantiateGameObject<Player>(EntityConfig {GameObjectConfig{ .name = "player" }, 
         SpriteSheet(
             SpriteLoader::GetSprite("man_spritesheet.png"),
         16, 16,
@@ -21,6 +21,7 @@ int main(int argc, char* argv[]) {
         
     Weapon* w = GameManager::InstantiateGameObject<Weapon>(WeaponConfig{
         GameObjectConfig{
+            .name = "weapon",
             .sprite = SpriteLoader::GetSprite("gun.png"),
             .parent = player,
             .localPosition = { 10, 5 }, 

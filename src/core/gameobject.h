@@ -10,10 +10,13 @@
 #include "idrawable.h"
 #include "iupdatable.h"
 #include "icollidable.h"
+#include "ionawake.h"
+#include "iondestroy.h"
 
 class GameObject;
 
 struct GameObjectConfig {
+    std::string name = "gameobject ";
     std::string tag = "---";
 
     Texture2D *sprite = nullptr;
@@ -30,7 +33,7 @@ struct GameObjectConfig {
     bool isActive = true;
 };
 
-class GameObject : public IDrawable, public IUpdatable, public IOnStart, public IOnEnd {
+class GameObject : public IDrawable, public IUpdatable, public IOnStart, public IOnEnd, public IOnAwake, public IOnDestroy {
 public:
     //===CONSTANTS===
 
@@ -82,11 +85,15 @@ public:
     //---Inheriteds---
     void Draw() override;
     
+    void OnAwake() override;
+    void OnDestroy() override;
+    
     void OnStart() override {}
     void OnUpdate() override;
     void OnEnd() override {}
 
 protected:
+    std::string name;
     std::string tag;
 
     GameObject *parent;

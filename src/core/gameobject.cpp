@@ -13,6 +13,7 @@ size_t GameObject::COUNTER = 0;
 GameObject::GameObject(const GameObjectConfig& config) {
     id = ++GameObject::COUNTER;
 
+    this->name = config.name;
     this->tag = config.tag;
 
     this->position = config.position;
@@ -26,12 +27,13 @@ GameObject::GameObject(const GameObjectConfig& config) {
     this->parent = config.parent;
 
     this->isActive = config.isActive;
+    this->isDead = false;
 }
 
-GameObject::GameObject(const GameObject& other) :
-    sprite(other.sprite) {
+GameObject::GameObject(const GameObject& other) : sprite(other.sprite) {
     id = ++GameObject::COUNTER;
 
+    this->name = other.name;
     this->tag = other.tag;
 
     this->position = other.position;
@@ -43,6 +45,7 @@ GameObject::GameObject(const GameObject& other) :
     this->parent = other.parent;
 
     this->isActive = other.isActive;
+    this->isDead = false;
 }
 
 
@@ -94,6 +97,7 @@ float GameObject::GetRotation() const {
 bool GameObject::IsActive() const {
     return isActive;
 }
+
 bool GameObject::IsDrawableActive() {
     return isActive;
 }
@@ -137,6 +141,15 @@ void GameObject::SetIsDead(bool isDead) {
 }
 
 //===MEMBER FUNCTIONS===
+void GameObject::OnAwake() {
+    GFXManager::AddDrawable(this);
+}
+
+void GameObject::OnDestroy() {
+    GFXManager::RemoveDrawable(this);
+}
+
+
 void GameObject::Draw() {
     if (!isActive || sprite == nullptr)
         return;

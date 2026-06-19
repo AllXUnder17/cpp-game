@@ -41,6 +41,17 @@ size_t Player::GetEnemiesKilled() const {
 //===SETTERS===
 
 //===MEMBER FUNCTIONS===
+void Player::OnAwake() {
+    Character::OnAwake();
+
+    SerializationManager::AddSerializable(this);
+}
+void Player::OnDestroy() {
+    Character::OnDestroy();
+
+    SerializationManager::RemoveSerializable(this);
+}
+
 void Player::HandleMovement() {
     Vector2 direction = this->velocity;
     

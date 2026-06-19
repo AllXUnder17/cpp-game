@@ -3,7 +3,7 @@
 
 class IOnStart {
 public:
-    ~IOnStart() = default;
+    virtual ~IOnStart() = default;
 
     virtual void OnStart() = 0; 
 };

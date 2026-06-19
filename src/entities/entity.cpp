@@ -126,6 +126,18 @@ void Entity::DisableCollider() {
 }
 
 //===MEMBER FUNCTIONS===
+void Entity::OnAwake() {
+    GameObject::OnAwake();
+
+    PhysicsManager::AddCollidable(this);
+}
+
+void Entity::OnDestroy() {
+    GameObject::OnDestroy();
+
+    PhysicsManager::RemoveCollidable(this);
+}
+
 void Entity::OnUpdate() {
     GameObject::OnUpdate();
 

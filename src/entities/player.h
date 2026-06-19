@@ -33,6 +33,9 @@ public:
     //===SETTERS===
     
     //===MEMBER FUNCTIONS===
+    void OnAwake() override;
+    void OnDestroy() override;
+
     void OnUpdate() override final;
 
     void OnCollisionEnter(ICollidable* other) override final;

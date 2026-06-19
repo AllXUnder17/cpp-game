@@ -27,12 +27,11 @@ Coin& Coin::operator=(const Coin& other) {
 //===SETTERS===
 
 //===MEMBER FUNCTIONS===
-// void Coin::OnTakeDamage(unsigned damage) {
-//     TraceLog(LOG_INFO, "OUCH!!!");
-// }
 
 CollectableType Coin::OnCollect() {
-    SetIsDead(true);
+    // SetIsDead(true);
+
+    GameManager::Destroy(this);
 
     return COIN;
 }

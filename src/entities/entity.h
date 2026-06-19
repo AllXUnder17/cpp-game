@@ -58,7 +58,11 @@ public:
     void DisableCollider();
     
     //===MEMBER FUNCTIONS===
+    void OnAwake() override;
+    void OnDestroy() override;
+
     void OnUpdate() override;
+
     void Draw() override;
 
     void AddAnimationEvent(size_t animLayer, size_t frameIdx, size_t eventId, std::function<void()> callback);
