@@ -1,8 +1,7 @@
 #include "enemyfactory.h"
 
 #include "core/managers/gamemanager.h"
-
-#include "core/spriteloader.h"
+#include "core/managers/assetmanager.h"
 
 //===CONSTANTS===
 
@@ -34,7 +33,7 @@ void EnemyFactory::InitPrefabs() {
             .isActive = false
         },
         SpriteSheet(
-            SpriteLoader::GetSprite("enemy_spritesheet.png"),
+            AssetManager::GetTexture("enemy_spritesheet.png"),
             80, 80, {9, 6, 12, 5, 23}
         ),
         Vector2 {20, 40}, CollisionLayer::ENEMY

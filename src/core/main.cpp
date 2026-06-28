@@ -13,16 +13,16 @@ int main() {
 
     Player* player = GameManager::InstantiateGameObject<Player>(EntityConfig {GameObjectConfig{ .name = "player" }, 
         SpriteSheet(
-            SpriteLoader::GetSprite("man_spritesheet.png"),
+            AssetManager::GetTexture("man_spritesheet.png"),
         16, 16,
-            {2}), Vector2 {16,16}, CollisionLayer::PLAYER}, 200);
+            {3}), Vector2 {16,16}, CollisionLayer::PLAYER}, 200);
 
     SerializationManager::LoadGame();
         
     Weapon* w = GameManager::InstantiateGameObject<Weapon>(WeaponConfig{
         GameObjectConfig{
             .name = "weapon",
-            .sprite = SpriteLoader::GetSprite("gun.png"),
+            .sprite = AssetManager::GetTexture("gun.png"),
             .parent = player,
             .localPosition = { 10, 5 }, 
         }, Vector2 { 12, -1 },

@@ -1,5 +1,6 @@
 #include "gamemanager.h"
 
+#include "core/managers/assetmanager.h"
 #include "core/managers/inputmanager.h"
 
 #include "core/spriteloader.h"
@@ -47,15 +48,16 @@ void GameManager::InitGame(
 void GameManager::UninitGame() {
     //unload all current scenes
 
-    SpriteLoader::UnloadAll();
     //AudioLoader::UnloadAll();
-
+    
     HandleOnEnd();
-
+    
     BulletFactory::Uninit();
     EnemyFactory::Uninit();
     CollectableFactory::Uninit();
-
+    
+    AssetManager::UnloadAll();
+    
     CloseWindow();
 }
 

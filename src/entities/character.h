@@ -26,6 +26,7 @@ public:
     void SetMoveSpeed(float moveSpeed);
     
     //===MEMBER FUNCTIONS===
+    void OnAwake() override;
     void OnUpdate() override;
 
     void MoveTowardsLerp(const Vector2& targetPos, float t);

@@ -28,6 +28,10 @@ void Character::SetMoveSpeed(float moveSpeed) {
 }
 
 //===MEMBER FUNCTIONS===
+void Character::OnAwake() {
+    Entity::OnAwake();
+}
+
 void Character::OnUpdate() {
     Entity::OnUpdate();
 }

@@ -7,12 +7,7 @@
 
 class SpriteLoader {
 public:
-    static Texture2D* GetSprite(const std::string& fileName);
-
-    static void UnloadAll();
-
-private:
-    static std::unordered_map<std::string, Texture2D> textureCache;
+    static Texture2D GetSprite(const std::string& fileName);
 };
 
 #endif

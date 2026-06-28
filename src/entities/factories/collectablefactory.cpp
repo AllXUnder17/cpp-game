@@ -1,7 +1,7 @@
 #include "collectablefactory.h"
 
-#include "core/spriteloader.h"
 #include "core/managers/gamemanager.h"
+#include "core/managers/assetmanager.h"
 
 #include "entities/coin.h"
 
@@ -52,7 +52,7 @@ void CollectableFactory::InitPrefabs() {
             .isActive = false
         },
         SpriteSheet(
-            SpriteLoader::GetSprite("coin_spritesheet.png"),
+            AssetManager::GetTexture("coin_spritesheet.png"),
             16, 16, {2} 
         ), Vector2{8., 8}, CollisionLayer::COLLECTABLE});
 }

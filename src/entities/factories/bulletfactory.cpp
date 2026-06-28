@@ -1,8 +1,9 @@
 #include "bulletfactory.h"
-#include "core/spriteloader.h"
-#include "core/spritesheet.h"
 
 #include "core/managers/gamemanager.h"
+#include "core/managers/assetmanager.h"
+
+#include "core/spritesheet.h"
 
 #include <cstdlib>  // IWYU pragma: keep
 
@@ -37,7 +38,7 @@ void BulletFactory::Uninit() {
 void BulletFactory::InitPrefabs() {
     baseBulletPrefab = new Bullet(EntityConfig{
             GameObjectConfig {
-                .sprite = SpriteLoader::GetSprite("bullet.png"), 
+                .sprite = AssetManager::GetTexture("bullet.png"), 
                 .position = { -1000, -1000 }, 
                 .isActive = false
             }, SpriteSheet::empty, Vector2{8., 8}, CollisionLayer::PLAYER_PROJECTILE}, 

@@ -44,6 +44,8 @@ size_t Player::GetEnemiesKilled() const {
 void Player::OnAwake() {
     Character::OnAwake();
 
+    TraceLog(LOG_INFO, "player awaken");
+
     SerializationManager::AddSerializable(this);
 }
 void Player::OnDestroy() {

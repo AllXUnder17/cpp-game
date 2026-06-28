@@ -9,6 +9,7 @@
 #include "raylib.h"
 #include "raymath.h"
 
+#include "core/managers/assetmanager.h"
 #include "core/managers/gamemanager.h"
 #include "core/managers/scenemanager.h"
 #include "core/managers/gfxmanager.h"
