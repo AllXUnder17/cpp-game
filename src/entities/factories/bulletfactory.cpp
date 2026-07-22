@@ -3,6 +3,8 @@
 #include "core/managers/gamemanager.h"
 #include "core/managers/assetmanager.h"
 
+#include "core/spriteloader.h"
+
 #include "core/spritesheet.h"
 
 #include <cstdlib>  // IWYU pragma: keep
@@ -26,6 +28,7 @@ void BulletFactory::Init() {
     for (size_t i = 0; i < poolSize; ++i) {
 
         Bullet* b = GameManager::InstantiateGameObject<Bullet>(*baseBulletPrefab);
+        b->SetName(("bullet-copy_" + std::to_string(i)).c_str());
 
         pool.push_back(b);
     }
@@ -38,7 +41,8 @@ void BulletFactory::Uninit() {
 void BulletFactory::InitPrefabs() {
     baseBulletPrefab = new Bullet(EntityConfig{
             GameObjectConfig {
-                .sprite = AssetManager::GetTexture("bullet.png"), 
+                .name = "bullet-prefab",
+                .sprite = SpriteLoader::GetSprite("bullet.png"), 
                 .position = { -1000, -1000 }, 
                 .isActive = false
             }, SpriteSheet::empty, Vector2{8., 8}, CollisionLayer::PLAYER_PROJECTILE}, 

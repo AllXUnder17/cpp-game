@@ -1,6 +1,7 @@
 #ifndef _GAME_MANAGER_
 #define _GAME_MANAGER_
 
+#include <algorithm>
 #include <functional>
 #include <unordered_map>
 #include <vector>
@@ -64,6 +65,8 @@ private:
 template <typename T, typename... Args>
 T* GameManager::InstantiateGameObject(Args&&... args) {
     T* go = new T(std::forward<Args>(args)...);
+
+    // auto it = std::find_if(SceneManager::GetActiveGameObjects().begin(), SceneManager::GetActiveGameObjects().end(), [](GameObject* go){ ret});
 
     // TraceLog(LOG_INFO, "INSTANTIATED OBJECT AT ADDRESS: %p", (void*)go);
     SceneManager::GetActiveScene()->AddGameObject(go);

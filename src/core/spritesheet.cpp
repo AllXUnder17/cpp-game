@@ -3,13 +3,10 @@
 //===CONSTANTS===
 
 //===STATIC MEMBERS===
-// FIX: Removed the curly braces {}. You are passing 3 arguments to the constructor, not a struct!
 SpriteSheet SpriteSheet::empty = SpriteSheet(nullptr, 0, 0, {});
 
 //===CONSTRUCTORS===
-// OPTIONAL UPGRADE: You can add `const std::vector<unsigned>& framesPerRow = {}` to your .h file 
-// to allow custom row lengths without needing a struct!
-SpriteSheet::SpriteSheet(Texture2D* spriteSheet, const unsigned spriteWidth, const unsigned spriteHeight, const std::vector<unsigned>& framesPerRow) {
+SpriteSheet::SpriteSheet(Sprite* spriteSheet, const unsigned spriteWidth, const unsigned spriteHeight, const std::vector<unsigned>& framesPerRow) {
     this->spriteSheet = spriteSheet;
     
     this->spriteWidth = spriteWidth;
@@ -20,8 +17,8 @@ SpriteSheet::SpriteSheet(Texture2D* spriteSheet, const unsigned spriteWidth, con
     // (Removed the redundant stateAnimations map assignment here, C++ handles it automatically)
 
     if (spriteSheet) {
-        int defaultColumns = spriteSheet->width / spriteWidth;
-        int rows = spriteSheet->height / spriteHeight;
+        int defaultColumns = spriteSheet->texture->width / spriteWidth;
+        int rows = spriteSheet->texture->height / spriteHeight;
 
         spriteSheetMatrix.resize(rows); // Allocate space for each row/state
 
@@ -47,18 +44,14 @@ SpriteSheet::SpriteSheet(Texture2D* spriteSheet, const unsigned spriteWidth, con
 SpriteSheet::SpriteSheet(const SpriteSheet& other) {
     this->spriteSheet = other.spriteSheet;
     
-    // FIX: You forgot to save these in your original constructor! 
-    // Your copy constructor was trying to copy uninitialized garbage data.
     this->spriteWidth = other.spriteWidth;
     this->spriteHeight = other.spriteHeight;
 
     this->framesPerRow = other.framesPerRow;
 
-    // (Removed the redundant stateAnimations map assignment here, C++ handles it automatically)
-
     if (spriteSheet) {
-        int defaultColumns = spriteSheet->width / spriteWidth;
-        int rows = spriteSheet->height / spriteHeight;
+        int defaultColumns = spriteSheet->texture->width / spriteWidth;
+        int rows = spriteSheet->texture->height / spriteHeight;
 
         spriteSheetMatrix.resize(rows); // Allocate space for each row/state
 
@@ -87,7 +80,7 @@ SpriteSheet::SpriteSheet(const SpriteSheet& other) {
 // }
 
 //===GETTERS===
-Texture2D* SpriteSheet::GetSpriteSheet() const {
+Sprite* SpriteSheet::GetSpriteSheet() const {
     return spriteSheet;
 }
 

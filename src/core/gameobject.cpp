@@ -20,7 +20,7 @@ GameObject::GameObject(const GameObjectConfig& config) {
     this->localPosition = config.localPosition;
 
     this->sprite = config.sprite;
-
+    
     this->rotation = config.rotation;
     this->localRotation = config.localRotation;
 
@@ -78,8 +78,20 @@ GameObject::~GameObject() {
 //===OPERATORS===
 
 //===GETTERS===
+const std::string GameObject::GetObjectType() const {
+    return "gameobject";
+}
+
 size_t GameObject::GetID() const {
     return id;
+}
+
+const std::string& GameObject::GetName() const {
+    return name;
+}
+
+const Sprite* GameObject::GetSprite() const {
+    return sprite;
 }
 
 const Vector2& GameObject::GetPosition() const {
@@ -113,6 +125,10 @@ bool GameObject::GetIsDead() const {
 //===SETTERS===
 void GameObject::SetTag(const std::string& tag) {
     this->tag = tag;
+}
+
+void GameObject::SetName(const std::string& name) {
+    this->name = name;
 }
 
 void GameObject::SetPosition(const Vector2& position) {
@@ -154,12 +170,13 @@ void GameObject::Draw() {
     if (!isActive || sprite == nullptr)
         return;
 
-    Rectangle source = { 0.0f, 0.0f, (float)(*sprite).width, (float)(*sprite).height };
-    Rectangle dest = { position.x, position.y, (float)(*sprite).width, (float)(*sprite).height };
+    Texture2D* texture = sprite->texture;
+    Rectangle source = { 0.0f, 0.0f, (float)(*texture).width, (float)(*texture).height };
+    Rectangle dest = { position.x, position.y, (float)(*texture).width, (float)(*texture).height };
     
-    Vector2 origin = { (float)(*sprite).width / 2, (float)(*sprite).height / 2 }; 
+    Vector2 origin = { (float)(*texture).width / 2, (float)(*texture).height / 2 }; 
 
-    DrawTexturePro(*sprite, source, dest, origin, rotation, (Color){ 255, 255, 255, 255 } );
+    DrawTexturePro(*texture, source, dest, origin, rotation, (Color){ 255, 255, 255, 255 } );
 }
 
 void GameObject::OnUpdate() { 

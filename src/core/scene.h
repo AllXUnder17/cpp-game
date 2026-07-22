@@ -14,7 +14,7 @@ public:
     
     //===CONSTRUCTORS===
     Scene() = default;
-    Scene(std::string name);
+    Scene(const std::string& name);
 
     //===DESTRUCTOR===
     
@@ -24,7 +24,8 @@ public:
     std::vector<GameObject*>& GetGameObjects();
     std::vector<IUpdatable*>& GetUpdatables();
     
-    std::string GetName() const;
+    const std::string& GetName() const;
+    const std::string GetFilePath() const;
     
     //===SETTERS===
     
@@ -34,6 +35,10 @@ public:
     void Load();   
     void Update();
     void Unload();
+
+    //---File IO---
+    void SaveToFile();
+    void LoadFromFile();
 private:
     std::string name;
 

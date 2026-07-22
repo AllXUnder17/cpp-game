@@ -1,9 +1,22 @@
 #include "spriteloader.h"
 
-Texture2D SpriteLoader::GetSprite(const std::string& fileName) {
+#include "managers/assetmanager.h"
 
-    Texture2D tex = LoadTexture((fileName).c_str());
-    SetTextureFilter(tex, TEXTURE_FILTER_POINT);
+std::unordered_map<std::string, Sprite> SpriteLoader::spriteCache = std::unordered_map<std::string, Sprite>();
+
+Sprite* SpriteLoader::GetSprite(const std::string& fileName) {
+    //SetTextureFilter(tex, TEXTURE_FILTER_POINT);
     
-    return tex;
+    auto it = spriteCache.find(fileName);
+    
+    if (it != spriteCache.end())
+        return &it->second;
+
+    TraceLog(LOG_INFO, "Cache miss. Make new sprite: %s", fileName.c_str());
+
+    Texture2D* tex = AssetManager::GetTexture(fileName);
+    Sprite sp = {fileName, tex};
+    
+    spriteCache[fileName] = sp;
+    return &spriteCache[fileName];
 }

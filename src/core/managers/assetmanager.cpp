@@ -27,7 +27,7 @@ Texture2D* AssetManager::GetTexture(const std::string& path) {
         return &it->second;
 
     TraceLog(LOG_INFO, "Cache miss. Loading asset from disk: %s", fullPath.c_str());
-    Texture2D texture = SpriteLoader::GetSprite(fullPath);
+    Texture2D texture = LoadTexture((fullPath).c_str());;
 
     textureCache[fullPath] = texture;
     return &textureCache[fullPath];

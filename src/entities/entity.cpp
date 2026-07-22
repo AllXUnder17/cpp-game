@@ -64,6 +64,10 @@ Entity& Entity::operator=(const Entity& other) {
 }
 
 //===GETTERS===
+const std::string Entity::GetObjectType() const {
+    return "entity";
+}
+
 CollisionLayer Entity::GetCollisionLayer() {
     return collisionLayer;
 }
@@ -86,6 +90,19 @@ char Entity::GetCurrAnimLayerLength() const {
 
 Delegate<void()>& Entity::GetOnCurrAnimEndEvent() {
     return onCurrAnimEndEvent;
+}
+
+SpriteSheet& Entity::GetSpriteSheet() {
+    return spriteSheet;
+}
+
+const Sprite* Entity::GetSprite() const {
+    // if (sprite == nullptr)
+    //     return spriteSheet.GetSpriteSheet();
+    // else if (spriteSheet.GetSpriteSheet() == nullptr)
+    //     return sprite;
+
+    return nullptr;
 }
 
 //===SETTERS===
@@ -165,10 +182,12 @@ void Entity::Draw() {
     // If looking left, flip the source rectangle width
     if (isFacingLeft) sourceRec.width = -sourceRec.width;
 
+    Texture2D* texture = spriteSheet.GetSpriteSheet()->texture;
+
     Rectangle destRec = { position.x, position.y, std::abs(sourceRec.width), sourceRec.height };
     Vector2 origin = { destRec.width / 2.0f, destRec.height / 2.0f };
 
-    DrawTexturePro(*spriteSheet.GetSpriteSheet(), sourceRec, destRec, origin, rotation, spriteTint);
+    DrawTexturePro(*texture, sourceRec, destRec, origin, rotation, spriteTint);
 }
 
 void Entity::HandleAnimation(const std::vector<std::vector<Rectangle>>& animationMatrix) {

@@ -3,6 +3,8 @@
 #include "core/managers/gamemanager.h"
 #include "core/managers/assetmanager.h"
 
+#include "core/spriteloader.h"
+
 #include "entities/coin.h"
 
 //===CONSTANTS===
@@ -48,11 +50,12 @@ void CollectableFactory::OnUpdate(float deltaTime) {
 void CollectableFactory::InitPrefabs() {
     baseCoinPrefab = new Coin(EntityConfig{
         GameObjectConfig{
+            .name = "coin",
             .position = {40, -40},
             .isActive = false
         },
         SpriteSheet(
-            AssetManager::GetTexture("coin_spritesheet.png"),
+            SpriteLoader::GetSprite("coin_spritesheet.png"),
             16, 16, {2} 
         ), Vector2{8., 8}, CollisionLayer::COLLECTABLE});
 }

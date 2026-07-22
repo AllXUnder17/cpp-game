@@ -7,7 +7,7 @@
 
 #include "entities/bullets/bullet.h"
 
-
+//tova shte stane na ProjectilesFactory
 class BulletFactory {
 public:
     //===CONSTANTS===

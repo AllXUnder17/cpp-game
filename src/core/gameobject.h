@@ -1,11 +1,12 @@
 #ifndef _GAME_OBJECT_
 #define _GAME_OBJECT_
 
+#include "raylib.h"
+
 #include <cstddef>
 
 #include "ionend.h"
 #include "ionstart.h"
-#include "raylib.h"
 
 #include "idrawable.h"
 #include "iupdatable.h"
@@ -13,13 +14,17 @@
 #include "ionawake.h"
 #include "iondestroy.h"
 
+#include "sprite.h"
+
 class GameObject;
 
 struct GameObjectConfig {
     std::string name = "gameobject ";
     std::string tag = "---";
 
-    Texture2D *sprite = nullptr;
+    std::string spriteName;
+
+    Sprite *sprite = nullptr;
     GameObject *parent = nullptr;
 
     Vector2 position = { 0, 0 };
@@ -52,7 +57,16 @@ public:
     //===OPERATORS===
     
     //===GETTERS===
+    virtual const std::string GetObjectType() const;
+
     size_t GetID() const;
+
+    const std::string& GetName() const;
+    const std::string& GetTag() const; 
+
+    virtual const Sprite* GetSprite() const;
+
+    const GameObject* GetParent() const;
 
     const Vector2& GetPosition() const;
     const Vector2& GetLocalPosition() const;
@@ -62,12 +76,11 @@ public:
     bool IsActive() const;
     bool IsDrawableActive() override;
 
-    const std::string& GetTag() const; 
-
     bool GetIsDead() const;
     
     //===SETTERS===
     void SetTag(const std::string& tag);
+    void SetName(const std::string& name);
 
     void SetPosition(const Vector2& position);
     void SetLocalPosition(const Vector2& localPosition);
@@ -96,8 +109,11 @@ protected:
     std::string name;
     std::string tag;
 
+    std::string spriteName;
+
     GameObject *parent;
-    Texture2D *sprite;
+    // Texture2D *sprite;
+    Sprite* sprite;
 
     Vector2 position;
     Vector2 localPosition;

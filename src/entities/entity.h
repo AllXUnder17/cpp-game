@@ -32,9 +32,11 @@ public:
     Entity& operator=(const Entity& other);
     
     //===GETTERS===
+    const std::string GetObjectType() const override;
+
     CollisionLayer GetCollisionLayer() override;
 
-    SpriteSheet& GetSpriteSheet() const;
+    SpriteSheet& GetSpriteSheet();
 
     BoundingBox GetHitbox() override;
 
@@ -42,6 +44,8 @@ public:
 
     char GetCurrFrameIdx() const;
     char GetCurrAnimLayerLength() const;
+
+    const Sprite* GetSprite() const override;
 
     Delegate<void()>& GetOnCurrAnimEndEvent();
     

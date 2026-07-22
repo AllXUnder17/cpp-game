@@ -1,6 +1,7 @@
 #ifndef _SPRITESHEET_
 #define _SPRITESHEET_
 
+#include "sprite.h"
 #include <raylib.h>
 #include <unordered_map>
 #include <vector>
@@ -14,14 +15,14 @@ public:
     static SpriteSheet empty;
     
     //===CONSTRUCTORS===
-    SpriteSheet(Texture2D* spriteSheet, const unsigned spriteWidth, const unsigned spriteHeight, const std::vector<unsigned>& framesPerLayer);
+    SpriteSheet(Sprite* spriteSheet, const unsigned spriteWidth, const unsigned spriteHeight, const std::vector<unsigned>& framesPerLayer);
     SpriteSheet(const SpriteSheet& other);
 
     //===DESTRUCTOR===
     ~SpriteSheet() = default;
     
     //===GETTERS===
-    Texture2D* GetSpriteSheet() const;
+    Sprite* GetSpriteSheet() const;
     const std::vector<std::vector<Rectangle>>& GetSpriteSheetMatrix() const;
     
     //===SETTERS===
@@ -31,7 +32,7 @@ public:
 
     Rectangle GetFrameRect(unsigned layer, unsigned frameIdx) const;
 private:
-    Texture2D* spriteSheet;
+    Sprite* spriteSheet;
 
     std::unordered_map<unsigned, std::vector<Rectangle>> stateAnimations;
     std::vector<std::vector<Rectangle>> spriteSheetMatrix;
