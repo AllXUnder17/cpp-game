@@ -2,7 +2,7 @@
 *.exe
 *.o
 *.obj
-*.a
+# *.a
 
 # VS Code specific files
 .vscode/
