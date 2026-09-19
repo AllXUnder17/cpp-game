@@ -61,7 +61,6 @@ private:
     static void HandleOnEnd();
 };
 
-// Inside GameManager.h (or SceneManager.h)
 template <typename T, typename... Args>
 T* GameManager::InstantiateGameObject(Args&&... args) {
     T* go = new T(std::forward<Args>(args)...);

@@ -1,17 +1,17 @@
 #ifndef _SCENE_MANAGER_
 #define _SCENE_MANAGER_
 
-#include <vector>
+#include <iostream>
+#include <unordered_map>
 
-#include "core/scene.h"
+#include "core/scenes/scene.h"
 
 class SceneManager {
 public:
     //===CONSTANTS===
     
     //===STATIC MEMBERS===
-    static Scene* activeScene;
-
+    
     //===CONSTRUCTORS===
     
     //===DESTRUCTOR===
@@ -19,28 +19,18 @@ public:
     //===OPERATORS===
     
     //===GETTERS===
-    static Scene* GetActiveScene();
-
-    static const std::vector<Scene*>& GetBuildScenes();
-    static const std::vector<Scene*>& GetLoadedScenes();
+    static const std::vector<Scene*>& GetLoadedScenes() const;
     
-    static std::vector<GameObject*> GetLoadedGameObjects();
-    static std::vector<GameObject*> GetActiveGameObjects();
-
     //===SETTERS===
-    static void SetActiveScene(Scene* scene);
     
     //===MEMBER FUNCTIONS===
     static void Update();
+    static void LoadScene(const std::string& name, bool add = false);
+    static void UnloadScene(const std::string& name);
 
-    static void LoadScene(unsigned sceneId);
-    static void LoadScene(const std::string& sceneName);
-
-    static void AddBuildScene(Scene* scene);
-
-    static void ClearDeadSceneReferences();
+    static void UpdateLoadedObjectsVector();
 private:
-    static std::vector<Scene*> buildScenes;
+    static std::unordered_map<std::string, Scene*> scenes;
 
     static std::vector<Scene*> loadedScenes;
 };

@@ -6,9 +6,17 @@
 #include "physics/physicsmanager.h"
 #include "physics/collisionlayer.h"
 
+class GameObject;
+
 class ICollidable {
+private:
+    GameObject* gobj;
+
 public:
     virtual ~ICollidable() = default;
+
+    virtual void SetICollidableGameObject(GameObject* gobj) { this->gobj = gobj; }
+    virtual GameObject* GetGameObject() { return gobj; }
 
     virtual BoundingBox GetHitbox() = 0;
     virtual CollisionLayer GetCollisionLayer() = 0; 

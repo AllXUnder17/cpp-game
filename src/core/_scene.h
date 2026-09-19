@@ -1,5 +1,5 @@
-#ifndef _SCENE_
-#define _SCENE_
+#ifndef _SCENE_old_
+#define _SCENE_old_
 
 #include <unordered_map>
 

@@ -181,7 +181,12 @@ void Player::OnCollisionEnter(ICollidable* other) {
                 break;
         }
     }
+
+    if (other->GetGameObject()->GetTag() == "portal") {
+        TraceLog(LOG_INFO, "entered a portal");
+    }
 }
+
 void Player::OnUpdate() {
     Entity::OnUpdate();
     

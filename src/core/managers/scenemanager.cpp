@@ -1,14 +1,10 @@
 #include "scenemanager.h"
 
-#include <algorithm>
+#include <exception>
 
 //===CONSTANTS===
 
 //===STATIC MEMBERS===
-Scene* SceneManager::activeScene = nullptr;
-
-std::vector<Scene*> SceneManager::buildScenes = std::vector<Scene*>();
-std::vector<Scene*> SceneManager::loadedScenes = std::vector<Scene*>();
 
 //===CONSTRUCTORS===
 
@@ -17,73 +13,49 @@ std::vector<Scene*> SceneManager::loadedScenes = std::vector<Scene*>();
 //===OPERATORS===
 
 //===GETTERS===
-Scene* SceneManager::GetActiveScene() {
-    return activeScene;
-}
-
-const std::vector<Scene*>& SceneManager::GetBuildScenes() {
-    return buildScenes;
-}
-
-const std::vector<Scene*>& SceneManager::GetLoadedScenes() {
+const std::vector<Scene*>& SceneManager::GetLoadedScenes() const {
     return loadedScenes;
 }
 
-std::vector<GameObject*> SceneManager::GetLoadedGameObjects() {
-    std::vector<GameObject*> loadedGameobjects;
-
-    for (auto& sc : loadedScenes) {
-        for (auto gameObject : sc->GetGameObjects()){
-            loadedGameobjects.push_back(gameObject);
-        }
-    }
-
-    return loadedGameobjects;
-}
-
-// std::vector<GameObject*> SceneManager::GetActiveGameObjects() {
-    
-// }
-
 //===SETTERS===
-void SceneManager::SetActiveScene(Scene* scene) {
-    activeScene = scene;
-}
 
 //===MEMBER FUNCTIONS===
-void SceneManager::Update() {
-    for (auto sc : loadedScenes) {
-        sc->Update();
-    }
-}
+//>---Private---
 
-void SceneManager::LoadScene(const std::string& name) {
-    auto it = std::find_if(buildScenes.begin(), buildScenes.end(), [name](Scene* sc){return sc->GetName() == name;});
+//>---Public---
+void SceneManager::LoadScene(const std::string& name, bool add) {
+    Scene* targScene = scenes[name];
 
-    if (it == buildScenes.end()) {
-        TraceLog(LOG_WARNING, "da");
+    if (targScene == nullptr) {
+        // throw std::exception("[SCENE]: Scene " + name + " not found!");
         return;
     }
 
-    (*it)->Load();
-    loadedScenes.push_back(*it);
+    if (add)
+        loadedScenes.push_back(targScene);
+    else {
+        loadedScenes.clear();
+        loadedScenes.push_back(targScene);
+    }
+
+    targScene->OnLoad();
 }
 
-void SceneManager::AddBuildScene(Scene* scene) {
-    buildScenes.push_back(scene);
+void SceneManager::UnloadScene(const std::string& name) {
+    Scene* targScene = scenes[name];
+    
+    if (targScene == nullptr) {
+        // throw std::exception("[SCENE]: Scene " + name + " not found!");
+        return;
+    }
+
+    targScene->OnUnload();
+
+    // loadedScenes.erase()
 }
 
-void SceneManager::ClearDeadSceneReferences() {
+void SceneManager::Update() {
     for (auto& sc : loadedScenes) {
-        // Access the scene's actual internal vector by reference
-        auto& sceneObjects = sc->GetGameObjects(); 
-        
-        for (auto it = sceneObjects.begin(); it != sceneObjects.end(); ) {
-            if ((*it)->GetIsDead()) {
-                it = sceneObjects.erase(it); // Safe erasure on the TRUE container
-            } else {
-                ++it;
-            }
-        }
+        sc->OnUpdate();
     }
 }

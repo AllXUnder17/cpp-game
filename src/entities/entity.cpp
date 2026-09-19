@@ -21,8 +21,11 @@ Entity::Entity(const EntityConfig& config)
     onCurrAnimEndEvent = Delegate<void()>();
 
     EnableCollider();
-
+    
     SetHitbox();
+
+    // SetGameObject(this);
+    // TraceLog(LOG_INFO, "!@# %d", GetSpriteSheet().GetSpriteSheet()->name);
 }
 
 Entity::Entity(const Entity& other) : GameObject(other), spriteSheet(other.spriteSheet) {
@@ -97,11 +100,6 @@ SpriteSheet& Entity::GetSpriteSheet() {
 }
 
 const Sprite* Entity::GetSprite() const {
-    // if (sprite == nullptr)
-    //     return spriteSheet.GetSpriteSheet();
-    // else if (spriteSheet.GetSpriteSheet() == nullptr)
-    //     return sprite;
-
     return nullptr;
 }
 
@@ -147,12 +145,16 @@ void Entity::OnAwake() {
     GameObject::OnAwake();
 
     PhysicsManager::AddCollidable(this);
+
+    SetICollidableGameObject(this);
 }
 
 void Entity::OnDestroy() {
     GameObject::OnDestroy();
 
     PhysicsManager::RemoveCollidable(this);
+
+    TraceLog(LOG_INFO, "@# %s", name.c_str());
 }
 
 void Entity::OnUpdate() {

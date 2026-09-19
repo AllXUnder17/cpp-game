@@ -7,7 +7,8 @@
 
 struct EntityConfig {
     GameObjectConfig goConfig;
-    SpriteSheet spriteSheet;
+    SpriteSheet spriteSheet = SpriteSheet::empty;
+    // SpriteSheet spriteSheet;
     Vector2 size;
     CollisionLayer collisionLayer = CollisionLayer::DEFAULT;
     Color spriteTint = WHITE;
@@ -81,6 +82,7 @@ protected:
     
     bool isFacingLeft;
     bool isColliderEnabled;
+
 private:
     CollisionLayer collisionLayer;
     Color spriteTint;
