@@ -1,48 +1,48 @@
-#ifndef _SCENE_MANAGER_
-#define _SCENE_MANAGER_
+// #ifndef _SCENE_MANAGER_
+// #define _SCENE_MANAGER_
 
-#include <string>
+// #include <string>
 
-#include "core/scenes/scene.h"
+// #include "core/scenes/scene.h"
 
-class SceneManager {
-public:
-    //===CONSTANTS===
+// class SceneManager {
+// public:
+//     //===CONSTANTS===
     
-    //===STATIC MEMBERS===
-    static Scene* activeScene;
+//     //===STATIC MEMBERS===
+//     static Scene* activeScene;
 
-    //===CONSTRUCTORS===
+//     //===CONSTRUCTORS===
     
-    //===DESTRUCTOR===
+//     //===DESTRUCTOR===
     
-    //===OPERATORS===
+//     //===OPERATORS===
     
-    //===GETTERS===
-    static Scene* GetActiveScene();
+//     //===GETTERS===
+//     static Scene* GetActiveScene();
 
-    static const std::vector<Scene*>& GetBuildScenes();
-    static const std::vector<Scene*>& GetLoadedScenes();
+//     static const std::vector<Scene*>& GetBuildScenes();
+//     static const std::vector<Scene*>& GetLoadedScenes();
     
-    static std::vector<GameObject*> GetLoadedGameObjects();
-    static std::vector<GameObject*> GetActiveGameObjects();
+//     static std::vector<GameObject*> GetLoadedGameObjects();
+//     static std::vector<GameObject*> GetActiveGameObjects();
 
-    //===SETTERS===
-    static void SetActiveScene(Scene* scene);
+//     //===SETTERS===
+//     static void SetActiveScene(Scene* scene);
     
-    //===MEMBER FUNCTIONS===
-    static void Update();
+//     //===MEMBER FUNCTIONS===
+//     static void Update();
 
-    static void LoadScene(unsigned sceneId);
-    static void LoadScene(const std::string& sceneName);
+//     static void LoadScene(unsigned sceneId);
+//     static void LoadScene(const std::string& sceneName);
 
-    static void AddBuildScene(Scene* scene);
+//     static void AddBuildScene(Scene* scene);
 
-    static void ClearDeadSceneReferences();
-private:
-    static std::vector<Scene*> buildScenes;
+//     static void ClearDeadSceneReferences();
+// private:
+//     static std::vector<Scene*> buildScenes;
 
-    static std::vector<Scene*> loadedScenes;
-};
+//     static std::vector<Scene*> loadedScenes;
+// };
 
-#endif
+// #endif

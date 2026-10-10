@@ -36,6 +36,8 @@ private:
 
     static Bullet* baseBulletPrefab;
 
+    static size_t poolSize;
+
     static void InitPrefabs();
 };
 

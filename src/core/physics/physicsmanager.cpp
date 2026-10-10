@@ -53,6 +53,7 @@ std::vector<ICollidable*> PhysicsManager::GetActiveCollidables() {
 bool PhysicsManager::CanCollide(CollisionLayer layerA, CollisionLayer layerB) {
     return (layerMatrix[layerA] & layerB) != 0;
 }
+
 void PhysicsManager::UpdateCollision() {
     std::vector<ICollidable*> activeCollidables = GetActiveCollidables();
 

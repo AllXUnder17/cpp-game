@@ -1,61 +1,97 @@
 #include "scenemanager.h"
 
 #include <exception>
+#include <bits/stdc++.h>
+#include <algorithm>
+#include <stdexcept>
+
+#include "core/scenes/sc_main.h"
+#include "core/scenes/sctest.h"
+#include "core/scenes/sctest0.h"
 
 //===CONSTANTS===
 
 //===STATIC MEMBERS===
+std::unordered_map<std::string, Scene*> SceneManager::scenes = std::unordered_map<std::string, Scene*>();
 
-//===CONSTRUCTORS===
-
-//===DESTRUCTOR===
-
-//===OPERATORS===
+Scene* SceneManager::mainScene = nullptr;
+Scene* SceneManager::loadedScene = nullptr;
 
 //===GETTERS===
-const std::vector<Scene*>& SceneManager::GetLoadedScenes() const {
-    return loadedScenes;
+Scene* SceneManager::GetLoadedScene() {
+    return loadedScene;
+}
+
+Scene* SceneManager::GetMainScene() {
+    return mainScene;
 }
 
 //===SETTERS===
 
 //===MEMBER FUNCTIONS===
 //>---Private---
+void SceneManager::BuildScenes() {
+    mainScene = new SC_Main("Main");
+
+    scenes["Main"] = mainScene;
+    scenes["Test"] = new SCTest("Test");
+    scenes["Test0"] = new SCTest0("Test0");
+}
 
 //>---Public---
-void SceneManager::LoadScene(const std::string& name, bool add) {
-    Scene* targScene = scenes[name];
+void SceneManager::Init() {
+    BuildScenes();
 
-    if (targScene == nullptr) {
-        // throw std::exception("[SCENE]: Scene " + name + " not found!");
-        return;
+    mainScene->OnLoad();
+}
+
+void SceneManager::Uninit() {
+    for (auto& [name, scene] : scenes) {
+        if (scene) {
+            scene->OnUnload();
+            delete scene;
+        }
     }
 
-    if (add)
-        loadedScenes.push_back(targScene);
-    else {
-        loadedScenes.clear();
-        loadedScenes.push_back(targScene);
-    }
+    scenes.clear();
 
-    targScene->OnLoad();
+    loadedScene = nullptr;
+    mainScene = nullptr;
+}
+
+void SceneManager::LoadScene(const std::string& name) {
+
+    auto it = scenes.find(name);
+    if (it == scenes.end() || it->second == nullptr)
+        throw std::runtime_error("SCENE: Scene " + name + " not found!");
+
+    Scene* targScene = it->second;
+
+    if (loadedScene != nullptr)
+        loadedScene->OnUnload();
+
+    loadedScene = targScene;
+    loadedScene->OnLoad();
+
+    TraceLog(LOG_INFO, "SCENE: Scene %s loaded", name.c_str());
 }
 
 void SceneManager::UnloadScene(const std::string& name) {
-    Scene* targScene = scenes[name];
+    Scene* targScene = scenes.find(name)->second;
     
-    if (targScene == nullptr) {
-        // throw std::exception("[SCENE]: Scene " + name + " not found!");
+    if (targScene == nullptr)
         return;
-    }
 
     targScene->OnUnload();
 
-    // loadedScenes.erase()
+    targScene = nullptr;    
 }
 
 void SceneManager::Update() {
-    for (auto& sc : loadedScenes) {
-        sc->OnUpdate();
-    }
+    float deltaTime = GetFrameTime();
+    
+    mainScene->OnUpdate(deltaTime);
+
+    if (loadedScene != nullptr)
+        loadedScene->OnUpdate(deltaTime);
 }

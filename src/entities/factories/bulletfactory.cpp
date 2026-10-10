@@ -16,23 +16,16 @@ std::vector<Bullet*> BulletFactory::pool = std::vector<Bullet*>();
 
 Bullet* BulletFactory::baseBulletPrefab = nullptr;
 
+size_t BulletFactory::poolSize = 10;
+
 //===CONSTRUCTORS===
 void BulletFactory::Init() {
     //---Init prefabs---
     InitPrefabs();
 
-    //---Populate pool---
-    size_t poolSize = 10;
-
     pool.reserve(poolSize);
-    for (size_t i = 0; i < poolSize; ++i) {
-
-        Bullet* b = GameManager::InstantiateGameObject<Bullet>(*baseBulletPrefab);
-        b->SetName(("bullet-copy_" + std::to_string(i)).c_str());
-
-        pool.push_back(b);
-    }
 }
+
 void BulletFactory::Uninit() {
     delete baseBulletPrefab;
     baseBulletPrefab = nullptr;
@@ -49,18 +42,20 @@ void BulletFactory::InitPrefabs() {
             Vector2{0, 0}, 0);
 }
 
-//===DESTRUCTOR===
-
-//===OPERATORS===
-
-//===GETTERS===
-
-//===SETTERS===
-
 //===MEMBER FUNCTIONS===
 //---Inherited---
 
 Bullet* BulletFactory::SpawnBullet(const Vector2& pos, const Vector2& vel, unsigned damage) {
+    if (pool.size() == 0) {
+        for (size_t i = 0; i < poolSize; ++i) {
+
+            Bullet* b = GameManager::InstantiateGameObject<Bullet>(*baseBulletPrefab);
+            b->SetName(("bullet-copy_" + std::to_string(i)).c_str());
+
+            pool.push_back(b);
+        }
+    }
+
     for (Bullet* b : pool) {
         if (!b->IsActive()) {
             b->SetIsActive(true);
@@ -77,6 +72,7 @@ Bullet* BulletFactory::SpawnBullet(const Vector2& pos, const Vector2& vel, unsig
     b->SetDamage(damage);
 
     pool.push_back(b);
+    poolSize++;
 
     return b;
 }

@@ -41,6 +41,10 @@ public:
     //---Game Objects---
     template <typename T, typename... Args>
     static T* InstantiateGameObject(Args&&... args);
+
+    template <typename T, typename... Args>
+    static T* InstantiateGameObjectInSCMain(Args&&... args);
+
     static void Destroy(GameObject* go);
 
     static GameObject* GetGameObjectWithTag(const std::string& tag);
@@ -57,6 +61,8 @@ private:
     // static std::unordered_map<std::size_t, GameObject*> gameObjects;
     static std::vector<DelayedCallback> delayedCallbacks;
 
+    static std::vector<GameObject*> loadedGameObjects;
+
     static void HandleOnStart();
     static void HandleOnEnd();
 };
@@ -65,11 +71,27 @@ template <typename T, typename... Args>
 T* GameManager::InstantiateGameObject(Args&&... args) {
     T* go = new T(std::forward<Args>(args)...);
 
-    // auto it = std::find_if(SceneManager::GetActiveGameObjects().begin(), SceneManager::GetActiveGameObjects().end(), [](GameObject* go){ ret});
+    Scene* scene = SceneManager::GetLoadedScene();
+    if (scene != nullptr) 
+        scene->AddGameObject(go);
+    else 
+        throw std::runtime_error("GAME_MANAGER: Failed to instantiate object - Loaded scene is NULL!");
 
-    // TraceLog(LOG_INFO, "INSTANTIATED OBJECT AT ADDRESS: %p", (void*)go);
-    SceneManager::GetActiveScene()->AddGameObject(go);
+    go->OnAwake();
 
+    return go;
+}
+
+template <typename T, typename... Args>
+T* GameManager::InstantiateGameObjectInSCMain(Args&&... args) {
+    T* go = new T(std::forward<Args>(args)...);
+
+    Scene* mainScene = SceneManager::GetMainScene();
+    if (mainScene != nullptr)
+        mainScene->AddGameObject(go);
+    else
+        throw std::runtime_error("GAME_MANAGER: Main scene not found.");
+    
     go->OnAwake();
 
     return go;

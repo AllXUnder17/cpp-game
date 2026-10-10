@@ -10,29 +10,25 @@ class SceneManager {
 public:
     //===CONSTANTS===
     
-    //===STATIC MEMBERS===
-    
-    //===CONSTRUCTORS===
-    
-    //===DESTRUCTOR===
-    
-    //===OPERATORS===
-    
     //===GETTERS===
-    static const std::vector<Scene*>& GetLoadedScenes() const;
+    static Scene* GetMainScene();
+    static Scene* GetLoadedScene();
     
     //===SETTERS===
-    
+
     //===MEMBER FUNCTIONS===
+    static void Init();
+    static void Uninit();
+    
     static void Update();
-    static void LoadScene(const std::string& name, bool add = false);
+    static void LoadScene(const std::string& name);
     static void UnloadScene(const std::string& name);
-
-    static void UpdateLoadedObjectsVector();
 private:
-    static std::unordered_map<std::string, Scene*> scenes;
+    static void BuildScenes();
+    static std::unordered_map<std::string, Scene*>scenes;
 
-    static std::vector<Scene*> loadedScenes;
+    static Scene* mainScene;
+    static Scene* loadedScene;
 };
 
 #endif

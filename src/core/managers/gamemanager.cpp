@@ -1,5 +1,8 @@
 #include "gamemanager.h"
 
+#include <algorithm>
+#include <iomanip> // IWYU pragma: keep
+
 #include "core/managers/assetmanager.h"
 #include "core/managers/inputmanager.h"
 
@@ -10,13 +13,11 @@
 #include "entities/factories/collectablefactory.h"
 #include "entities/factories/enemyfactory.h"
 
-#include <algorithm>
-#include <iomanip> // IWYU pragma: keep
-
 unsigned short GameManager::WINDOW_WIDTH = 1280;
 unsigned short GameManager::WINDOW_HEIGHT = 720;
 
 std::vector<DelayedCallback> GameManager::delayedCallbacks = std::vector<DelayedCallback>();
+std::vector<GameObject*> GameManager::loadedGameObjects = std::vector<GameObject*>();
 
 void GameManager::InitGame(
         const unsigned short windowWidth, 
@@ -32,9 +33,10 @@ void GameManager::InitGame(
     SetTargetFPS(fps);
     
     //build all scenes
+    SceneManager::Init();
 
-    GFXManager::Init();
     //AudioLoader::Init();
+    GFXManager::Init();
     PhysicsManager::Init();
 
     //---INIT FACTORIES---
@@ -51,6 +53,8 @@ void GameManager::UninitGame() {
     //AudioLoader::UnloadAll();
     
     HandleOnEnd();
+
+    //scenemanager::uninit
     
     BulletFactory::Uninit();
     EnemyFactory::Uninit();
@@ -72,12 +76,13 @@ void GameManager::Destroy(GameObject* go) {
 }
 
 void GameManager::HandleUpdate() {
+
     InputManager::OnUpdate();
     PhysicsManager::UpdateCollision();
 
     HandleDelayedCallbacks();
 
-    //CollectableFactory::OnUpdate(GetFrameTime());
+    //CollectableFactory::OnUpdate(GetFrameTime());'
 
     SceneManager::Update();
 
@@ -85,18 +90,17 @@ void GameManager::HandleUpdate() {
 }
 
 void GameManager::CleanupDeadObjects() {
-    auto loadedGameObjects = SceneManager::GetLoadedGameObjects();
+    // auto loadedGameObjects = SceneManager::GetLoadedGameObjects();
 
-    for (auto go : loadedGameObjects) {
-        if (go && go->GetIsDead()) {
-            TraceLog(LOG_INFO, "Deleted object: %p", go);
+    // for (auto go : loadedGameObjects) {
+    //     if (go && go->GetIsDead()) {
+    //         TraceLog(LOG_INFO, "Deleted object: %p", go);
             
-            delete go;
-        }
-    }
+    //         delete go;
+    //     }
+    // }
 
-    // 3. Tell your scenes to scrub the now-deleted pointers out of their vectors
-    SceneManager::ClearDeadSceneReferences();
+    // SceneManager::ClearDeadSceneReferences();
 }
 
 void GameManager::OutputInfo(std::stringstream& ss) {
@@ -113,13 +117,15 @@ void GameManager::HandleOnEnd() {
 }
 
 GameObject* GameManager::GetGameObjectWithTag(const std::string& tag) {
-    auto gameObjects = SceneManager::GetActiveScene()->GetGameObjects();
-    auto it = std::find_if(gameObjects.begin(), gameObjects.end(), [tag](const auto& go) { return go->GetTag() == tag;});
+    // auto gameObjects = SceneManager::GetActiveScene()->GetGameObjects();
+    // auto it = std::find_if(gameObjects.begin(), gameObjects.end(), [tag](const auto& go) { return go->GetTag() == tag;});
 
-    if (it == gameObjects.end())
-        return nullptr;
+    // if (it == gameObjects.end())
+    //     return nullptr;
 
-    return *it;
+    // return *it;
+
+    return nullptr;
 }
 
 void GameManager::Invoke(std::function<void()> callback, float delay,bool isRepeated) {
