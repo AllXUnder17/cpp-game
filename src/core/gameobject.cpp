@@ -3,6 +3,7 @@
 #include "gameobject.h"
 
 #include "managers/scenemanager.h"
+#include "managers/gamemanager.h"
 
 //===CONSTANTS===
 
@@ -28,6 +29,8 @@ GameObject::GameObject(const GameObjectConfig& config) {
 
     this->isActive = config.isActive;
     this->isDead = false;
+
+    GFXManager::AddDrawable(this);
 }
 
 GameObject::GameObject(const GameObject& other) : sprite(other.sprite) {
@@ -46,8 +49,9 @@ GameObject::GameObject(const GameObject& other) : sprite(other.sprite) {
 
     this->isActive = other.isActive;
     this->isDead = false;
-}
 
+    GFXManager::AddDrawable(this);
+}
 
 GameObject& GameObject::operator=(const GameObject& other) {
     if (this == &other)
@@ -72,7 +76,7 @@ GameObject& GameObject::operator=(const GameObject& other) {
 
 //===DESTRUCTOR===
 GameObject::~GameObject() {
-    //GameManager::Destroy(this);
+    GFXManager::RemoveDrawable(this);
 }
 
 //===OPERATORS===
@@ -158,13 +162,10 @@ void GameObject::SetIsDead(bool isDead) {
 
 //===MEMBER FUNCTIONS===
 void GameObject::OnAwake() {
-    GFXManager::AddDrawable(this);
 }
 
 void GameObject::OnDestroy() {
-    GFXManager::RemoveDrawable(this);
 }
-
 
 void GameObject::Draw() {
     if (!isActive || sprite == nullptr)
@@ -192,8 +193,6 @@ void GameObject::UpdatePosition() {
         this->position.x = parent->position.x + this->localPosition.x;
         this->position.y = parent->position.y + this->localPosition.y;
     }
-
-    //position = utils::RoundToDigit(position, 2);
 }
 
 void GameObject::UpdateRotation() {

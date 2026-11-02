@@ -79,11 +79,11 @@ int main() {
             
             //Render canvas
             BeginDrawing();
-                
+
                 ClearBackground(GFXManager::BACKGROUND_COLOR);
 
                 GFXManager::RenderCanvas();
-
+                
             EndDrawing();
         }
 

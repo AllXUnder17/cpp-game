@@ -24,8 +24,9 @@ Entity::Entity(const EntityConfig& config)
     
     SetHitbox();
 
-    // SetGameObject(this);
-    // TraceLog(LOG_INFO, "!@# %d", GetSpriteSheet().GetSpriteSheet()->name);
+    PhysicsManager::AddCollidable(this);
+
+    SetICollidableGameObject(this);
 }
 
 Entity::Entity(const Entity& other) : GameObject(other), spriteSheet(other.spriteSheet) {
@@ -37,15 +38,22 @@ Entity::Entity(const Entity& other) : GameObject(other), spriteSheet(other.sprit
     this->collisionLayer = other.collisionLayer;
     this->spriteTint = other.spriteTint;
 
-    // onCurrAnimEndEvent = Delegate<void()>();
-
     EnableCollider();
 
     SetHitbox();
+
+    PhysicsManager::AddCollidable(this);
+
+    SetICollidableGameObject(this);
 }
 
 //===DESTRUCTOR===
 //~Entity() = default; 
+Entity::~Entity() {
+    GameObject::~GameObject();
+
+    PhysicsManager::RemoveCollidable(this);
+}
 
 //===OPERATORS===
 Entity& Entity::operator=(const Entity& other) {
@@ -143,18 +151,10 @@ void Entity::DisableCollider() {
 //===MEMBER FUNCTIONS===
 void Entity::OnAwake() {
     GameObject::OnAwake();
-
-    PhysicsManager::AddCollidable(this);
-
-    SetICollidableGameObject(this);
 }
 
 void Entity::OnDestroy() {
     GameObject::OnDestroy();
-
-    PhysicsManager::RemoveCollidable(this);
-
-    TraceLog(LOG_INFO, "@# %s", name.c_str());
 }
 
 void Entity::OnUpdate() {

@@ -76,31 +76,24 @@ void GameManager::Destroy(GameObject* go) {
 }
 
 void GameManager::HandleUpdate() {
+    SceneManager::Update();
 
     InputManager::OnUpdate();
     PhysicsManager::UpdateCollision();
 
     HandleDelayedCallbacks();
 
-    //CollectableFactory::OnUpdate(GetFrameTime());'
-
-    SceneManager::Update();
+    //CollectableFactory::OnUpdate(GetFrameTime());
 
     CleanupDeadObjects();
 }
 
 void GameManager::CleanupDeadObjects() {
-    // auto loadedGameObjects = SceneManager::GetLoadedGameObjects();
-
-    // for (auto go : loadedGameObjects) {
-    //     if (go && go->GetIsDead()) {
-    //         TraceLog(LOG_INFO, "Deleted object: %p", go);
-            
-    //         delete go;
-    //     }
-    // }
-
-    // SceneManager::ClearDeadSceneReferences();
+    Scene* activeScene = SceneManager::GetLoadedScene();
+    
+    if (activeScene != nullptr) {
+        activeScene->CleanupDeadObjects();
+    }
 }
 
 void GameManager::OutputInfo(std::stringstream& ss) {
@@ -117,15 +110,13 @@ void GameManager::HandleOnEnd() {
 }
 
 GameObject* GameManager::GetGameObjectWithTag(const std::string& tag) {
-    // auto gameObjects = SceneManager::GetActiveScene()->GetGameObjects();
-    // auto it = std::find_if(gameObjects.begin(), gameObjects.end(), [tag](const auto& go) { return go->GetTag() == tag;});
+    const auto& gameobjects = SceneManager::GetLoadedScene()->GetGameObjects();
+    auto it = std::find_if(gameobjects.begin(), gameobjects.end(), [tag](const auto& go) { return go->GetTag() == tag;});
 
-    // if (it == gameObjects.end())
-    //     return nullptr;
-
-    // return *it;
-
-    return nullptr;
+    if (it == gameobjects.end())
+        return nullptr;
+    
+    return it->get();
 }
 
 void GameManager::Invoke(std::function<void()> callback, float delay,bool isRepeated) {

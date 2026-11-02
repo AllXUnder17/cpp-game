@@ -27,7 +27,7 @@ public:
     Entity(const Entity& other);
     
     //===DESTRUCTOR===
-    ~Entity() = default;
+    ~Entity();
 
     //===OPERATORS===
     Entity& operator=(const Entity& other);

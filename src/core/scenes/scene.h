@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include "raylib.h"
 #include "core/gameobject.h"
@@ -16,13 +17,16 @@ public:
 
     //===GETTERS===
     const std::string& GetName() const;
+    std::vector<std::unique_ptr<GameObject>>& GetGameObjects();
     
     //===MEMBER FUNCTIONS===
     virtual void OnLoad() = 0;
     virtual void OnUpdate(float deltaTime) = 0;
-    virtual void OnUnload();
+    virtual void OnUnload() = 0;
 
     void AddGameObject(GameObject* go);
+
+    void CleanupDeadObjects();
 
 protected:
     std::vector<std::unique_ptr<GameObject>> gameobjects;
@@ -31,9 +35,12 @@ protected:
 
 inline Scene::Scene(const std::string& name) : name(name) {}
 
-
 inline const std::string& Scene::GetName() const {
     return name;
+}
+
+inline std::vector<std::unique_ptr<GameObject>>& Scene::GetGameObjects() {
+    return gameobjects;
 }
 
 inline void Scene::OnUnload() {
@@ -53,7 +60,13 @@ inline void Scene::AddGameObject(GameObject* go) {
     gameobjects.push_back(std::unique_ptr<GameObject>(go));
 
     TraceLog(LOG_INFO, "SCENE: Added gameobject %s to scene %s", go->GetName(), name.c_str());
-    TraceLog(LOG_INFO, "SCENE: Current gameobjects in scene %s: %d", name.c_str(), gameobjects.size());
+    // TraceLog(LOG_INFO, "SCENE: Current gameobjects in scene %s: %d", name.c_str(), gameobjects.size());
+}
+
+inline void Scene::CleanupDeadObjects() {
+    std::erase_if(gameobjects, [](const std::unique_ptr<GameObject>& go) {
+        return go && go->GetIsDead();
+    });
 }
 
 #endif

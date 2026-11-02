@@ -55,19 +55,21 @@ bool PhysicsManager::CanCollide(CollisionLayer layerA, CollisionLayer layerB) {
 }
 
 void PhysicsManager::UpdateCollision() {
-    std::vector<ICollidable*> activeCollidables = GetActiveCollidables();
+    for (size_t i = 0; i < collidables.size(); ++i) {
+        ICollidable* objA = collidables[i];
+        if (!objA || !objA->IsColliderActive()) continue;
 
-    for (size_t i = 0; i < activeCollidables.size(); ++i) {
-        for (size_t j = i + 1; j < activeCollidables.size(); ++j) {
-            ICollidable* objA = activeCollidables.at(i);
-            ICollidable* objB = activeCollidables.at(j);
+        for (size_t j = i + 1; j < collidables.size(); ++j) {
+            ICollidable* objB = collidables[j];
+            if (!objB || !objB->IsColliderActive()) continue;
 
-            // UNITY LAYER FILTER: Check if these two layers are allowed to interact
+            // Layer check
             if (!CanCollide(objA->GetCollisionLayer(), objB->GetCollisionLayer()) && 
                 !CanCollide(objB->GetCollisionLayer(), objA->GetCollisionLayer())) {
                 continue; 
             }
-            // If they are allowed to collide, NOW run your physical box bounds math
+
+            // Hitbox check
             if (CheckCollisionBoxes(objA->GetHitbox(), objB->GetHitbox())) {
                 objA->OnCollisionEnter(objB);
                 objB->OnCollisionEnter(objA);

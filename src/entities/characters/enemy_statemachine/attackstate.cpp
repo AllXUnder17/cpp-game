@@ -39,6 +39,9 @@ void AttackState::OnUpdate(Enemy* enemy, float deltaTime) {
     // }
 
     GameObject* player = GameManager::GetGameObjectWithTag("Player");
+    if (player == nullptr)
+        TraceLog(LOG_WARNING, "player not found");
+
     Vector2 playerPosition = dynamic_cast<Player*>(player)->GetPosition();
     float distanceToPlayer = Vector2Distance(enemy->GetPosition(), playerPosition);
     
